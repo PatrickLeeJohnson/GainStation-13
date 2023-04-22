@@ -464,7 +464,17 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3000)
 	export_price = 5000
 
-
+/////////////////////////Clown tech/////////////////////////
+/datum/techweb_node/clown
+	id = "clown"
+	display_name = "Clown Technology"
+	description = "Honk?!"
+	prereq_ids = list("base")
+	design_ids = list("air_horn", "honker_main", "honker_peri", "honker_targ", "honk_chassis", "honk_head", "honk_torso", "honk_left_arm", "honk_right_arm",
+	"honk_left_leg", "honk_right_leg", "mech_banana_mortar", "mech_mousetrap_mortar", "mech_honker", "mech_punching_face", "implant_trombone", "borg_transform_clown")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 5000
+	
 ////////////////////////Computer tech////////////////////////
 /datum/techweb_node/comptech
 	id = "comptech"
@@ -1136,3 +1146,29 @@
 		var/datum/techweb_node/TN = i
 		TW.add_point_list(TN.research_costs)
 	return TW.printout_points()
+
+
+
+/////////////// GS13 - NUTRITIONAL TECHNOLOGY
+
+/datum/techweb_node/nutri_tech
+	id = "nutritech"
+	display_name = "Nutritional Technology"
+	description = "Ending world hunger was never made easier!"
+	prereq_ids = list("biotech") // add "engineering" if the designs get complicated later on
+	design_ids = list("calorite_collar")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	boost_item_paths = list(/obj/item/gun/energy/fatoray, /obj/item/gun/energy/fatoray/cannon, /obj/item/trash/fatoray_scrap1, /obj/item/trash/fatoray_scrap2)
+	export_price = 5000
+	hidden = TRUE
+
+/datum/techweb_node/nutri_tools
+	id = "nutritech_tools"
+	display_name = "Nutri-Tech Tools"
+	description = "Ever wanted to reach your daily caloric intake in just 5 seconds?"
+	prereq_ids = list("biotech", "adv_engi")
+	design_ids = list("fatoray_weak", "fatoray_cannon_weak")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	boost_item_paths = list(/obj/item/gun/energy/fatoray, /obj/item/gun/energy/fatoray/cannon, /obj/item/trash/fatoray_scrap1, /obj/item/trash/fatoray_scrap2)
+	export_price = 10000
+	hidden = TRUE

@@ -2602,7 +2602,7 @@
 	input_tag = "o2_in_bunker";
 	name = "Oxygen Supply Control";
 	output_tag = "o2_out_bunker";
-	sensors = list("o2_sensor_bunker" = "Tank")
+	sensors = list("o2_sensor_bunker"="Tank")
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel,
@@ -2962,7 +2962,7 @@
 	input_tag = "n2_in_bunker";
 	name = "Nitrogen Supply Control";
 	output_tag = "n2_out_bunker";
-	sensors = list("n2_sensor_bunker" = "Tank")
+	sensors = list("n2_sensor_bunker"="Tank")
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel,
@@ -3313,6 +3313,14 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/deepstorage/crusher)
+"uy" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/bed,
+/obj/item/bedsheet,
+/turf/open/floor/wood,
+/area/ruin/space/has_grav/deepstorage/dorm)
 "Bb" = (
 /obj/machinery/conveyor{
 	dir = 10;
@@ -4023,10 +4031,10 @@ cQ
 df
 dy
 dB
-ek
+uy
 eA
 dB
-ek
+uy
 eA
 dB
 ek

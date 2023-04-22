@@ -424,11 +424,6 @@
 	desc = "A poster glorifying the station's security force."
 	icon_state = "poster1_legit"
 
-/obj/structure/sign/poster/official/nanotrasen_logo
-	name = "Kinaris Logo"
-	desc = "A poster depicting the Kinaris.Co logo, an enemy of GATO."
-	icon_state = "poster2_legit"
-
 /obj/structure/sign/poster/official/cleanliness
 	name = "Cleanliness"
 	desc = "A poster warning of the dangers of poor hygiene."
@@ -611,6 +606,44 @@
 	desc = "A vandalized 'NO ERP' poster, now the words 'NO FAT' are written onto it. "
 	icon_state = "no_fat"
 
+/obj/structure/sign/poster/official/libraryposter
+	name = "Motivational Poster"
+	desc = "A poster motivating you in reading books, reading this is already giving you a headache."
+	icon_state = "libraryposter"
 
+/obj/structure/sign/poster/official/gato_logo
+	name = "GATO Logo"
+	desc = "A poster of our glorious GATO Corp!"
+	icon_state = "poster2_legit"
+
+/obj/structure/sign/poster/contraband/corn_oil
+	name = "Corn Oil Poster"
+	desc = "A strange poster advertising corn oil beverage. Who would want to drink that...?"
+	icon_state = "poster45"
+
+/obj/structure/sign/poster/contraband/supermatter
+	name = "Supermatter Warning Poster"
+	desc = "In case it wasn't already obvious, you shouldn't poke this giant yellow crystal..."
+	icon_state = "poster46"
+
+/obj/structure/sign/poster/contraband/chonk
+	name = "CHONK POSTER"
+	desc = "Next time eat a salad."
+	icon_state = "poster47"
+
+/obj/structure/sign/poster/contraband/missingpizza
+	name = "Missing Pizza Poster"
+	desc = "On GS13, it isn't uncommon to lose your food whenever you look away..."
+	icon_state = "poster48"
+
+/obj/structure/sign/poster/contraband/chefpropaganda
+	name = "Chef Propaganda Poster"
+	desc = "Enlist and learn how to cook nothing else but burgers, pizza and bread TODAY!"
+	icon_state = "poster49"
+
+/obj/structure/sign/poster/contraband/malta
+	name = "Malta Poster"
+	desc = "A poster from terran sectors, suggesting non-existence of mythical country of Malta."
+	icon_state = "poster50"
 
 #undef PLACE_SPEED

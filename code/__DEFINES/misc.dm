@@ -66,10 +66,19 @@ Will print: "/mob/living/carbon/human/death" (you can optionally embed it in a s
 //IT DOESN'T OK, IT MEANS "UNDER"
 #define UNDER_SUIT_LAYER			(SUIT_LAYER+1)
 #define UNDER_HEAD_LAYER			(HEAD_LAYER+1)
+#define UNDER_GENITALS_FRONT_LAYER	(GENITALS_FRONT_LAYER+1)
+#define UNDER_HAIR_LAYER	        (HAIR_LAYER+1)
+#define UNDER_BACK_LAYER	        (BACK_LAYER+1)
+#define UNDER1_BACK_LAYER	        (BACK_LAYER+2)
+
 
 //AND -1 MEANS "ABOVE", OK?, OK!?!
 #define ABOVE_SHOES_LAYER			(SHOES_LAYER-1)
+#define ABOVE_NECK_LAYER			(NECK_LAYER-1)
+#define ABOVE_GENITALS_FRONT_LAYER	(GENITALS_FRONT_LAYER-1)
+#define ABOVE2_GENITALS_FRONT_LAYER	(GENITALS_FRONT_LAYER-2)
 #define ABOVE_BODY_FRONT_LAYER		(BODY_FRONT_LAYER-1)
+#define ABOVE_FIRE_LAYER			(FIRE_LAYER-1)
 
 
 //Security levels
@@ -508,3 +517,14 @@ GLOBAL_LIST_INIT(lighter_reskins, list(ZIPPO_SKIN_PLAIN = "plain", ZIPPO_SKIN_DA
 #define FOURSPACES "&nbsp;&nbsp;&nbsp;&nbsp;"
 
 #define CANT_REENTER_ROUND -1
+
+//GS13 WEIGHT GAIN TYPES
+#define MINIMUM_FATNESS_LEVEL 0
+
+#define FATTENING_TYPE_ITEM "item" 
+#define FATTENING_TYPE_FOOD "food"
+#define FATTENING_TYPE_CHEM "chem"
+#define FATTENING_TYPE_WEAPON "weapon"
+#define FATTENING_TYPE_MAGIC "magic"
+#define FATTENING_TYPE_VIRUS "virus"
+#define FATTENING_TYPE_WEIGHT_LOSS "weight_loss" 

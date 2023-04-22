@@ -190,8 +190,8 @@
 	result = /obj/item/reagent_containers/food/snacks/store/cake/trumpet
 	subcategory = CAT_CAKE
 
-/datum/crafting_recipe/food/cak
-	name = "Living cat/cake hybrid"
+/datum/crafting_recipe/food/cakeperson
+	name = "Living cake person"
 	reqs = list(
 		/obj/item/organ/brain = 1,
 		/obj/item/organ/heart = 1,
@@ -201,5 +201,5 @@
 		/datum/reagent/consumable/sprinkles = 5,
 		/datum/reagent/teslium = 1 //To shock the whole thing into life
 	)
-	result = /mob/living/simple_animal/pet/cat/cak
+	result = /mob/living/simple_animal/friendly/cakegolem
 	subcategory = CAT_CAKE //Cat! Haha, get it? CAT? GET IT? We get it - Love Catpeople

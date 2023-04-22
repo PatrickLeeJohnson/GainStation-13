@@ -1212,8 +1212,8 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "afz" = (
-/obj/machinery/vending/cola/random,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/vending/gato,
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "afA" = (
@@ -7007,7 +7007,6 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "arO" = (
-/obj/machinery/vending/cola/random,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/camera{
 	c_tag = "Arrivals - Aft";
@@ -7015,6 +7014,7 @@
 	name = "arrivals camera"
 	},
 /obj/effect/turf_decal/bot,
+/obj/machinery/vending/gato,
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "arP" = (
@@ -9407,12 +9407,11 @@
 /area/maintenance/port/fore)
 "avG" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/table,
-/obj/item/storage/firstaid/regular,
 /obj/effect/turf_decal/bot,
 /obj/machinery/light_switch{
 	pixel_x = -26
 	},
+/obj/structure/scale,
 /turf/open/floor/plasteel,
 /area/crew_quarters/toilet/auxiliary)
 "avH" = (
@@ -13721,6 +13720,7 @@
 /turf/open/floor/plasteel/grimy,
 /area/hallway/secondary/service)
 "aDG" = (
+/obj/structure/scale,
 /turf/open/floor/plasteel/grimy,
 /area/hallway/secondary/service)
 "aDH" = (
@@ -38671,7 +38671,7 @@
 "brB" = (
 /obj/structure/table/wood,
 /obj/item/phone{
-	desc = "Supposedly a direct line to Kinaris Central Command. It's not even plugged in.";
+	desc = "Supposedly a direct line to GATO Central Command. It's not even plugged in.";
 	pixel_x = -3;
 	pixel_y = 3
 	},
@@ -52780,7 +52780,7 @@
 	pixel_x = 7
 	},
 /obj/item/phone{
-	desc = "Supposedly a direct line to Kinaris Central Command. It's not even plugged in.";
+	desc = "Supposedly a direct line to GATO Central Command. It's not even plugged in.";
 	pixel_x = -3;
 	pixel_y = 3
 	},
@@ -56660,7 +56660,7 @@
 	pixel_y = -26
 	},
 /obj/item/phone{
-	desc = "Supposedly a direct line to Kinaris Central Command. It's not even plugged in.";
+	desc = "Supposedly a direct line to GATO Central Command. It's not even plugged in.";
 	pixel_x = -3;
 	pixel_y = 3
 	},
@@ -57499,7 +57499,7 @@
 /area/crew_quarters/heads/chief)
 "bTQ" = (
 /obj/item/phone{
-	desc = "Supposedly a direct line to Kinaris Central Command. It's not even plugged in.";
+	desc = "Supposedly a direct line to GATO Central Command. It's not even plugged in.";
 	pixel_x = -3;
 	pixel_y = 3
 	},
@@ -63644,13 +63644,13 @@
 /turf/open/floor/plasteel/grimy,
 /area/crew_quarters/heads/captain/private)
 "ccS" = (
-/obj/item/twohanded/required/kirbyplants/random,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 9
 	},
 /obj/item/storage/secure/safe{
 	pixel_x = 32
 	},
+/obj/structure/scale,
 /turf/open/floor/plasteel/grimy,
 /area/crew_quarters/heads/captain/private)
 "ccT" = (
@@ -67989,7 +67989,6 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "cjy" = (
-/obj/machinery/vending/cola/random,
 /obj/structure/sign/poster/official/ian{
 	pixel_y = -32
 	},
@@ -68003,6 +68002,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
+/obj/machinery/vending/gato,
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/central)
 "cjz" = (
@@ -81471,7 +81471,7 @@
 	name = "Replica CentCom officer's jumpsuit"
 	},
 /obj/item/clothing/head/centhat{
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0);
+	armor = list("melee"=0,"bullet"=0,"laser"=0,"energy"=0,"bomb"=0,"bio"=0,"rad"=0);
 	desc = "A replica hat of a Central Commander's attire. It has a small tag on it saying, 'It's good to be emperor.'";
 	name = "Replica CentCom hat"
 	},
@@ -81547,8 +81547,8 @@
 /obj/item/folder/red,
 /obj/item/toy/gun,
 /obj/item/clothing/head/beret/sec{
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0);
-	desc = "A replica beret resembling that of a special operations officer under Kinaris.";
+	armor = list("melee"=0,"bullet"=0,"laser"=0,"energy"=0,"bomb"=0,"bio"=0,"rad"=0);
+	desc = "A replica beret resembling that of a special operations officer under GATO.";
 	name = "replica officer's beret"
 	},
 /obj/item/radio/intercom{
@@ -81807,7 +81807,7 @@
 /obj/item/reagent_containers/food/drinks/beer{
 	desc = "Whatever it is, it reeks of foul, putrid froth.";
 	icon_state = "beer";
-	list_reagents = list(/datum/reagent/consumable/ethanol/bacchus_blessing = 15);
+	list_reagents = list(/datum/reagent/consumable/ethanol/bacchus_blessing=15);
 	name = "Delta-Down";
 	pixel_x = 5;
 	pixel_y = 5
@@ -81857,6 +81857,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/structure/scale,
 /turf/open/floor/plasteel,
 /area/crew_quarters/fitness/recreation)
 "cHa" = (
@@ -84496,6 +84497,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
+/obj/structure/scale,
 /turf/open/floor/plasteel,
 /area/crew_quarters/fitness/recreation)
 "cLn" = (
@@ -85784,8 +85786,8 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "cNF" = (
-/obj/machinery/vending/cola/random,
 /obj/effect/turf_decal/delivery,
+/obj/machinery/vending/gato,
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "cNG" = (
@@ -110265,6 +110267,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
+/obj/structure/scale,
 /turf/open/floor/plasteel/white,
 /area/crew_quarters/heads/cmo)
 "dDY" = (
@@ -127250,6 +127253,12 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/research)
+"oWr" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/effect/turf_decal/tile/blue,
+/obj/structure/scale,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "oYI" = (
 /obj/machinery/igniter/incinerator_toxmix,
 /turf/open/floor/engine/vacuum,
@@ -127364,6 +127373,16 @@
 /obj/effect/spawner/lootdrop/keg,
 /turf/open/floor/plating,
 /area/crew_quarters/abandoned_gambling_den)
+"reY" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/structure/scale,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "rhO" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1
@@ -127377,6 +127396,22 @@
 	dir = 6
 	},
 /area/science/circuit)
+"rKZ" = (
+/obj/structure/mirror{
+	pixel_y = -28
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/structure/scale,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "rUD" = (
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/manifold/general/visible{
@@ -170823,7 +170858,7 @@ cNz
 dcY
 cNz
 cPy
-dhe
+reY
 diA
 dkq
 dlX
@@ -174170,7 +174205,7 @@ dkA
 dfF
 dnB
 dpA
-dnB
+oWr
 dsH
 dnB
 dvy
@@ -174950,7 +174985,7 @@ dyE
 dma
 dBp
 cSE
-dEd
+rKZ
 cPy
 dBp
 cSE

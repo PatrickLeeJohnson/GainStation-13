@@ -163,7 +163,7 @@
 
 /datum/quirk/SpawnWithWheelchair
 	name = "Mobility Assistance"
-	desc = "After your last failed fitness test, you were advised to start using a wheelchair"
+	desc = "After your last failed fitness test, you were advised to start using a hoverchair"
 	category = CATEGORY_MOVEMENT
 /datum/quirk/SpawnWithWheelchair/on_spawn()
 	if(quirk_holder.buckled) // Handle late joins being buckled to arrival shuttle chairs.
@@ -187,3 +187,39 @@
 	mob_trait = TRAIT_TRASHCAN
 	category = CATEGORY_FOOD
 	medical_record_text = "Patient has been observed eating inedable garbage."
+
+/datum/quirk/universal_diet
+	name = "Universal diet"
+	desc = "You are fine with eating just about anything normally edible, you have no strong dislikes in food. Toxic food will still hurt you, though."
+	value = 0
+	category = CATEGORY_FOOD
+	gain_text = "<span class='notice'>You feel like you can eat any food type.</span>"
+	lose_text = "<span class='notice'>You start to dislike certain food types again.</span>"
+	medical_record_text = "Patient reports no strong dietary dislikes."
+
+/datum/quirk/universal_diet/add()
+	var/mob/living/carbon/human/H = quirk_holder
+	var/datum/species/species = H.dna.species
+	species.disliked_food = null
+
+/datum/quirk/universal_diet/remove()
+	var/mob/living/carbon/human/H = quirk_holder
+	if(H)
+		var/datum/species/species = H.dna.species
+		species.disliked_food = initial(species.disliked_food)
+
+/datum/quirk/fatness_liker
+	name = "Fat Affinity"
+	desc = "You like being fat, alot, maybe even a little bit too much. Being fat gives you a bigger mood boost."
+	mob_trait = TRAIT_FAT_GOOD
+	value = 0
+	category = CATEGORY_MOODS
+	medical_record_text = "Patient seems overly content with gaining weight."
+
+/datum/quirk/fatness_hater
+	name = "Fat Aversion"
+	desc = "You dislike being fat. Being fat brings your mood down, alot."
+	mob_trait = TRAIT_FAT_BAD
+	value = 0
+	category = CATEGORY_MOODS
+	medical_record_text = "Patient seems distressed by gaining weight."

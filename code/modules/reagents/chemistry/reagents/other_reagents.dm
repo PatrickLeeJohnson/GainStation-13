@@ -819,7 +819,7 @@
 
 /datum/reagent/mulligan
 	name = "Mulligan Toxin"
-	description = "This toxin will rapidly change the DNA of human beings. Commonly used by Syndicate spies and assassins in need of an emergency ID change."
+	description = "This toxin will rapidly change the DNA of sentient creature. Commonly used by Syndicate spies and assassins in need of an emergency ID change."
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	metabolization_rate = INFINITY
 	taste_description = "slime"
@@ -1894,6 +1894,18 @@
 		var/turf/open/floor/F = T
 		F.PlaceOnTop(/turf/open/floor/carpet/purple)
 	..()
+
+/datum/reagent/carpet/purple //GS13
+	name = "Liquid GATO-style Carpet"
+	color = "#6d3392"
+
+/datum/reagent/carpet/gato/reaction_turf(turf/T, reac_volume)
+	if(isplatingturf(T) || istype(T, /turf/open/floor/plasteel))
+		var/turf/open/floor/F = T
+		F.PlaceOnTop(/turf/open/floor/carpet/gato)
+	..()
+
+
 
 /datum/reagent/carpet/red
 	name = "Liquid Red Carpet"

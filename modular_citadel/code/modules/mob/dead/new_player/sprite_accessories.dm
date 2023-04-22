@@ -747,7 +747,7 @@ datum/sprite_accessory/ears/human/gret
 /datum/sprite_accessory/mam_snouts
 	color_src = MATRIXED
 	icon = 'modular_citadel/icons/mob/mam_snouts.dmi'
-	recommended_species = list("mammal", "slimeperson", "insect", "podweak", "avian", "aquatic")
+	recommended_species = list("mammal", "slimeperson", "insect", "podweak", "avian", "aquatic", "pod")
 
 /datum/sprite_accessory/mam_snouts/none
 	name = "None"
@@ -1825,7 +1825,7 @@ datum/sprite_accessory/mam_tails/insect
 	dimension_x = 64
 	var/taur_mode = NOT_TAURIC
 	color_src = MATRIXED
-	recommended_species = list("human", "lizard", "insect", "mammal", "xeno", "jelly", "slimeperson", "podweak", "avian", "aquatic")
+	recommended_species = list("human", "lizard", "insect", "mammal", "xeno", "jelly", "slimeperson", "podweak", "avian", "aquatic", "pod")
 
 /datum/sprite_accessory/taur/none
 	name = "None"
@@ -2285,7 +2285,6 @@ datum/sprite_accessory/mam_tails/insect
 /datum/sprite_accessory/mam_tails/shark/datashark
 	name = "DataShark"
 	icon_state = "datashark"
-	ckeys_allowed = list("rubyflamewing")
 
 /datum/sprite_accessory/mam_tails_animated/shark/datashark
 	name = "DataShark"
@@ -2294,7 +2293,6 @@ datum/sprite_accessory/mam_tails/insect
 /datum/sprite_accessory/mam_body_markings/shark/datashark
 	name = "DataShark"
 	icon_state = "datashark"
-	ckeys_allowed = list("rubyflamewing")
 
 //Sabresune
 /datum/sprite_accessory/mam_ears/sabresune
@@ -2575,3 +2573,23 @@ VFACE("Chinless Beard", facial_chinlessbeard_s)
 VFACE("Moonshiner", facial_moonshiner_s)
 VFACE("Tribearder", facial_tribearder_s)
 #undef VFACE
+
+//Shit we've stolen from Splurt (GS13)
+
+//Snouts (you're welcome Neun)
+
+/datum/sprite_accessory/mam_snouts/easterndragon
+	name = "Eastern Dragon"
+	icon_state = "easterndw"
+
+/datum/sprite_accessory/mam_snouts/easterndragon/no_whiskers
+	name = "Eastern Dragon - No Whiskers"
+	icon_state = "easterndnw"
+
+/datum/sprite_accessory/mam_snouts/feasterndragon
+	name = "Eastern Dragon (Top)"
+	icon_state = "feasterndw"
+
+/datum/sprite_accessory/mam_snouts/feasterndragon/no_whiskers
+	name = "Eastern Dragon - No Whiskers (Top)"
+	icon_state = "feasterndnw"

@@ -11,7 +11,7 @@
 	for(var/obj/item/organ/genital/G in U.internal_organs)
 		if(!G.nochange)
 			if(!G.dontlist)
-				dat	+= "<a href='byond://?src=[REF(src)];hide[G.name]=1'>[G.mode == "hidden" ? "[G.name] <font color='red'>(Hidden)</font>" : (G.mode == "clothes" ? "[G.name] <font color='yellow'>(Hidden by Clothes)</font>" : (G.mode == "visable" ? "[G.name] <font color='green'>(Visable)</font>" : "[G.name] <font color='green'>(Visable)</font>"))]</a><BR>"
+				dat	+= "<a href='byond://?src=[REF(src)];hide[G.name]=1'>[G.mode == "hidden" ? "[G.name] <font color='red'>(Hidden)</font>" : (G.mode == "clothes" ? "[G.name] <font color='yellow'>(Hidden by Clothes)</font>" : (G.mode == "visible" ? "[G.name] <font color='green'>(Visible)</font>" : "[G.name] <font color='green'>(Visible)</font>"))]</a><BR>"
 
 	dat	+=	{"<BR><B>Contexual Options</B><BR><HR>"}
 	var/obj/item/organ/genital/penis/P = user.getorganslot("penis")
@@ -40,9 +40,10 @@
 	var/obj/item/organ/genital/belly/Belly = user.getorganslot("belly")
 	if(Belly)
 		if(Belly.inflatable)
-			dat	+= "<a href='byond://?src=[REF(src)];shrink_belly=1'>Deflate belly</A>"
+			dat	+= "<a href='byond://?src=[REF(src)];shrink_belly=1'>Decrease belly size</A>"
 			dat	+=	"(Shrink your belly down a size)<BR>"
-
+			dat	+= "<a href='byond://?src=[REF(src)];inflate_belly=1'>Increase belly size</A>"
+			dat	+=	"(Bloat your belly up a size)<BR>"
 
 	if(user.pulling)
 		dat	+= "<a href='byond://?src=[REF(src)];climaxover=1'>Climax over [user.pulling]</A>" //you can cum on objects if you really want...
@@ -207,6 +208,16 @@
 			H.update_genitals()
 		else
 			to_chat(usr, "<span class='warning'>Your belly is already at the minimum size! </span>")
+
+	if(href_list["inflate_belly"])
+		var/obj/item/organ/genital/belly/E = usr.getorganslot("belly")
+		if(E.size < 11)
+			to_chat(usr, "<span class='userlove'>You feel your belly bloat out..</span>")
+			E.size += 1
+			H.update_genitals()
+		else
+			to_chat(usr, "<span class='warning'>Your belly is already at the maximum size! </span>")
+
 
 	if(href_list["removecondom"])
 		H.menuremovecondom()

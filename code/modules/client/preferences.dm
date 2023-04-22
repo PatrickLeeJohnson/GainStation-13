@@ -96,6 +96,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/eye_color = "000"				//Eye color
 	var/wing_color = "fff"				//Wing color
 
+	var/grad_style						//Hair gradient style
+	var/grad_color = "FFFFFF"			//Hair gradient color
+
 	//HS13
 	var/body_size = 100					//Body Size in percent
 	var/can_get_preg = 0				//if they can get preggers
@@ -237,7 +240,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/unlock_content = 0
 	var/vip = 0
 
-	//visable pins!
+	//visible pins!
 	var/list/pins = list()
 
 	var/list/ignoring = list()
@@ -510,6 +513,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<a style='display:block;width:100px' href='?_src_=prefs;preference=facial_hair_style;task=input'>[facial_hair_style]</a>"
 				dat += "<a href='?_src_=prefs;preference=previous_facehair_style;task=input'>&lt;</a> <a href='?_src_=prefs;preference=next_facehair_style;task=input'>&gt;</a><BR>"
 				dat += "<span style='border: 1px solid #161616; background-color: #[facial_hair_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=facial;task=input'>Change</a><BR>"
+
+
+				dat += "<h3>Hair Gradient</h3>"
+
+				dat += "<a style='display:block;width:100px' href='?_src_=prefs;preference=grad_style;task=input'>[grad_style]</a>"
+				dat += "<a href='?_src_=prefs;preference=previous_grad_style;task=input'>&lt;</a> <a href='?_src_=prefs;preference=next_grad_style;task=input'>&gt;</a><BR>"
+				dat += "<span style='border: 1px solid #161616; background-color: #[grad_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=grad_color;task=input'>Change</a><BR>"
+
 
 				dat += "</td>"
 			//Mutant stuff
@@ -935,7 +946,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						dat += "<b>Color:</b></a><BR>"
 						dat += "<span style='border: 1px solid #161616; background-color: #[features["belly_color"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=belly_color;task=input'>Change</a><br>"
 					dat += "<b>Hide on Round-Start:</b><a style='display:block;width:50px' href='?_src_=prefs;preference=hide_belly'>[features["hide_belly"] == 1 ? "Yes" : "No"]</a>"
-					dat += "<b>Inflation (Climax With):</b><a style='display:block;width:50px' href='?_src_=prefs;preference=inflatable_belly'>[features["inflatable_belly"] == 1 ? "Yes" : "No"]</a>"
+					dat += "<b>Inflation (climax with and manual belly size change in arousal menu):</b><a style='display:block;width:50px' href='?_src_=prefs;preference=inflatable_belly'>[features["inflatable_belly"] == 1 ? "Yes" : "No"]</a>"
 
 				dat += "</td>"
 
@@ -1008,16 +1019,32 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<h2>Citadel Preferences</h2>" //Because fuck me if preferences can't be fucking modularized and expected to update in a reasonable timeframe.
 			dat += "<b>Arousal:</b><a href='?_src_=prefs;preference=arousable'>[arousable == TRUE ? "Enabled" : "Disabled"]</a><BR>"
 			dat += "<b>Exhibitionist:</b><a href='?_src_=prefs;preference=exhibitionist'>[features["exhibitionist"] == TRUE ? "Yes" : "No"]</a><BR>"
-			dat += "<b>Voracious MediHound sleepers:</b> <a href='?_src_=prefs;preference=hound_sleeper'>[(cit_toggles & MEDIHOUND_SLEEPER) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Hear Vore Sounds:</b> <a href='?_src_=prefs;preference=toggleeatingnoise'>[(cit_toggles & EATING_NOISES) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Hear Vore Digestion Sounds:</b> <a href='?_src_=prefs;preference=toggledigestionnoise'>[(cit_toggles & DIGESTION_NOISES) ? "Yes" : "No"]</a><br>"
-			dat += "<b>Allow trash forcefeeding (requires Trashcan quirk)</b> <a href='?_src_=prefs;preference=toggleforcefeedtrash'>[(cit_toggles & TRASH_FORCEFEED) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Lewdchem:</b><a href='?_src_=prefs;preference=lewdchem'>[lewdchem == TRUE ? "Enabled" : "Disabled"]</a><BR>"
 			dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled (15x15)"]</a><br>"
 			dat += "<b>Auto stand:</b> <a href='?_src_=prefs;preference=autostand'>[autostand ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Screen Shake:</b> <a href='?_src_=prefs;preference=screenshake'>[(screenshake==100) ? "Full" : ((screenshake==0) ? "None" : "[screenshake]")]</a><br>"
 			if (user && user.client && !user.client.prefs.screenshake==0)
 				dat += "<b>Damage Screen Shake:</b> <a href='?_src_=prefs;preference=damagescreenshake'>[(damagescreenshake==1) ? "On" : ((damagescreenshake==0) ? "Off" : "Only when down")]</a><br>"
+
+			//GS13
+			dat += "<h2>GS13 Preferences</h2>"
+			dat += "<b>Hear Burp Sounds:</b> <a href='?_src_=prefs;preference=toggleburpingnoise'>[(cit_toggles & BURPING_NOISES) ? "Yes" : "No"]</a><br>"
+			dat += "<b>Hear Fart Sounds:</b> <a href='?_src_=prefs;preference=togglefartingnoise'>[(cit_toggles & FARTING_NOISES) ? "Yes" : "No"]</a><br>"
+			dat += "<b>Trashcan Forcefeeding:</b> <a href='?_src_=prefs;preference=toggleforcefeedtrash'>[(cit_toggles & TRASH_FORCEFEED) ? "Yes" : "No"]</a><br>"
+
+			dat += "<b>Maximum Weight:</b><a href='?_src_=prefs;preference=max_fatness'>[max_weight == FALSE ? "None" : max_weight]</a><BR>"
+			dat += "<b>NonCon - Weight Gain:</b><a href='?_src_=prefs;preference=noncon_weight_gain'>[noncon_weight_gain == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+
+			dat += "<h2>GS13 Weight Gain</h2>"
+			dat += "<b>Weight Gain - Food:</b><a href='?_src_=prefs;preference=weight_gain_food'>[weight_gain_food == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Weight Gain - Items:</b><a href='?_src_=prefs;preference=weight_gain_items'>[weight_gain_items == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Weight Gain - Chems:</b><a href='?_src_=prefs;preference=weight_gain_chems'>[weight_gain_chems == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Weight Gain - Weapons:</b><a href='?_src_=prefs;preference=weight_gain_weapons'>[weight_gain_weapons == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Weight Gain - Magic:</b><a href='?_src_=prefs;preference=weight_gain_magic'>[weight_gain_magic == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Weight Gain - Viruses:</b><a href='?_src_=prefs;preference=weight_gain_viruses'>[weight_gain_viruses == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+
 			//Add the Hyper stuff below here
 			dat += "<h2>Hyper Preferences</h2>"
 			dat += "<b>NonCon - Bottom:</b><a href='?_src_=prefs;preference=noncon'>[noncon == TRUE ? "Enabled" : "Disabled"]</a><BR>"
@@ -1854,6 +1881,26 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("previous_facehair_style")
 					facial_hair_style = previous_list_item(facial_hair_style, GLOB.facial_hair_styles_list)
 
+
+				if("grad_color")
+					var/new_grad_color = input(user, "Choose your character's gradient colour:", "Character Preference","#"+grad_color) as color|null
+					if(new_grad_color)
+						grad_color = sanitize_hexcolor(new_grad_color, 6)
+
+				if("grad_style")
+					var/new_grad_style
+					new_grad_style = input(user, "Choose your character's hair gradient style:", "Character Preference") as null|anything in GLOB.hair_gradients_list
+					if(new_grad_style)
+						grad_style = new_grad_style
+
+				if("next_grad_style")
+					grad_style = next_list_item(grad_style, GLOB.hair_gradients_list)
+
+				if("previous_grad_style")
+					grad_style = previous_list_item(grad_style, GLOB.hair_gradients_list)
+
+
+
 				if("cycle_bg")
 					bgstate = next_list_item(bgstate, bgstate_options)
 
@@ -2476,9 +2523,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 //GS13 fatness
 
 				if("fatness")
-					var/new_fatness = input(user, "Choose your amount of fat at start :\n(0-2000), Fat changes appearance and move speed. \nThresholds are 100, 350, 650, 950 and 1671. Fair warning : being too fat will make you immobile", "Character Preference") as num|null
+					var/new_fatness = input(user, "Choose your amount of fat at start :\n(0-4000), Fat changes appearance and move speed. \nThresholds are 170, 250, 330, 440, 840, 1240, 1840, 2540, 3440. Warning : If using the 'weak legs' trait, being too fat will make you immobile and unable to leave the shuttle without a wheelchair or help", "Character Preference") as num|null
 					if (new_fatness)
-						starting_weight = max(min( round(text2num(new_fatness)), 2000),0)
+						starting_weight = max(min( round(text2num(new_fatness)), 4000),0)
 
 				if("ui")
 					var/pickedui = input(user, "Choose your UI style.", "Character Preference", UI_style)  as null|anything in GLOB.available_ui_styles
@@ -2531,6 +2578,46 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						features["hide_belly"] = FALSE
 						features["inflatable_belly"] = FALSE
 						features["belly_size"] = 1
+					
+				if("weight_gain_items")
+					weight_gain_items = !weight_gain_items
+				if("weight_gain_chems")
+					weight_gain_chems = !weight_gain_chems
+				if("weight_gain_food")
+					weight_gain_food = !weight_gain_food
+				if("weight_gain_weapons")
+					weight_gain_weapons = !weight_gain_weapons
+				if("weight_gain_magic")
+					weight_gain_magic = !weight_gain_magic
+				if("weight_gain_viruses")
+					weight_gain_viruses = !weight_gain_viruses
+				
+				if("noncon_weight_gain")
+					noncon_weight_gain = !noncon_weight_gain
+				if("max_fatness")
+					var/pickedweight = input(user, "Choose your max fatness level, your weight will not go beyond this. None will let you gain without a limit", "Character Preference", "None")  as null|anything in list("None", "Fat", "Fatter", "Very Fat", "Obese", "Morbidly Obese", "Extremely Obese", "Barely Mobile", "Immobile")
+					if(pickedweight)
+						switch(pickedweight)
+							if("None")
+								max_weight = FALSE 
+							if("Fat")
+								max_weight = FATNESS_LEVEL_FATTER 
+							if("Fatter")
+								max_weight = FATNESS_LEVEL_VERYFAT
+							if("Very Fat")
+								max_weight = FATNESS_LEVEL_OBESE
+							if("Obese")
+								max_weight = FATNESS_LEVEL_MORBIDLY_OBESE
+							if("Morbidly Obese")
+								max_weight = FATNESS_LEVEL_EXTREMELY_OBESE
+							if("Extremely Obese")
+								max_weight = FATNESS_LEVEL_BARELYMOBILE
+							if("Barely Mobile")
+								max_weight = FATNESS_LEVEL_IMMOBILE
+							if("Immobile")
+								max_weight = FATNESS_LEVEL_BLOB
+
+
 
 				if("inflatable_belly")
 					features["inflatable_belly"] = !features["inflatable_belly"]
@@ -2713,14 +2800,16 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				// Citadel edit - Prefs don't work outside of this. :c
 				if("hound_sleeper")
 					cit_toggles ^= MEDIHOUND_SLEEPER
-
 				if("toggleeatingnoise")
 					cit_toggles ^= EATING_NOISES
-
 				if("toggledigestionnoise")
 					cit_toggles ^= DIGESTION_NOISES
-				if("toggleforcefeedtrash") //gs13 added for flint
+				if("toggleforcefeedtrash") //GS13
 					cit_toggles ^= TRASH_FORCEFEED
+				if("toggleburpingnoise") //GS13
+					cit_toggles ^= BURPING_NOISES
+				if("togglefartingnoise") //GS13
+					cit_toggles ^= FARTING_NOISES
 				//END CITADEL EDIT
 
 				if("ambientocclusion")
@@ -2837,6 +2926,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	character.skin_tone = skin_tone
 	character.hair_style = hair_style
 	character.facial_hair_style = facial_hair_style
+
+	character.grad_style = grad_style
+	character.grad_color = grad_color
 	character.underwear = underwear
 
 	character.saved_underwear = underwear

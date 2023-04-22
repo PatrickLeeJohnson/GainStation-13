@@ -256,14 +256,31 @@
 
 	if(nutrition < NUTRITION_LEVEL_STARVING - 50)
 		msg += "[t_He] [t_is] severely malnourished.\n"
+
 	if(fatness >= FATNESS_LEVEL_BLOB)
 		msg += "[t_He] [t_is] completely engulfed in rolls upon rolls of flab. [t_His] head is poking out on top of [t_His] body, akin to a marble on top of a hill.\n"
+
 	else if(fatness >= FATNESS_LEVEL_IMMOBILE)
 		msg += "[t_His] body is buried in an overflowing surplus of adipose, and [t_His] legs are completely buried beneath layers of meaty, obese flesh.\n"
+
+	else if(fatness >= FATNESS_LEVEL_BARELYMOBILE)
+		msg += "[t_He] [t_is] as wide as [t_He] [t_is] tall, barely able to move [t_His] masssive body that seems to be overtaken with piles of flab.\n"
+
+	else if(fatness >= FATNESS_LEVEL_EXTREMELY_OBESE)
+		msg += "[t_He] [t_is] ripe with numerous rolls of fat, almost all of [t_His] body layered with adipose.\n"
+
 	else if(fatness >= FATNESS_LEVEL_MORBIDLY_OBESE)
 		msg += "[t_He] [t_is] utterly stuffed with abundant lard, [t_He] doesn't seem to be able to move much.\n"
+
 	else if(fatness >= FATNESS_LEVEL_OBESE)
 		msg += "[t_He] [t_is] engorged with fat, [t_His] body laden in rolls of fattened flesh.\n"
+
+	else if(fatness >= FATNESS_LEVEL_VERYFAT)
+		msg += "[t_He] [t_is] pleasantly plushy, [t_His] body gently wobbling whenever they move. \n"
+
+	else if(fatness >= FATNESS_LEVEL_FATTER)
+		msg += "[t_He] [t_is] soft and curvy, [t_His] belly looking like a small pillow.\n"
+
 	else if(fatness >= FATNESS_LEVEL_FAT)
 		if(user.nutrition < NUTRITION_LEVEL_STARVING - 50)
 			msg += "[t_He] [t_is] plump and delicious looking - Like a fat little piggy. A tasty piggy.\n"
@@ -369,6 +386,9 @@
 		if(digitalcamo)
 			msg += "[t_He] [t_is] moving [t_his] body in an unnatural and blatantly inhuman manner.\n"
 
+	if(client?.prefs?.noncon_weight_gain)
+		msg += "<span class='purple'><b>Non-con fattening is allowed</b></span>\n"	
+
 	if (length(msg))
 		. += "<span class='warning'>[msg.Join("")]</span>"
 	msg += common_trait_examine()
@@ -419,7 +439,7 @@
 							"<a href='?src=[REF(src)];hud=s;add_comment=1'>\[Add comment\]</a>"), "")
 	else if(isobserver(user) && traitstring)
 		. += "<span class='info'><b>Traits:</b> [traitstring]</span>"
-
+	
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .) //This also handles flavor texts now
 	. += "*---------*</span>"
 

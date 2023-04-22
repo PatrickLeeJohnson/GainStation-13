@@ -132,7 +132,7 @@
 
 /datum/supply_pack/service/janitor
 	name = "Janitorial Supplies Crate"
-	desc = "Fight back against dirt and grime with Kinaris's Janitorial Essentials(tm)! Contains three buckets, caution signs, and cleaner grenades. Also has a single mop, spray cleaner, rag, NT soap and a trash bag."
+	desc = "Fight back against dirt and grime with GATO's Janitorial Essentials(tm)! Contains three buckets, caution signs, and cleaner grenades. Also has a single mop, spray cleaner, rag, NT soap and a trash bag."
 	cost = 1300
 	contains = list(/obj/item/reagent_containers/glass/bucket,
 					/obj/item/reagent_containers/glass/bucket,
@@ -203,7 +203,7 @@
 
 /datum/supply_pack/service/party
 	name = "Party Equipment"
-	desc = "Celebrate both life and death on the station with Kinaris's Party Essentials(tm)! Contains seven colored glowsticks, four beers, two ales, and a bottle of patron, goldschlager, and shaker!"
+	desc = "Celebrate both life and death on the station with GATO's Party Essentials(tm)! Contains seven colored glowsticks, four beers, two ales, and a bottle of patron, goldschlager, and shaker!"
 	cost = 2000
 	contains = list(/obj/item/storage/box/drinkingglasses,
 					/obj/item/reagent_containers/food/drinks/shaker,
@@ -260,9 +260,16 @@
 					/obj/item/stack/tile/carpet/monochrome/fifty)
 	crate_name = "exotic carpet crate"
 
+/datum/supply_pack/service/feeding_tube //GS13
+	name = "Feeding Tube Crate"
+	desc = "Contains a feeding tube machine, originally meant for supplying nutrition to farm animals. However, you could probably use it for your own, nefarious deeds..."
+	cost = 2000
+	contains = list(/obj/machinery/iv_drip/feeding_tube)
+	crate_name = "feeding tube crate"
+
 /datum/supply_pack/service/lightbulbs
 	name = "Replacement Lights"
-	desc = "May the light of Aether shine upon this station! Or at least, the light of forty two light tubes and twenty one light bulbs as well as a light replacer."
+	desc = "May the light of the stars shine upon this station! Or at least, the light of forty two light tubes and twenty one light bulbs as well as a light replacer."
 	cost = 1200
 	contains = list(/obj/item/storage/box/lights/mixed,
 					/obj/item/storage/box/lights/mixed,
@@ -335,3 +342,10 @@
 	cost = 1500
 	contains = list(/obj/item/vending_refill/cola)
 	crate_name = "soft drinks supply crate"
+
+/datum/supply_pack/service/vending/mealdor
+	name = "Meal Vendor Supply Crate"
+	desc = "Suprising one to order. If you need a refill for the meal vendor, someone's immobile somewhere. And since you managed to make it to cargo... Well it's not our job to say no!"
+	cost = 10000
+	contains = list(/obj/item/vending_refill/mealdor)
+	crate_name = "meal vendor supply crate"
