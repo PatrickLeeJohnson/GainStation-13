@@ -288,38 +288,71 @@ GLOBAL_LIST_EMPTY(family_heirlooms)
 	var/specific = null
 	medical_record_text = "During physical examination, patient was found to have a prosthetic limb."
 
+// GS13: Allow multiple specific prosthetic limbs
 /datum/quirk/prosthetic_limb/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
-	var/limb_slot
-	if(HAS_TRAIT(H, TRAIT_PARA))//Prevent paraplegic legs being replaced
-		limb_slot = pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+	var/limb_slot = null
+
+	if (specific)
+		limb_slot = specific
 	else
-		limb_slot = pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-		if(specific)
-			limb_slot = specific
+		if(HAS_TRAIT(H, TRAIT_PARA)) // Prevent paraplegic legs being replaced
+			limb_slot = pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+		else
+			limb_slot = pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 
 	var/obj/item/bodypart/old_part = H.get_bodypart(limb_slot)
-	var/obj/item/bodypart/prosthetic
+	var/obj/item/bodypart/prosthetic = null
+
 	switch(limb_slot)
 		if(BODY_ZONE_L_ARM)
-			prosthetic = new/obj/item/bodypart/l_arm/robot/surplus(quirk_holder)
 			slot_string = "left arm"
+			prosthetic = new/obj/item/bodypart/l_arm/robot/surplus(quirk_holder)
 		if(BODY_ZONE_R_ARM)
-			prosthetic = new/obj/item/bodypart/r_arm/robot/surplus(quirk_holder)
 			slot_string = "right arm"
+			prosthetic = new/obj/item/bodypart/r_arm/robot/surplus(quirk_holder)
 		if(BODY_ZONE_L_LEG)
-			prosthetic = new/obj/item/bodypart/l_leg/robot/surplus(quirk_holder)
 			slot_string = "left leg"
+			if(!HAS_TRAIT(H, TRAIT_PARA)) // Prevent paraplegic legs being replaced
+				prosthetic = new/obj/item/bodypart/l_leg/robot/surplus(quirk_holder)
 		if(BODY_ZONE_R_LEG)
-			prosthetic = new/obj/item/bodypart/r_leg/robot/surplus(quirk_holder)
 			slot_string = "right leg"
-	prosthetic.replace_limb(H)
-	qdel(old_part)
-	H.regenerate_icons()
+			if(!HAS_TRAIT(H, TRAIT_PARA)) // Prevent paraplegic legs being replaced
+				prosthetic = new/obj/item/bodypart/r_leg/robot/surplus(quirk_holder)
+
+	if (prosthetic)
+		prosthetic.replace_limb(H)
+		qdel(old_part)
+		H.regenerate_icons()
+	else
+		WARNING("Prosthetic ([slot_string]) is incompatible with Paraplegic.")
 
 /datum/quirk/prosthetic_limb/post_add()
-	to_chat(quirk_holder, "<span class='boldannounce'>Your [slot_string] has been replaced with a surplus prosthetic. It is fragile and will easily come apart under duress. Additionally, \
-	you need to use a welding tool and cables to repair it, instead of bruise packs and ointment.</span>")
+	to_chat(quirk_holder, "<span class='boldannounce'>\
+	Your [slot_string] has been replaced with a surplus prosthetic. \
+	It is fragile and will easily come apart under duress. \
+	Additionally, you need to use a welding tool and cables to repair it, \
+	instead of bruise packs and ointment.</span>")
+
+/datum/quirk/prosthetic_limb/left_arm // GS13
+	name = "Prosthetic Limb (Left Arm)"
+	desc = "An accident caused you to lose your left arm. Because of this, it's replaced with a prosthetic!"
+	specific = BODY_ZONE_L_ARM
+
+/datum/quirk/prosthetic_limb/right_arm // GS13
+	name = "Prosthetic Limb (Right Arm)"
+	desc = "An accident caused you to lose your right arm. Because of this, it's replaced with a prosthetic!"
+	specific = BODY_ZONE_R_ARM
+
+/datum/quirk/prosthetic_limb/left_leg // GS13
+	name = "Prosthetic Limb (Left Leg)"
+	desc = "An accident caused you to lose your left leg. Because of this, it's replaced with a prosthetic!"
+	specific = BODY_ZONE_L_LEG
+
+/datum/quirk/prosthetic_limb/right_leg // GS13
+	name = "Prosthetic Limb (Right Leg)"
+	desc = "An accident caused you to lose your right leg. Because of this, it's replaced with a prosthetic!"
+	specific = BODY_ZONE_R_LEG
 
 /datum/quirk/insanity
 	name = "Reality Dissociation Syndrome"
@@ -346,26 +379,6 @@ GLOBAL_LIST_EMPTY(family_heirlooms)
 		return
 	to_chat(quirk_holder, "<span class='big bold info'>Please note that your dissociation syndrome does NOT give you the right to attack people or otherwise cause any interference to \
 	the round. You are not an antagonist, and the rules will treat you the same as other crewmembers.</span>")
-
-/datum/quirk/prosthetic_limb/left_arm
-	name = "Prosthetic Limb (Left Arm)"
-	desc = "An accident caused you to lose your left arm. Because of this, it's replaced with a prosthetic!"
-	specific = BODY_ZONE_L_ARM
-
-/datum/quirk/prosthetic_limb/right_arm
-	name = "Prosthetic Limb (Right Arm)"
-	desc = "An accident caused you to lose your right arm. Because of this, it's replaced with a prosthetic!"
-	specific = BODY_ZONE_R_ARM
-
-/datum/quirk/prosthetic_limb/left_leg
-	name = "Prosthetic Limb (Left Leg)"
-	desc = "An accident caused you to lose your left leg. Because of this, it's replaced with a prosthetic!"
-	specific = BODY_ZONE_L_LEG
-
-/datum/quirk/prosthetic_limb/right_leg
-	name = "Prosthetic Limb (Right Leg)"
-	desc = "An accident caused you to lose your right leg. Because of this, it's replaced with a prosthetic!"
-	specific = BODY_ZONE_R_LEG
 
 /datum/quirk/social_anxiety
 	name = "Social Anxiety"
@@ -505,3 +518,11 @@ GLOBAL_LIST_EMPTY(family_heirlooms)
 /datum/quirk/flimsy/remove() //how do admins even remove traits?
 	if(quirk_holder)
 		quirk_holder.maxHealth += healthchange
+
+/datum/quirk/weak_legs //GS13
+	name = "Weak Legs"
+	desc = "Your legs can't handle the heaviest of charges. Being too fat will render you unable to move at all."
+	mob_trait = TRAIT_WEAKLEGS
+	value = -1
+	category = CATEGORY_SEXUAL
+	medical_record_text = "Patient's legs seem to lack strength"

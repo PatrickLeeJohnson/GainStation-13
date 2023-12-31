@@ -94,11 +94,3 @@
 /area/ruin/unpowered/ash_walkers
 	icon_state = "red"
 
-
-
-
-// GS13 CONTENT STARTS HERE!!!
-
-/area/ruin/unpowered/caloriteshrine
-	name = "Calorite Shrine"
-	icon_state = "away"

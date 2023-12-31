@@ -107,7 +107,7 @@
 	taste_mult = 0.8
 	value = 1
 	taste_description = "oil"
-	nutriment_factor = 7 * REAGENTS_METABOLISM //Not very healthy on its own
+	nutriment_factor = 12 * REAGENTS_METABOLISM //Not very healthy on its own
 	metabolization_rate = 10 * REAGENTS_METABOLISM
 	var/fry_temperature = 450 //Around ~350 F (117 C) which deep fryers operate around in the real world
 	var/boiling //Used in mob life to determine if the oil kills, and only on touch application
@@ -453,7 +453,7 @@
 	taste_description = "slime"
 
 /datum/reagent/consumable/cornoil/on_mob_life(mob/living/carbon/M)
-	if(M && M?.client?.prefs.weight_gain_chems)
+	if(M && M?.client?.prefs.weight_gain_chems) // GS13
 		M.nutrition += 20 * REAGENTS_METABOLISM
 	else
 		M.nutrition += 1

@@ -7,13 +7,6 @@
 	cost = 5
 	allow_duplicates = FALSE
 
-/datum/map_template/ruin/lavaland/biodome/beach
-	name = "Biodome Beach"
-	id = "biodome-beach"
-	description = "Seemingly plucked from a tropical destination, this beach is calm and cool, with the salty waves roaring softly in the background. \
-	Comes with a rustic wooden bar and suicidal bartender."
-	suffix = "lavaland_biodome_beach.dmm"
-
 /datum/map_template/ruin/lavaland/biodome/winter
 	name = "Biodome Winter"
 	id = "biodome-winter"
@@ -263,4 +256,12 @@
 	description = "All your dreams about spending a night in a snack store finally came true! Though judging by your situation, you might spend a bit longer than just one night here..."
 	suffix = "lavaland_surface_snack_store.dmm"
 	allow_duplicates = FALSE
+	cost = 0
+
+/datum/map_template/ruin/lavaland/calorite_altar //GS13
+	name = "Calorite Altar"
+	id = "caloritealtar"
+	description = "A mysterious fountain stands dormant amidst a small calorite shrine... What could it possibly offer?"
+	suffix = "lavaland_surface_caloritealtar.dmm"
+	allow_duplicates = TRUE
 	cost = 0

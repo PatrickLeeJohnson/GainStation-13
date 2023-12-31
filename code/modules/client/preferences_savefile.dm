@@ -153,6 +153,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["weight_gain_magic"] >> weight_gain_magic
 	S["weight_gain_viruses"] >> weight_gain_viruses
 	S["weight_gain_weapons"] >> weight_gain_weapons
+	S["wg_rate"] >> wg_rate
+	S["wl_rate"] >> wl_rate
 	S["noncon_weight_gain"] >> noncon_weight_gain
 	S["max_weight"] >> max_weight 
 
@@ -184,7 +186,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if (clientfps == 0) clientfps = world.fps*2
 	body_size		= sanitize_integer(body_size, 90, 110, 0)
 	can_get_preg	= sanitize_integer(can_get_preg, 0, 1, 0)
+	//GS13
 	starting_weight	= sanitize_integer(starting_weight, 0, 2000, 0)
+	wg_rate			= sanitize_integer(wg_rate, 0, 1, 0)
+	wl_rate			= sanitize_integer(wl_rate, 0, 1, 0)
+	//
 	parallax		= sanitize_integer(parallax, PARALLAX_INSANE, PARALLAX_DISABLE, null)
 	ambientocclusion	= sanitize_integer(ambientocclusion, 0, 1, initial(ambientocclusion))
 	auto_fit_viewport	= sanitize_integer(auto_fit_viewport, 0, 1, initial(auto_fit_viewport))
@@ -286,6 +292,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["weight_gain_viruses"], weight_gain_viruses)
 	WRITE_FILE(S["weight_gain_chems"], weight_gain_chems)
 	WRITE_FILE(S["weight_gain_weapons"], weight_gain_weapons)
+	WRITE_FILE(S["wg_rate"], wg_rate)
+	WRITE_FILE(S["wl_rate"], wl_rate)
 	WRITE_FILE(S["noncon_weight_gain"], noncon_weight_gain)
 	WRITE_FILE(S["max_weight"], max_weight)
 
@@ -330,6 +338,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!S["features["mcolor"]"] || S["features["mcolor"]"] == "#000")
 		WRITE_FILE(S["features["mcolor"]"]	, "#FFF")
 
+	if(!S["features["mcolor2"]"] || S["features["mcolor2"]"] == "#000")
+		WRITE_FILE(S["features["mcolor2"]"]	, "#FFF")
+
+	if(!S["features["mcolor3"]"] || S["features["mcolor3"]"] == "#000")
+		WRITE_FILE(S["features["mcolor3"]"]	, "#FFF")
+
 	if(!S["features["wing_color"]"] || S["features["wing_color"]"] == "#000")
 		WRITE_FILE(S["features["wing_color"]"]	, "#FFF")
 
@@ -343,12 +357,15 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["age"]				>> age
 	S["body_size"]			>> body_size
 	S["starting_weight"]	>> starting_weight
+	S["wg_rate"]			>> wg_rate
+	S["wl_rate"]			>> wl_rate
 	S["hair_color"]			>> hair_color
 	S["facial_hair_color"]	>> facial_hair_color
 	S["eye_color"]			>> eye_color
 	S["skin_tone"]			>> skin_tone
 	S["hair_style_name"]	>> hair_style
 	S["facial_style_name"]	>> facial_hair_style
+	// GS13: Hair gradients from Skyrat
 	S["grad_style"]			>> grad_style
 	S["grad_color"]			>> grad_color
 	S["underwear"]			>> underwear
@@ -420,6 +437,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_mam_body_markings"]		>> features["mam_body_markings"]
 	S["body_size"]						>> features["body_size"]
 	S["starting_weight"]				>> features["starting_weight"]
+	S["wg_rate"]						>> features["wg_rate"]
+	S["wl_rate"]						>> features["wl_rate"]
 	S["feature_mam_tail"]				>> features["mam_tail"]
 	S["feature_mam_ears"]				>> features["mam_ears"]
 	S["feature_mam_tail_animated"]		>> features["mam_tail_animated"]
@@ -532,9 +551,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	socks_color		= sanitize_hexcolor(socks_color, 3, 0, initial(socks_color))
 	age				= sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
 	hair_color			= sanitize_hexcolor(hair_color, 3, 0)
-	facial_hair_color			= sanitize_hexcolor(facial_hair_color, 3, 0)
-	grad_style						= sanitize_inlist(grad_style, GLOB.hair_gradients_list)
-	grad_color						= sanitize_hexcolor(grad_color, 6, FALSE)
+	facial_hair_color	= sanitize_hexcolor(facial_hair_color, 3, 0)
+	// GS13: Hair gradients from Skyrat
+	grad_style		= sanitize_inlist(grad_style, GLOB.hair_gradients_list)
+	grad_color		= sanitize_hexcolor(grad_color, 6, FALSE)
 	eye_color		= sanitize_hexcolor(eye_color, 3, 0)
 	skin_tone		= sanitize_inlist(skin_tone, GLOB.skin_tones)
 	wing_color		= sanitize_hexcolor(wing_color, 3, FALSE, "#FFFFFF")
@@ -611,11 +631,14 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["skin_tone"]			, skin_tone)
 	WRITE_FILE(S["hair_style_name"]	, hair_style)
 	WRITE_FILE(S["facial_style_name"]	, facial_hair_style)
-	WRITE_FILE(S["grad_style"]				, grad_style)
-	WRITE_FILE(S["grad_color"]				, grad_color)
+	// GS13: Hair gradients from Skyrat
+	WRITE_FILE(S["grad_style"]			, grad_style)
+	WRITE_FILE(S["grad_color"]			, grad_color)
 	WRITE_FILE(S["underwear"]			, underwear)
 	WRITE_FILE(S["body_size"]			, body_size)
 	WRITE_FILE(S["starting_weight"]		, starting_weight)
+	WRITE_FILE(S["wg_rate"]				, wg_rate)
+	WRITE_FILE(S["wl_rate"]				, wl_rate)
 	WRITE_FILE(S["undie_color"]			, undie_color)
 	WRITE_FILE(S["undershirt"]			, undershirt)
 	WRITE_FILE(S["shirt_color"]			, shirt_color)

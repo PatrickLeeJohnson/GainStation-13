@@ -55,7 +55,7 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/vagina, GLOB.vagina_shapes_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/breasts, GLOB.breasts_shapes_list)
 	GLOB.breasts_size_list = list ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o") //We need the list to choose from initialized, but it's no longer a sprite_accessory thing.
-	GLOB.genital_fluids_list = list ("Milk", "Water", "Semen", "Femcum", "Honey")
+	GLOB.genital_fluids_list = list ("Milk", "Water", "Semen", "Femcum", "Honey", "Strawberry Milk")
 	GLOB.gentlemans_organ_names = list("phallus", "willy", "dick", "prick", "member", "tool", "gentleman's organ", "cock", "wang", "knob", "dong", "joystick", "pecker", "johnson", "weenie", "tadger", "schlong", "thirsty ferret", "baloney pony", "schlanger")
 	for(var/K in GLOB.breasts_shapes_list)
 		var/datum/sprite_accessory/breasts/value = GLOB.breasts_shapes_list[K]
@@ -86,13 +86,13 @@
 		var/datum/emote/E = new path()
 		E.emote_list[E.key] = E
 
-	//Crafting Recipes
-	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes)
-
-	//Hair Gradients - Initialise all /datum/sprite_accessory/hair_gradient into a list indexed by gradient-style name
+	// GS13: Hair Gradients from Skyrat - Initialise all /datum/sprite_accessory/hair_gradient into a list indexed by gradient-style name
 	for(var/path in subtypesof(/datum/sprite_accessory/hair_gradient))
 		var/datum/sprite_accessory/hair_gradient/H = new path()
 		GLOB.hair_gradients_list[H.name] = H
+
+	//Crafting Recipes
+	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes)
 
 //creates every subtype of prototype (excluding prototype) and adds it to list L.
 //if no list/L is provided, one is created.

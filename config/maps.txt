@@ -25,11 +25,6 @@ endmap
 map pubbystation
 endmap
 
-map omegastation
-	default
-	maxplayers 35
-endmap
-
 map deltastation
 	minplayers 50
 endmap
@@ -41,4 +36,8 @@ map multiz_debug
 endmap
 
 map syndieboxstation
+endmap
+
+map kilostation
+	default
 endmap

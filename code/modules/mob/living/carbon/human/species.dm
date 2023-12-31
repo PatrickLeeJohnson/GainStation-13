@@ -16,10 +16,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/hair_alpha = 255	// the alpha used by the hair. 255 is completely solid, 0 is transparent.
 	var/wing_color
 
-	///The gradient style used for the mob's hair.
-	var/grad_style
-	///The gradient color used to color the gradient.
-	var/grad_color
+	// GS13: Hair gradients from Skyrat
+	var/grad_style // The gradient style used for the mob's hair.
+	var/grad_color // The gradient color used to color the gradient.
 
 	var/use_skintones = 0	// does it use skintones or not? (spoiler alert this is only used by humans)
 	var/exotic_blood = ""	// If your race wants to bleed something other than bog standard blood, change this to reagent id.
@@ -313,7 +312,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		C.canbearoused = FALSE
 	else
 		if(C.client)
-			C.canbearoused = C.client.prefs.arousable
+			C.canbearoused = C.client?.prefs?.arousable
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
 		if(NOGENITALS in H.dna.species.species_traits)
@@ -468,10 +467,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					else
 						hair_overlay.color = "#" + H.hair_color
 
-
-					//Gradients
-					grad_style = H.grad_style
-					grad_color = H.grad_color
+					// GS13: Hair gradients from Skyrat
+					var/grad_style = H.grad_style
+					var/grad_color = H.grad_color
 					if(grad_style)
 						var/datum/sprite_accessory/gradient = GLOB.hair_gradients_list[grad_style]
 						var/icon/temp = icon(gradient.icon, gradient.icon_state)
@@ -479,7 +477,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 						temp.Blend(temp_hair, ICON_ADD)
 						gradient_overlay.icon = temp
 						gradient_overlay.color = "#" + grad_color
-
 
 				else
 					hair_overlay.color = forced_colour
@@ -490,7 +487,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(hair_overlay.icon)
 			standing += hair_overlay
 			standing += gradient_overlay
-
 
 	if(standing.len)
 		H.overlays_standing[HAIR_LAYER] = standing
@@ -1249,356 +1245,171 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	//LIFE//
 	////////
 
-///datum/species/proc/handle_digestion(mob/living/carbon/human/H)
-//	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-//		return //hunger is for BABIES
+// GS13 Procs to handle fatness
+/datum/species/proc/update_body_size(mob/living/carbon/human/H, size_change)
+	if (!H)
+		return
 
-/*	//The fucking TRAIT_FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
-	if(HAS_TRAIT(H, TRAIT_FAT))//I share your pain, past coder.
-		if(H.fatness < FATNESS_LEVEL_FAT)//this is a mess, indeed.
-			to_chat(H, "<span class='notice'>You feel fit again!</span>")//GS13 Added a whole bunch of new fatness traits. Truly I am a masochist
-			REMOVE_TRAIT(H, TRAIT_FAT, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_OBESE)
-			to_chat(H, "<span class='danger'>You feel even plumper!</span>")
-			REMOVE_TRAIT(H, TRAIT_FAT, OBESITY)
-			ADD_TRAIT(H, TRAIT_OBESE, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_OBESE))
-		if(H.fatness < FATNESS_LEVEL_OBESE)
-			to_chat(H, "<span class='notice'>You feel like you've lost weight!</span>")
-			REMOVE_TRAIT(H, TRAIT_OBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_FAT, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_MORBIDLY_OBESE)
-			to_chat(H, "<span class='danger'>You feel a lot fatter than before</span>")
-			REMOVE_TRAIT(H, TRAIT_OBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_MORBIDLYOBESE, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_MORBIDLYOBESE))
-		if(H.fatness < FATNESS_LEVEL_MORBIDLY_OBESE)
-			to_chat(H, "<span class='notice'>You feel a bit less fat!</span>")
-			REMOVE_TRAIT(H, TRAIT_MORBIDLYOBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_OBESE, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_IMMOBILE)
-			to_chat(H, "<span class='danger'>You feel your fat belly rubbing on the floor!</span>")
-			REMOVE_TRAIT(H, TRAIT_MORBIDLYOBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_IMMOBILE, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_IMMOBILE))
-		if(H.fatness < FATNESS_LEVEL_IMMOBILE)
-			to_chat(H, "<span class='notice'>You feel less restrained by your fat!</span>")
-			REMOVE_TRAIT(H, TRAIT_IMMOBILE, OBESITY)
-			ADD_TRAIT(H, TRAIT_MORBIDLYOBESE, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_BLOB)
-			to_chat(H, "<span class='danger'>You feel like you've become a mountain of fat!</span>")
-			REMOVE_TRAIT(H, TRAIT_IMMOBILE, OBESITY)
-			ADD_TRAIT(H, TRAIT_BLOB, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_BLOB))
-		if(H.fatness < FATNESS_LEVEL_BLOB)
-			to_chat(H, "<span class='notice'>You feel like you've regained some mobility!</span>")
-			REMOVE_TRAIT(H, TRAIT_BLOB, OBESITY)
-			ADD_TRAIT(H, TRAIT_IMMOBILE, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
+	var/obj/item/organ/genital/anus/anus = H.getorganslot("anus")
+	var/obj/item/organ/genital/belly/belly = H.getorganslot("belly")
+	var/obj/item/organ/genital/breasts/breasts = H.getorganslot("breasts")
+
+	update_genital_size(anus, size_change)
+	update_genital_size(belly, size_change)
+	update_breasts_size(breasts, size_change)
+
+	H.genital_override = TRUE
+	H.update_body()
+	H.update_inv_w_uniform()
+	H.update_inv_wear_suit()
+
+/datum/species/proc/update_genital_size(obj/item/organ/genital/G, size_change)
+	if (!G)
+		return
+
+	G.size = G.size + size_change
+	G.update()
+
+/datum/species/proc/update_breasts_size(obj/item/organ/genital/breasts/G, size_change)
+	if (!G)
+		return
+
+	G.cached_size = G.cached_size + size_change
+	G.update()
+
+/datum/species/proc/handle_fatness_trait(mob/living/carbon/human/H, trait, trait_lose, trait_gain, fatness_lose, fatness_gain, chat_lose, chat_gain)
+	if(H.fatness < fatness_lose)
+		if (chat_lose)
+			to_chat(H, chat_lose)
+		if (trait)
+			REMOVE_TRAIT(H, trait, OBESITY)
+		if (trait_lose)
+			ADD_TRAIT(H, trait_lose, OBESITY)
+		update_body_size(H, -1)
+	else if(H.fatness >= fatness_gain)
+		if (chat_gain)
+			to_chat(H, chat_gain)
+		if (trait)
+			REMOVE_TRAIT(H, trait, OBESITY)
+		if (trait_gain)
+			ADD_TRAIT(H, trait_gain, OBESITY)
+		update_body_size(H, 1)
+
+/datum/species/proc/handle_fatness(mob/living/carbon/human/H)
+	if(HAS_TRAIT(H, TRAIT_BLOB))
+		handle_fatness_trait(
+			H,
+			TRAIT_BLOB,
+			TRAIT_IMMOBILE,
+			null,
+			FATNESS_LEVEL_BLOB,
+			INFINITY,
+			"<span class='notice'>You feel like you've regained some mobility!</span>",
+			null)
+		return
+	if(HAS_TRAIT(H, TRAIT_IMMOBILE))
+		handle_fatness_trait(
+			H,
+			TRAIT_IMMOBILE,
+			TRAIT_BARELYMOBILE,
+			TRAIT_BLOB,
+			FATNESS_LEVEL_IMMOBILE,
+			FATNESS_LEVEL_BLOB,
+			"<span class='notice'>You feel less restrained by your fat!</span>",
+			"<span class='danger'>You feel like you've become a mountain of fat!</span>")
+		return
+	if(HAS_TRAIT(H, TRAIT_BARELYMOBILE))
+		handle_fatness_trait(
+			H,
+			TRAIT_BARELYMOBILE,
+			TRAIT_EXTREMELYOBESE,
+			TRAIT_IMMOBILE,
+			FATNESS_LEVEL_BARELYMOBILE,
+			FATNESS_LEVEL_IMMOBILE,
+			"<span class='notice'>You feel less restrained by your fat!</span>",
+			"<span class='danger'>You feel belly smush against the floor!</span>")
+		return
+	if(HAS_TRAIT(H, TRAIT_EXTREMELYOBESE))
+		handle_fatness_trait(
+			H,
+			TRAIT_EXTREMELYOBESE,
+			TRAIT_MORBIDLYOBESE,
+			TRAIT_BARELYMOBILE,
+			FATNESS_LEVEL_EXTREMELY_OBESE,
+			FATNESS_LEVEL_BARELYMOBILE,
+			"<span class='notice'>You feel less restrained by your fat!</span>",
+			"<span class='danger'>You feel like you can barely move!</span>")
+		return
+	if(HAS_TRAIT(H, TRAIT_MORBIDLYOBESE))
+		handle_fatness_trait(
+			H,
+			TRAIT_MORBIDLYOBESE,
+			TRAIT_OBESE,
+			TRAIT_EXTREMELYOBESE,
+			FATNESS_LEVEL_MORBIDLY_OBESE,
+			FATNESS_LEVEL_EXTREMELY_OBESE,
+			"<span class='notice'>You feel a bit less fat!</span>",
+			"<span class='danger'>You feel your belly rest heavily on your lap!</span>")
+		return
+	if(HAS_TRAIT(H, TRAIT_OBESE))
+		handle_fatness_trait(
+			H,
+			TRAIT_OBESE,
+			TRAIT_VERYFAT,
+			TRAIT_MORBIDLYOBESE,
+			FATNESS_LEVEL_OBESE,
+			FATNESS_LEVEL_MORBIDLY_OBESE,
+			"<span class='notice'>You feel like you've lost weight!</span>",
+			"<span class='danger'>Your thighs begin to rub against each other.</span>")
+		return
+	if(HAS_TRAIT(H, TRAIT_VERYFAT))
+		handle_fatness_trait(
+			H,
+			TRAIT_VERYFAT,
+			TRAIT_FATTER,
+			TRAIT_OBESE,
+			FATNESS_LEVEL_VERYFAT,
+			FATNESS_LEVEL_OBESE,
+			"<span class='notice'>You feel like you've lost weight!</span>",
+			"<span class='danger'>You feel like you're starting to get really heavy.</span>")
+		return
+	if(HAS_TRAIT(H, TRAIT_FATTER))
+		handle_fatness_trait(
+			H,
+			TRAIT_FATTER,
+			TRAIT_FAT,
+			TRAIT_VERYFAT,
+			FATNESS_LEVEL_FATTER,
+			FATNESS_LEVEL_VERYFAT,
+			"<span class='notice'>You feel like you've lost weight!</span>",
+			"<span class='danger'>Your clothes creak quietly!</span>")
+		return
+	if(HAS_TRAIT(H, TRAIT_FAT))
+		handle_fatness_trait(
+			H,
+			TRAIT_FAT,
+			null,
+			TRAIT_FATTER,
+			FATNESS_LEVEL_FAT,
+			FATNESS_LEVEL_FATTER,
+			"<span class='notice'>You feel fit again!</span>",
+			"<span class='danger'>You feel even plumper!</span>")
 	else
-		if(H.fatness >= FATNESS_LEVEL_FAT)
-			to_chat(H, "<span class='danger'>You suddenly feel blubbery!</span>")
-			ADD_TRAIT(H, TRAIT_FAT, OBESITY)
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-*/
+		handle_fatness_trait(
+			H,
+			null,
+			null,
+			TRAIT_FAT,
+			0,
+			FATNESS_LEVEL_FAT,
+			null,
+			"<span class='danger'>You suddenly feel blubbery!</span>")
+
 /datum/species/proc/handle_digestion(mob/living/carbon/human/H)
-	var/obj/item/organ/genital/anus/B = H.getorganslot("anus")
-	var/obj/item/organ/genital/belly/C = H.getorganslot("belly")
-	var/obj/item/organ/genital/breasts/D = H.getorganslot("breasts")
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 		return //hunger is for BABIES
 
-	//The fucking TRAIT_FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
-	//gonna attempt to categorize these a bit to not make them a TINY bit less of an eyesore
-	if(HAS_TRAIT(H, TRAIT_FAT))//I share your pain, past coder.
-		if(H.fatness < FATNESS_LEVEL_FAT) //WEIGHT LOSS
-			to_chat(H, "<span class='notice'>You feel fit again!</span>") 
-			REMOVE_TRAIT(H, TRAIT_FAT, OBESITY)
-			B.size = B.size - 1
-			B.update()
-			C.size = 0
-			C.update()
-			D.cached_size = D.cached_size - 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_FATTER) //WEIGHT GAIN
-			to_chat(H, "<span class='danger'>You feel even plumper!</span>")
-			REMOVE_TRAIT(H, TRAIT_FAT, OBESITY)
-			ADD_TRAIT(H, TRAIT_FATTER, OBESITY)
-			B.size = B.size + 1
-			B.update()
-			C.size = C.size + 1
-			C.update()
-			D.cached_size = D.cached_size + 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_FATTER)) //WEIGHT LOSS
-		if(H.fatness < FATNESS_LEVEL_FATTER)
-			to_chat(H, "<span class='notice'>You feel like you've lost weight!</span>")
-			REMOVE_TRAIT(H, TRAIT_FATTER, OBESITY)
-			ADD_TRAIT(H, TRAIT_FAT, OBESITY)
-			B.size = B.size - 1
-			B.update()
-			C.size = C.size - 1
-			C.update()
-			D.cached_size = D.cached_size - 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_VERYFAT) //WEIGHT GAIN
-			to_chat(H, "<span class='danger'>Your clothes creak quietly!</span>")
-			REMOVE_TRAIT(H, TRAIT_FATTER, OBESITY)
-			ADD_TRAIT(H, TRAIT_VERYFAT, OBESITY)
-			B.size = B.size + 1
-			B.update()
-			C.size = C.size + 1
-			C.update()
-			D.cached_size = D.cached_size + 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_VERYFAT)) //WEIGHT LOSS
-		if(H.fatness < FATNESS_LEVEL_VERYFAT)
-			to_chat(H, "<span class='notice'>You feel like you've lost weight!</span>")
-			REMOVE_TRAIT(H, TRAIT_VERYFAT, OBESITY)
-			ADD_TRAIT(H, TRAIT_FATTER, OBESITY)
-			B.size = B.size - 1
-			B.update()
-			C.size = C.size - 1
-			C.update()
-			D.cached_size = D.cached_size - 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_OBESE) //WEIGHT GAIN
-			to_chat(H, "<span class='danger'>You feel like you're starting to get really heavy.</span>")
-			REMOVE_TRAIT(H, TRAIT_VERYFAT, OBESITY)
-			ADD_TRAIT(H, TRAIT_OBESE, OBESITY)
-			B.size = B.size + 1
-			B.update()
-			C.size = C.size + 1
-			C.update()
-			D.cached_size = D.cached_size + 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_OBESE)) //WEIGHT LOSS
-		if(H.fatness < FATNESS_LEVEL_OBESE)
-			to_chat(H, "<span class='notice'>You feel like you've lost weight!</span>")
-			REMOVE_TRAIT(H, TRAIT_OBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_VERYFAT, OBESITY)
-			B.size = B.size - 1
-			B.update()
-			C.size = C.size - 1
-			C.update()
-			D.cached_size = D.cached_size - 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_MORBIDLY_OBESE) //WEIGHT GAIN
-			to_chat(H, "<span class='danger'>Your thighs begin to rub against each other.</span>")
-			REMOVE_TRAIT(H, TRAIT_OBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_MORBIDLYOBESE, OBESITY)
-			B.size = B.size + 1
-			B.update()
-			C.size = C.size + 1
-			C.update()
-			D.cached_size = D.cached_size + 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_MORBIDLYOBESE)) //WEIGHT LOSS
-		if(H.fatness < FATNESS_LEVEL_MORBIDLY_OBESE)
-			to_chat(H, "<span class='notice'>You feel a bit less fat!</span>")
-			REMOVE_TRAIT(H, TRAIT_MORBIDLYOBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_OBESE, OBESITY)
-			B.size = B.size - 1
-			B.update()
-			C.size = C.size - 1
-			C.update()
-			D.cached_size = D.cached_size - 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_EXTREMELY_OBESE) //WEIGHT GAIN
-			to_chat(H, "<span class='danger'>You feel your belly rest heavily on your lap!</span>")
-			REMOVE_TRAIT(H, TRAIT_MORBIDLYOBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_EXTREMELYOBESE, OBESITY)
-			B.size = B.size + 1
-			B.update()
-			C.size = C.size + 1
-			C.update()
-			D.cached_size = D.cached_size + 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_EXTREMELYOBESE)) //WEIGHT LOS
-		if(H.fatness < FATNESS_LEVEL_EXTREMELY_OBESE)
-			to_chat(H, "<span class='notice'>You feel less restrained by your fat!</span>")
-			REMOVE_TRAIT(H, TRAIT_EXTREMELYOBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_MORBIDLYOBESE, OBESITY)
-			B.size = B.size - 1
-			B.update()
-			C.size = C.size - 1
-			C.update()
-			D.cached_size = D.cached_size - 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_BARELYMOBILE) //WEIGHT GAIN
-			to_chat(H, "<span class='danger'>You feel like you can barely move!</span>")
-			REMOVE_TRAIT(H, TRAIT_EXTREMELYOBESE, OBESITY)
-			ADD_TRAIT(H, TRAIT_BARELYMOBILE, OBESITY)
-			B.size = B.size + 1
-			B.update()
-			C.size = C.size + 1
-			C.update()
-			D.cached_size = D.cached_size + 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_BARELYMOBILE)) //WEIGHT LOSS
-		if(H.fatness < FATNESS_LEVEL_BARELYMOBILE)
-			to_chat(H, "<span class='notice'>You feel less restrained by your fat!</span>")
-			REMOVE_TRAIT(H, TRAIT_BARELYMOBILE, OBESITY)
-			ADD_TRAIT(H, TRAIT_EXTREMELYOBESE, OBESITY)
-			B.size = B.size - 1
-			B.update()
-			C.size = C.size - 1
-			C.update()
-			D.cached_size = D.cached_size - 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness >= FATNESS_LEVEL_IMMOBILE) //WEIGHT GAIN
-			to_chat(H, "<span class='danger'>You feel belly smush against the floor!</span>")
-			REMOVE_TRAIT(H, TRAIT_BARELYMOBILE, OBESITY)
-			ADD_TRAIT(H, TRAIT_IMMOBILE, OBESITY)
-			B.size = B.size + 1
-			B.update()
-			C.size = C.size + 1
-			C.update()
-			D.cached_size = D.cached_size + 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_IMMOBILE)) //WEIGHT LOSS
-		if(H.fatness < FATNESS_LEVEL_IMMOBILE)
-			to_chat(H, "<span class='notice'>You feel less restrained by your fat!</span>")
-			REMOVE_TRAIT(H, TRAIT_IMMOBILE, OBESITY)
-			ADD_TRAIT(H, TRAIT_BARELYMOBILE, OBESITY)
-			B.size = B.size - 1
-			B.update()
-			C.size = C.size - 1
-			C.update()
-			D.cached_size = D.cached_size - 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-		else if(H.fatness > FATNESS_LEVEL_BLOB) //WEIGHT GAIN
-			to_chat(H, "<span class='danger'>You feel like you've become a mountain of fat!</span>")
-			REMOVE_TRAIT(H, TRAIT_IMMOBILE, OBESITY)
-			ADD_TRAIT(H, TRAIT_BLOB, OBESITY)
-			B.size = B.size + 1
-			B.update()
-			C.size = C.size + 1
-			C.update()
-			D.cached_size = D.cached_size + 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else if(HAS_TRAIT(H, TRAIT_BLOB)) //WEIGHT LOSS
-		if(H.fatness < FATNESS_LEVEL_BLOB)
-			to_chat(H, "<span class='notice'>You feel like you've regained some mobility!</span>")
-			REMOVE_TRAIT(H, TRAIT_BLOB, OBESITY)
-			ADD_TRAIT(H, TRAIT_IMMOBILE, OBESITY)
-			B.size = B.size - 1
-			B.update()
-			C.size = C.size - 1
-			C.update()
-			D.cached_size = D.cached_size - 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-	else
-		if(H.fatness >= FATNESS_LEVEL_FAT) //WEIGHT GAIN
-			to_chat(H, "<span class='danger'>You suddenly feel blubbery!</span>")
-			ADD_TRAIT(H, TRAIT_FAT, OBESITY)
-			B.size = B.size + 1
-			B.update()
-			C.size = C.size + 1
-			C.update()
-			D.cached_size = D.cached_size + 1
-			D.update()
-			H.genital_override = TRUE
-			H.update_body()
-			H.update_inv_w_uniform()
-			H.update_inv_wear_suit()
-
+	handle_fatness(H) // GS13
 
 	// nutrition decrease and satiety
 	if (H.nutrition > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
@@ -1702,7 +1513,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 		if(FATNESS_LEVEL_FAT to FATNESS_LEVEL_FATTER)
 			H.throw_alert("fatness", /obj/screen/alert/fat)
-			
+
 		if(0 to FATNESS_LEVEL_FAT)
 			H.clear_alert("fatness")
 
@@ -1833,49 +1644,32 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			var/grav_force = min(gravity - STANDARD_GRAVITY,3)
 			. += 1 + grav_force
 
-		/*var/datum/component/mood/mood = H.GetComponent(/datum/component/mood)
-		//removed because mood now influences action speed. Hyperstation 13.
-		if(mood && !flight) //How can depression slow you down if you can just fly away from your problems?
-			switch(mood.sanity)
-				if(SANITY_INSANE to SANITY_CRAZY)
-					. += 1.5
-				if(SANITY_CRAZY to SANITY_UNSTABLE)
-					. += 1
-				if(SANITY_UNSTABLE to SANITY_DISTURBED)
-					. += 0.5
-		*/
-/*		if(HAS_TRAIT(H, TRAIT_FAT))
-			. += (1 - flight)
-		if(HAS_TRAIT(H, TRAIT_OBESE))//GS13 fat levels move speed decrease
-			. += (1.5 - flight)
-		if(HAS_TRAIT(H, TRAIT_MORBIDLYOBESE))
-			. += (2 - flight)
-		if(HAS_TRAIT(H, TRAIT_IMMOBILE))
-			. += 3 // No wings are going to lift that much off the ground
-		if(HAS_TRAIT(H, TRAIT_BLOB))
-			. += 4
-		if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT && !HAS_TRAIT(H, TRAIT_RESISTCOLD))
-			. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
-	return .
-*/
-		if(H.fatness)
+		// Hyperstation 13: Mood now influences action speed.
+
+		if(H.fatness) // GS13
 			var/fatness_delay = (H.fatness / FATNESS_DIVISOR)
 			if(H.fatness < FATNESS_LEVEL_BARELYMOBILE)
 				fatness_delay = fatness_delay - flight
-			
+
 			fatness_delay = min(fatness_delay, FATNESS_MAX_MOVE_PENALTY)
-			if(HAS_TRAIT(H, TRAIT_WEAKLEGS) && (H.fatness > FATNESS_LEVEL_BLOB))
-				fatness_delay += ((H.fatness - FATNESS_LEVEL_BLOB) * FATNESS_WEAKLEGS_MODIFIER) / FATNESS_DIVISOR	
-	
-			. += fatness_delay 
+
+			if(HAS_TRAIT(H, TRAIT_STRONGLEGS))
+				fatness_delay = fatness_delay * FATNESS_STRONGLEGS_MODIFIER
+
+
+			if(HAS_TRAIT(H, TRAIT_WEAKLEGS))
+				if(H.fatness <= FATNESS_LEVEL_IMMOBILE)
+					fatness_delay += fatness_delay * FATNESS_WEAKLEGS_MODIFIER / 100
+				if(H.fatness > FATNESS_LEVEL_IMMOBILE)
+					fatness_delay += (H.fatness / FATNESS_LEVEL_IMMOBILE) * FATNESS_WEAKLEGS_MODIFIER
+					fatness_delay = min(fatness_delay, 60)
+
+			. += fatness_delay
 
 		if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT && !HAS_TRAIT(H, TRAIT_RESISTCOLD))
 			. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
 
 	return .
-//////////////////
-// ATTACK PROCS //
-//////////////////
 
 //////////////////
 // ATTACK PROCS //

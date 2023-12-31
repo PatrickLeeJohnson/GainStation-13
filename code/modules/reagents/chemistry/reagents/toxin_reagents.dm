@@ -135,7 +135,7 @@
 	pH = 8
 
 /datum/reagent/toxin/minttoxin/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_BLOB))
+	if(HAS_TRAIT(M, TRAIT_BLOB)) // GS13
 		M.gib()
 	return ..()
 
@@ -607,8 +607,9 @@
 	taste_description = "mothballs"
 	reagent_state = LIQUID
 	color = "#F0FFF0"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = 100
+	// GS13 tweak
+	metabolization_rate = 0.7 * REAGENTS_METABOLISM
+	overdose_threshold = 105
 
 /datum/reagent/medicine/lipolicide/overdose_process(mob/living/carbon/C)
 	. = ..()
@@ -619,10 +620,12 @@
 /datum/reagent/medicine/lipolicide/on_mob_life(mob/living/carbon/M)
 	if(M.nutrition <= NUTRITION_LEVEL_STARVING)
 		M.adjustToxLoss(1*REM, 0)
-	if(M.fatness == 0)
+	if(M.fatness_real == 0)
 		M.nutrition = max(M.nutrition - 3, 0) // making the chef more valuable, one meme trap at a time
+	if(HAS_TRAIT(M, TRAIT_LIPOLICIDE_TOLERANCE)) //GS13 edit
+		M.adjust_fatness(-0.5, FATTENING_TYPE_WEIGHT_LOSS)
 	else
-		M.adjust_fatness(-10, FATTENING_TYPE_WEIGHT_LOSS)
+		M.adjust_fatness(-5, FATTENING_TYPE_WEIGHT_LOSS)
 
 	M.overeatduration = 0
 	return ..()

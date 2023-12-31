@@ -157,8 +157,9 @@
 	return ..()
 
 /obj/belly/proc/Remove(mob/living/owner)
-	owner.vore_organs -= src
-	owner = null
+	if(owner)
+		owner.vore_organs -= src
+		owner = null
 
 // Called whenever an atom enters this belly
 /obj/belly/Entered(var/atom/movable/thing,var/atom/OldLoc)
@@ -171,10 +172,10 @@
 	//Sound w/ antispam flag setting
 	if(is_wet && (world.time > recent_sound))
 		var/turf/source = get_turf(owner)
-		var/sound/eating = GLOB.vore_sounds[vore_sound]
+		var/sound/eating = sound(GLOB.vore_sounds[vore_sound]) // GS13 fix
 		for(var/mob/living/M in get_hearers_in_view(3, source))
-			if(M.client && M.client.prefs.cit_toggles & EATING_NOISES)
-				SEND_SOUND(M, eating)
+			if(M.client && M.client?.prefs?.cit_toggles & EATING_NOISES)
+				M.playsound_local(source, vore_sound, 50, 1, S = eating) // GS13 fix
 				recent_sound = (world.time + 20 SECONDS)
 
 	//Messages if it's a mob
@@ -209,10 +210,12 @@
 			SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "emptyprey", /datum/mood_event/emptyprey)
 		AM.forceMove(destination)  // Move the belly contents into the same location as belly's owner.
 		count++
-	for(var/mob/living/M in get_hearers_in_view(2, get_turf(owner)))
-		if(M.client && (M.client.prefs.cit_toggles & EATING_NOISES))
-			var/sound/releasement = GLOB.release_sounds[release_sound]
-			SEND_SOUND(M, releasement)
+
+	var/turf/source = get_turf(owner)
+	var/sound/releasement = sound(GLOB.release_sounds[release_sound])
+	for(var/mob/living/M in get_hearers_in_view(2, source))
+		if(M.client && (M.client?.prefs?.cit_toggles & EATING_NOISES))
+			M.playsound_local(source, release_sound, 50, 1, S = releasement)
 
 	//Clean up our own business
 	items_preserved.Cut()
@@ -236,10 +239,11 @@
 	M.forceMove(drop_location())  // Move the belly contents into the same location as belly's owner.
 	items_preserved -= M
 	if(!silent)
-		for(var/mob/living/H in get_hearers_in_view(2, get_turf(owner)))
-			if(H.client && (H.client.prefs.cit_toggles & EATING_NOISES))
-				var/sound/releasement = GLOB.release_sounds[release_sound]
-				SEND_SOUND(H, releasement)
+		var/turf/source = get_turf(owner)
+		var/sound/releasement = sound(GLOB.release_sounds[release_sound])
+		for(var/mob/living/H in get_hearers_in_view(2, source))
+			if(H.client && (H.client?.prefs?.cit_toggles & EATING_NOISES))
+				H.playsound_local(source, release_sound, 50, 1, S = releasement)
 
 	if(istype(M,/mob/living))
 		var/mob/living/ML = M
@@ -317,10 +321,10 @@
 	target.nom_mob(content, target.owner)
 	if(!silent)
 		var/turf/source = get_turf(owner)
-		var/sound/eating = GLOB.vore_sounds[vore_sound]
+		var/sound/eating = sound(GLOB.vore_sounds[vore_sound])
 		for(var/mob/living/M in get_hearers_in_view(3, source))
-			if(M.client && M.client.prefs.cit_toggles & EATING_NOISES)
-				SEND_SOUND(M, eating)
+			if(M.client && M.client?.prefs?.cit_toggles & EATING_NOISES)
+				M.playsound_local(source, vore_sound, 50, 1, S = eating)
 
 	owner.updateVRPanel()
 	for(var/mob/living/M in contents)
@@ -531,17 +535,17 @@
 
 	if(is_wet)
 		for(var/mob/living/M in get_hearers_in_view(3, source))
-			if(M.client && M.client.prefs.cit_toggles & EATING_NOISES)
-				SEND_SOUND(M, struggle_snuggle)
+			if(M.client && M.client?.prefs?.cit_toggles & EATING_NOISES)
+				M.playsound_local(source, "struggle_sound", 50, 1, S = struggle_snuggle)
 
 	else
 		for(var/mob/living/M in get_hearers_in_view(3, source))
-			if(M.client && M.client.prefs.cit_toggles & EATING_NOISES)
-				SEND_SOUND(M, struggle_rustle)
+			if(M.client && M.client?.prefs?.cit_toggles & EATING_NOISES)
+				M.playsound_local(source, "rustle", 50, 1, S = struggle_rustle)
 
 	var/list/watching = hearers(3, owner)
 	for(var/mob/living/M in watching)
-		if(M.client && (M.client.prefs.cit_toggles & EATING_NOISES)) //Might as well censor the normies here too.
+		if(M.client && (M.client?.prefs?.cit_toggles & EATING_NOISES)) //Might as well censor the normies here too.
 			M.show_message(struggle_outer_message, MSG_VISUAL) // visible
 
 	to_chat(R,struggle_user_message)

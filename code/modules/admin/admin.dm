@@ -1,5 +1,11 @@
 
 ////////////////////////////////
+/proc/log_and_message_admins(var/message as text, var/mob/user = usr)
+	var/finalMessage = user ? "[key_name(user)] [message]" : "EVENT [message]"
+	log_admin(finalMessage)
+	message_admins(finalMessage)
+	log_world(finalMessage)
+
 /proc/message_admins(msg)
 	msg = "<span class=\"admin\"><span class=\"prefix\">ADMIN LOG:</span> <span class=\"message linkify\">[msg]</span></span>"
 	to_chat(GLOB.admins, msg)
@@ -104,7 +110,7 @@
 	if(M.client)
 		body += "| <A href='?_src_=holder;[HrefToken()];sendtoprison=[REF(M)]'>Prison</A> | "
 		body += "\ <A href='?_src_=holder;[HrefToken()];sendbacktolobby=[REF(M)]'>Send back to Lobby</A> | "
-		var/muted = M.client.prefs.muted
+		var/muted = M.client?.prefs?.muted
 		body += "<br><b>Mute: </b> "
 		body += "\[<A href='?_src_=holder;[HrefToken()];mute=[M.ckey];mute_type=[MUTE_IC]'><font color='[(muted & MUTE_IC)?"red":"blue"]'>IC</font></a> | "
 		body += "<A href='?_src_=holder;[HrefToken()];mute=[M.ckey];mute_type=[MUTE_OOC]'><font color='[(muted & MUTE_OOC)?"red":"blue"]'>OOC</font></a> | "

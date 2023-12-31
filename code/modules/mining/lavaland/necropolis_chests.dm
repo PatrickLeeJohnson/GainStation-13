@@ -11,7 +11,7 @@
 	desc = "It's watching you suspiciously."
 
 /obj/structure/closet/crate/necropolis/tendril/PopulateContents()
-	var/loot = rand(1,34)
+	var/loot = rand(1,33)
 	switch(loot)
 		if(1)
 			new /obj/item/shared_storage/red(src)
@@ -26,7 +26,7 @@
 		if(6)
 			new /obj/item/reagent_containers/glass/bottle/potion/flight(src)
 		if(7)
-			new /obj/item/pickaxe/diamond(src)
+			new /obj/item/karl_pickaxe(src) //GS13
 		if(8)
 			if(prob(50))
 				new /obj/item/disk/design_disk/modkit_disc/resonator_blast(src)
@@ -65,7 +65,7 @@
 			new /obj/item/circuitboard/machine/plantgenes/vault
 		if(23)
 			new /obj/item/grenade/clusterbuster/soap(src)
-			new /obj/item/grenade/chem_grenade/glitter/pink(src)
+			new /obj/item/grenade/chem_grenade/glitter/pink(src) // GS13
 			new /obj/item/grenade/chem_grenade/glitter/blue(src)
 		if(24)
 			new /obj/item/reagent_containers/food/drinks/bottle/holywater/hell(src)
@@ -79,6 +79,7 @@
 			new /obj/item/bedsheet/cult(src)
 		if(28)
 			new /obj/item/clothing/neck/necklace/memento_mori(src)
+		// GS13
 		if(29)
 			new /obj/item/book/granter/spell/fattening(src)
 			new /obj/item/grenade/chem_grenade/lipoifier_weak(src)
@@ -91,10 +92,6 @@
 			new /obj/item/gun/energy/fatoray/cannon(src)
 		if(33)
 			new /obj/item/gun/magic/wand/food(src)
-		if(34)
-			new /obj/item/karl_pickaxe(src)
-//		if(29)
-//			new /obj/item/clothing/gloves/gauntlets(src)
 
 //KA modkit design discs
 /obj/item/disk/design_disk/modkit_disc
@@ -192,6 +189,7 @@
 		to_chat(itemUser, failText)
 		return
 	if(do_after(itemUser, 30, target = itemUser))
+	 	// GS13: "sentient creatures"
 		itemUser.say("I will remember that I remain a member of society, with special obligations to all my fellow sentient creatures, those sound of mind and body as well as the infirm.", forced = "hippocratic oath")
 	else
 		to_chat(itemUser, failText)

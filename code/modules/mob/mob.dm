@@ -1,4 +1,5 @@
-
+/mob
+	var/respawn_time = 60
 
 /mob/Destroy()//This makes sure that mobs with clients/keys are not just deleted from the game.
 	GLOB.mob_list -= src
@@ -451,10 +452,12 @@ mob/visible_message(message, self_message, blind_message, vision_distance = DEFA
 	//if they didnt join as a observer, add their name to the past character list so they cannot play them again.
 
 	if(!usr.client.respawn_observing)
-		var/responserespawn = alert(src,"If you respawn now, you cannot rejoin the game as your current character! Are you sure you want to respawn?","Warning","Yes","No")
+		var/responserespawn = alert(src,"Are you sure you want to respawn?","Warning","Yes","No")
 		if(responserespawn != "Yes")
 			return
-		usr.client.pastcharacters += usr.real_name
+		// usr.client.pastcharacters += usr.real_name
+
+		//GS13 - commented out to allow players to rejoin with the same char
 
 	if(!client)
 		log_game("[key_name(usr)] AM failed due to disconnect.")
@@ -471,7 +474,7 @@ mob/visible_message(message, self_message, blind_message, vision_distance = DEFA
 		qdel(M)
 		return
 
-	usr.client.lastrespawn = world.time + 180 SECONDS
+	usr.client.lastrespawn = world.time + respawn_time SECONDS
 	usr.client.respawn_observing = 0
 	message_admins("[client.ckey] respawned.")
 	M.ckey = ckey //shamelessly copied to
@@ -486,13 +489,13 @@ mob/visible_message(message, self_message, blind_message, vision_distance = DEFA
 	if(!ckey)
 		return
 	SEND_SIGNAL(new_mob, COMSIG_MOB_PRE_PLAYER_CHANGE, new_mob, src)
-	if (client && client.prefs && client.prefs.auto_ooc)
-		if (client.prefs.chat_toggles & CHAT_OOC && isliving(new_mob))
-			client.prefs.chat_toggles ^= CHAT_OOC
-		if (!(client.prefs.chat_toggles & CHAT_OOC) && isdead(new_mob))
-			client.prefs.chat_toggles ^= CHAT_OOC
+	if (client && client.prefs && client?.prefs?.auto_ooc)
+		if (client?.prefs?.chat_toggles & CHAT_OOC && isliving(new_mob))
+			client?.prefs?.chat_toggles ^= CHAT_OOC
+		if (!(client?.prefs?.chat_toggles & CHAT_OOC) && isdead(new_mob))
+			client?.prefs?.chat_toggles ^= CHAT_OOC
 	new_mob.ckey = ckey
-	new_mob.client.init_verbs()
+	new_mob.client?.init_verbs()
 	if(send_signal)
 		SEND_SIGNAL(src, COMSIG_MOB_KEY_CHANGE, new_mob, src)
 	return TRUE

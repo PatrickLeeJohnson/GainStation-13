@@ -5,8 +5,20 @@
 	var/turf/source = get_turf(user)
 	var/sound/noise = sound(gs13_get_sfx(noise_name))
 	for(var/mob/living/M in get_hearers_in_view(3, source))
-		if ((pref_toggle == 0) || (M.client && M.client.prefs.cit_toggles & pref_toggle))
-			SEND_SOUND(M, noise)
+		if ((pref_toggle == 0) || (M.client && M.client?.prefs?.cit_toggles & pref_toggle))
+			M.playsound_local(source, noise_name, 50, 1, S = noise)
+
+/datum/emote/living/proc/reduce_fullness(var/mob/living/user, fullness_amount) // fullness_amount should be between 5 and 20 for balance and below 80 for functionality
+	if(!ishuman(user))
+		return FALSE	
+
+	var/mob/living/N = user
+	if(N.fullness >= FULLNESS_LEVEL_BLOATED && N.fullness_reducion_timer + FULLNESS_REDUCTION_COOLDOWN < world.time)
+		N.fullness -= fullness_amount
+		if(fullness_amount <= 5)
+			to_chat(N, "You felt that make some space")
+		if(fullness_amount > 5)
+			to_chat(N, "You felt that make a lot of space")
 
 /datum/emote/living/belch
 	key = "belch"
@@ -22,6 +34,7 @@
 	make_noise(user, "belch", BURPING_NOISES)
 
 	. = ..()	
+	reduce_fullness(user, rand(6,12))
 
 /datum/emote/living/brap
     key = "brap"
@@ -39,11 +52,12 @@
 	make_noise(user, "brap", FARTING_NOISES)
 
 	. = ..()	
+	reduce_fullness(user, rand(6,12))
 
 /datum/emote/living/burp
 	key = "burp"
 	key_third_person = "burps"
-	message = "burps."
+	message = "burps"
 	emote_type = EMOTE_AUDIBLE
 
 /datum/emote/living/burp/run_emote(mob/living/user, params)
@@ -53,6 +67,7 @@
 	make_noise(user, "burp", BURPING_NOISES)
 
 	. = ..()
+	reduce_fullness(user, rand(4,8))
 
 /datum/emote/living/fart
 	key = "fart"
@@ -68,6 +83,7 @@
 	make_noise(user, "fart", FARTING_NOISES)
 		
 	. = ..()	
+	reduce_fullness(user, rand(4,8))
 
 /datum/emote/living/gurgle
 	key = "gurgle"
@@ -97,3 +113,15 @@
 	make_noise(user, "burunyu", 0)
 
 	. = ..()
+
+/datum/emote/living/bellyrub
+	key = "bellyrub"
+	key_third_person = "bellyrubs"
+	message = "rubs their belly"
+	emote_type  = EMOTE_VISIBLE
+
+/datum/emote/living/bellyrub/run_emote(mob/living/user, params)
+	if(!ishuman(user))
+		return FALSE
+	. = ..()
+	reduce_fullness(user, rand(4,16))

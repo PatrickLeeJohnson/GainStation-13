@@ -32,7 +32,7 @@
 	return
 
 /mob/dead/new_player/proc/new_player_panel()
-	var/output = "<center><p>Welcome, <b>[client ? client.prefs.real_name : "Unknown User"]</b></p>"
+	var/output = "<center><p>Welcome, <b>[client ? client?.prefs?.real_name : "Unknown User"]</b></p>"
 	output += "<p><a href='byond://?src=[REF(src)];show_preferences=1'>Setup Character</a></p>"
 
 	if(SSticker.current_state <= GAME_STATE_PREGAME)
@@ -93,7 +93,7 @@
 		relevant_cap = max(hpc, epc)
 
 	if(href_list["show_preferences"])
-		client.prefs.ShowChoices(src)
+		client?.prefs?.ShowChoices(src)
 		return 1
 
 	if(href_list["ready"])
@@ -122,9 +122,11 @@
 			LateChoices()
 			return
 
-		if(client.prefs.real_name in client.pastcharacters) //if character has been spawned before
-			to_chat(usr, "<span class='notice'>You have played that character before this round, please select a new one!</span>")
-			return
+		// if(client?.prefs?.real_name in client.pastcharacters) //if character has been spawned before
+		// 	to_chat(usr, "<span class='notice'>You have played that character before this round, please select a new one!</span>")
+		// 	return
+
+		//GS13 - commented it out to allow players to rejoin
 
 		if(SSticker.queued_players.len || (relevant_cap && living_player_count() >= relevant_cap && !(ckey(key) in GLOB.admin_datums)))
 			to_chat(usr, "<span class='danger'>[CONFIG_GET(string/hard_popcap_message)]</span>")
@@ -181,7 +183,7 @@
 
 	if(!ready && href_list["preference"])
 		if(client)
-			client.prefs.process_link(src, href_list)
+			client?.prefs?.process_link(src, href_list)
 	else if(!href_list["late_join"])
 		new_player_panel()
 
@@ -288,7 +290,7 @@
 
 	observer.started_as_observer = TRUE
 	src.client.respawn_observing = 1
-	src.client.lastrespawn = world.time + 180 SECONDS //reset respawn.
+	src.client.lastrespawn = world.time + respawn_time SECONDS
 	close_spawn_windows()
 	var/obj/effect/landmark/observer_start/O = locate(/obj/effect/landmark/observer_start) in GLOB.landmarks_list
 	to_chat(src, "<span class='notice'>Now teleporting.</span>")
@@ -301,7 +303,7 @@
 	observer.client = client
 	observer.set_ghost_appearance()
 	if(observer.client && observer.client.prefs)
-		observer.real_name = observer.client.prefs.real_name
+		observer.real_name = observer.client?.prefs?.real_name
 		observer.name = observer.real_name
 		observer.client.init_verbs()
 	observer.update_icon()
@@ -344,11 +346,11 @@
 	if(jobban_isbanned(src,rank))
 		return JOB_UNAVAILABLE_BANNED
 	if(job.whitelist_type) //whitelisting
-		if(job.whitelist_type == "roleplay" && !client.prefs.roleplayroles)
+		if(job.whitelist_type == "roleplay" && !client?.prefs?.roleplayroles)
 			return JOB_UNAVAILABLE_WHITELIST
-		if(job.whitelist_type == "important" && !client.prefs.importantroles)
+		if(job.whitelist_type == "important" && !client?.prefs?.importantroles)
 			return JOB_UNAVAILABLE_WHITELIST
-		if(job.whitelist_type == "silly" && !client.prefs.sillyroles)
+		if(job.whitelist_type == "silly" && !client?.prefs?.sillyroles)
 			return JOB_UNAVAILABLE_WHITELIST
 	if(QDELETED(src))
 		return JOB_UNAVAILABLE_GENERIC
@@ -552,8 +554,8 @@
 					jobline += "<a class='[position_class]' style='display:block;width:170px' href='byond://?src=[REF(src)];SelectedJob=[job.title]'><font color='lime'><b>[job.title] ([job.current_positions])</b></font></a>"
 				else
 					jobline += "<a class='[position_class]' style='display:block;width:170px' href='byond://?src=[REF(src)];SelectedJob=[job.title]'>[job.title] ([job.current_positions])</a>"
-				if(client && client.prefs && client.prefs.alt_titles_preferences[job.title])
-					jobline += "<br><span style='color:#BBBBBB; font-style: italic;'>(as [client.prefs.alt_titles_preferences[job.title]])</span>"
+				if(client && client.prefs && client?.prefs?.alt_titles_preferences[job.title])
+					jobline += "<br><span style='color:#BBBBBB; font-style: italic;'>(as [client?.prefs?.alt_titles_preferences[job.title]])</span>"
 				dat += jobline
 				categorizedJobs[jobcat]["jobs"] -= job
 
@@ -586,9 +588,9 @@
 		if(QDELETED(src))
 			return
 	if(frn)
-		client.prefs.random_character()
-		client.prefs.real_name = client.prefs.pref_species.random_name(gender,1)
-	client.prefs.copy_to(H)
+		client?.prefs?.random_character()
+		client?.prefs?.real_name = client?.prefs?.pref_species.random_name(gender,1)
+	client?.prefs?.copy_to(H)
 
 	H.dna.update_dna_identity()
 	if(mind)

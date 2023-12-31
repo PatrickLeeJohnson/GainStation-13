@@ -61,13 +61,13 @@
 	var/dizziness = 0//Carbon
 	var/jitteriness = 0//Carbon
 
-	///How full is the parent mob?
-	var/fullness = FULLNESS_LEVEL_HALF_FULL
+	var/fullness = FULLNESS_LEVEL_HALF_FULL // GS13
 	var/nutrition = NUTRITION_LEVEL_START_MIN // randomised in Initialize
 	var/thirst = THIRST_LEVEL_START_MIN	//same for this
 	var/satiety = 0//Carbon
 
 	var/overeatduration = 0		// How long this guy is overeating //Carbon
+	var/fullness_reducion_timer = 0 // When was the last time they emoted to reduce their fullness
 	var/a_intent = INTENT_HELP//Living
 	var/list/possible_a_intents = null//Living
 	var/m_intent = MOVE_INTENT_RUN//Living

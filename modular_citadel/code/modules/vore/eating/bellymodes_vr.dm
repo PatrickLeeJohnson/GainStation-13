@@ -35,7 +35,7 @@
 					if(!M.client)
 						continue
 					M.stop_sound_channel(CHANNEL_PREYLOOP) // sanity just in case
-					if(M.client.prefs.cit_toggles & DIGESTION_NOISES)
+					if(M.client?.prefs?.cit_toggles & DIGESTION_NOISES)
 						var/sound/preyloop = sound('sound/vore/prey/loop.ogg', repeat = TRUE)
 						M.playsound_local(get_turf(src),preyloop, 80,0, channel = CHANNEL_PREYLOOP)
 						M.next_preyloop = (world.time + 52 SECONDS)
@@ -73,7 +73,7 @@
 				if((world.time - NORMIE_HEARCHECK) > last_hearcheck)
 					LAZYCLEARLIST(hearing_mobs)
 					for(var/mob/living/H in get_hearers_in_view(3, source))
-						if(!H.client || !(H.client.prefs.cit_toggles & DIGESTION_NOISES))
+						if(!H.client || !(H.client?.prefs?.cit_toggles & DIGESTION_NOISES))
 							continue
 						LAZYADD(hearing_mobs, H)
 					last_hearcheck = world.time
@@ -107,21 +107,20 @@
 				M.visible_message("<span class='notice'>You watch as [owner]'s form loses its additions.</span>")
 
 				owner.nutrition += 400 // so eating dead mobs gives you *something*.
-				//GS13 EDIT
-				
+
+				//GS13 edit
 				var/mob/living/carbon/gainer = owner
 				if(iscarbon(gainer) && owner?.client?.prefs?.weight_gain_food)	
 					var/mob/living/carbon/prey = M
-					if(iscarbon(prey) && prey.fatness)
-						var/fatness_to_add = (prey.fatness * 0.75)
+					if(iscarbon(prey) && prey.fatness_real)
+						var/fatness_to_add = (prey.fatness_real * 0.75)
 						gainer.adjust_fatness(fatness_to_add, FATTENING_TYPE_FOOD)
-				
-				//GS13 EDIT END
+				//GS13 edit end
 
 				if((world.time - NORMIE_HEARCHECK) > last_hearcheck)
 					LAZYCLEARLIST(hearing_mobs)
 					for(var/mob/living/H in get_hearers_in_view(3, source))
-						if(!H.client || !(H.client.prefs.cit_toggles & DIGESTION_NOISES))
+						if(!H.client || !(H.client?.prefs?.cit_toggles & DIGESTION_NOISES))
 							continue
 						LAZYADD(hearing_mobs, H)
 					last_hearcheck = world.time
@@ -156,7 +155,7 @@
 				if((world.time - NORMIE_HEARCHECK) > last_hearcheck)
 					LAZYCLEARLIST(hearing_mobs)
 					for(var/mob/living/H in get_hearers_in_view(3, source))
-						if(!H.client || !(H.client.prefs.cit_toggles & DIGESTION_NOISES))
+						if(!H.client || !(H.client?.prefs?.cit_toggles & DIGESTION_NOISES))
 							continue
 						LAZYADD(hearing_mobs, H)
 					last_hearcheck = world.time
@@ -180,7 +179,7 @@
 			if((world.time - NORMIE_HEARCHECK) > last_hearcheck)
 				LAZYCLEARLIST(hearing_mobs)
 				for(var/mob/living/H in get_hearers_in_view(3, source))
-					if(!H.client || !(H.client.prefs.cit_toggles & DIGESTION_NOISES))
+					if(!H.client || !(H.client?.prefs?.cit_toggles & DIGESTION_NOISES))
 						continue
 					LAZYADD(hearing_mobs, H)
 				last_hearcheck = world.time
@@ -200,7 +199,7 @@
 				if((world.time - NORMIE_HEARCHECK) > last_hearcheck)
 					LAZYCLEARLIST(hearing_mobs)
 					for(var/mob/living/H in get_hearers_in_view(3, source))
-						if(!H.client || !(H.client.prefs.cit_toggles & DIGESTION_NOISES))
+						if(!H.client || !(H.client?.prefs?.cit_toggles & DIGESTION_NOISES))
 							continue
 						LAZYADD(hearing_mobs, H)
 					last_hearcheck = world.time
@@ -242,7 +241,7 @@
 				if((world.time - NORMIE_HEARCHECK) > last_hearcheck)
 					LAZYCLEARLIST(hearing_mobs)
 					for(var/mob/living/H in get_hearers_in_view(3, source))
-						if(!H.client || !(H.client.prefs.cit_toggles & DIGESTION_NOISES))
+						if(!H.client || !(H.client?.prefs?.cit_toggles & DIGESTION_NOISES))
 							continue
 						LAZYADD(hearing_mobs, H)
 					last_hearcheck = world.time
@@ -275,7 +274,7 @@
 				if((world.time - NORMIE_HEARCHECK) > last_hearcheck)
 					LAZYCLEARLIST(hearing_mobs)
 					for(var/mob/living/H in get_hearers_in_view(3, source))
-						if(!H.client || !(H.client.prefs.cit_toggles & DIGESTION_NOISES))
+						if(!H.client || !(H.client?.prefs?.cit_toggles & DIGESTION_NOISES))
 							continue
 						LAZYADD(hearing_mobs, H)
 					last_hearcheck = world.time

@@ -23,7 +23,7 @@
 	description = "A volatile collodial mixture derived from milk that encourages mammary production via a potent estrogen mix."
 	color = "#E60584" // rgb: 96, 0, 255
 	taste_description = "a milky ice cream like flavour."
-	overdose_threshold = 17
+	overdose_threshold = 50
 	metabolization_rate = 0.25
 	impure_chem 			= /datum/reagent/fermi/BEsmaller //If you make an inpure chem, it stalls growth
 	inverse_chem_val 		= 0.35
@@ -113,23 +113,27 @@
 	var/obj/item/organ/genital/vagina/V = M.getorganslot("vagina")
 	var/obj/item/organ/genital/womb/W = M.getorganslot("womb")
 
+	// GS13: Do not touch organs unless transitioning.
+	// Some female characters have breasts but no vagina or womb and do not wish to gain these organs.
+	// The same behaviour should apply to transitioning male characters. 
 	if(M.gender == MALE)
 		M.gender = FEMALE
-		M.visible_message("<span class='boldnotice'>[M] suddenly looks more feminine!</span>", "<span class='boldwarning'>You suddenly feel more feminine!</span>")
-
-	if(P)
-		P.cached_length = P.cached_length - 0.05
-		P.update()
-	if(T)
-		T.Remove(M)
-	if(!V)
-		var/obj/item/organ/genital/vagina/nV = new
-		nV.Insert(M)
-		V = nV
-	if(!W)
-		var/obj/item/organ/genital/womb/nW = new
-		nW.Insert(M)
-		W = nW
+		M.visible_message(
+			"<span class='boldnotice'>[M] suddenly looks more feminine!</span>",
+			"<span class='boldwarning'>You suddenly feel more feminine!</span>")
+		if(P)
+			P.cached_length = P.cached_length - 0.05
+			P.update()
+		if(T)
+			T.Remove(M)
+		if(!V)
+			var/obj/item/organ/genital/vagina/nV = new
+			nV.Insert(M)
+			V = nV
+		if(!W)
+			var/obj/item/organ/genital/womb/nW = new
+			nW.Insert(M)
+			W = nW
 	..()
 
 /datum/reagent/fermi/BEsmaller
@@ -306,21 +310,25 @@
 	var/obj/item/organ/genital/vagina/V = M.getorganslot("vagina")
 	var/obj/item/organ/genital/womb/W = M.getorganslot("womb")
 
+	// GS13: Do not touch organs unless transitioning.
+	// Some female characters have breasts but no vagina or womb and do not wish to gain these organs.
+	// The same behaviour should apply to transitioning male characters. 
 	if(M.gender == FEMALE)
 		M.gender = MALE
-		M.visible_message("<span class='boldnotice'>[M] suddenly looks more masculine!</span>", "<span class='boldwarning'>You suddenly feel more masculine!</span>")
-
-	if(B)
-		B.cached_size = B.cached_size - 0.05
-		B.update()
-	if(V)
-		V.Remove(M)
-	if(W)
-		W.Remove(M)
-	if(!T)
-		var/obj/item/organ/genital/testicles/nT = new
-		nT.Insert(M)
-		T = nT
+		M.visible_message(
+			"<span class='boldnotice'>[M] suddenly looks more masculine!</span>",
+			"<span class='boldwarning'>You suddenly feel more masculine!</span>")
+		if(B)
+			B.cached_size = B.cached_size - 0.05
+			B.update()
+		if(V)
+			V.Remove(M)
+		if(W)
+			W.Remove(M)
+		if(!T)
+			var/obj/item/organ/genital/testicles/nT = new
+			nT.Insert(M)
+			T = nT
 	..()
 
 /datum/reagent/fermi/PEsmaller // Due to cozmo's request...!

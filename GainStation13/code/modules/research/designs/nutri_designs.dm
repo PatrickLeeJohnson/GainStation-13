@@ -22,10 +22,6 @@
 	category = list("Weapons")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_SECURITY
 
-
-// FIX THOSE VALUES LATER!!
-
-
 /datum/design/calorite_collar
 	name = "Calorite Collar"
 	desc = "A collar that amplifies caloric intake of the wearer."
@@ -34,6 +30,17 @@
 	materials = list(MAT_METAL = 1000, MAT_CALORITE = 4000)
 	construction_time = 75
 	build_path = /obj/item/clothing/neck/petcollar/calorite
-	category = list("Equipment") // FIX THIS CATEGORY LATER, FORGOT THEIR NAMES LUL
+	category = list("Equipment", "Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/cyberimp_nutriment_turbo
+	name = "Nutriment Pump Implant TURBO"
+	desc = "This implant was meant to prevent people from going hungry, but due to a flaw in its designs, it permanently produces a small amount of nutriment overtime."
+	id = "ci-nutrimentturbo"
+	build_type = PROTOLATHE | MECHFAB
+	construction_time = 100
+	materials = list(MAT_METAL = 800, MAT_GLASS = 800, MAT_GOLD = 750, MAT_URANIUM = 1000)
+	build_path = /obj/item/organ/cyberimp/chest/nutriment/turbo
+	category = list("Misc", "Medical Designs")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 

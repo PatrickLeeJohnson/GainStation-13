@@ -117,6 +117,16 @@
 	if(quirk_holder)
 		quirk_holder.remove_client_colour(/datum/client_colour/monochrome)
 
+/datum/quirk/lipolicide_tolerance //GS13
+	name = "Lipolicide Tolerance"
+	desc = "Whether because your liver turned resistant to weight-loss chemicals, or just because your genes were aligned this way, your body barely processes lipolicide."
+	mob_trait = TRAIT_LIPOLICIDE_TOLERANCE
+	value = 0
+	category = CATEGORY_SEXUAL
+	gain_text = "<span class='notice'>You feel like you need to watch what to eat.</span>"
+	lose_text = "<span class='notice'>You feel like you can be careless with your diet.</span>"
+	medical_record_text = "Patient's digestive system exhibits strong resistance to lipolicide."
+
 /datum/quirk/crocrin_immunity
 	name = "Crocin Immunity"
 	desc = "You're one of the few people in the galaxy who are genetically immune to Crocin and Hexacrocin products and their addictive properties! However, you can still get brain damage from Hexacrocin addiction."
@@ -152,14 +162,6 @@
 	value = 0
 	category = CATEGORY_SEXUAL	//Any better place to put it? Doesn't really affect gameplay
 	medical_record_text = "Patient cares little with or dislikes being touched."
-
-/datum/quirk/weak_legs
-	name = "Weak legs"
-	desc = "Your legs can't handle the heaviest of charges. Being too fat will render you unable to move at all."
-	mob_trait = TRAIT_WEAKLEGS
-	value = 0
-	category = CATEGORY_SEXUAL
-	medical_record_text = "Patient's legs seem to lack strength"
 
 /datum/quirk/SpawnWithWheelchair
 	name = "Mobility Assistance"
@@ -208,7 +210,7 @@
 		var/datum/species/species = H.dna.species
 		species.disliked_food = initial(species.disliked_food)
 
-/datum/quirk/fatness_liker
+/datum/quirk/fatness_liker //GS13
 	name = "Fat Affinity"
 	desc = "You like being fat, alot, maybe even a little bit too much. Being fat gives you a bigger mood boost."
 	mob_trait = TRAIT_FAT_GOOD
@@ -216,7 +218,7 @@
 	category = CATEGORY_MOODS
 	medical_record_text = "Patient seems overly content with gaining weight."
 
-/datum/quirk/fatness_hater
+/datum/quirk/fatness_hater //GS13
 	name = "Fat Aversion"
 	desc = "You dislike being fat. Being fat brings your mood down, alot."
 	mob_trait = TRAIT_FAT_BAD
