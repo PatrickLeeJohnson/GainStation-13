@@ -40,7 +40,7 @@
 	var/is_wet = TRUE						// Is this belly inside slimy parts?
 
 	//I don't think we've ever altered these lists. making them static until someone actually overrides them somewhere.
-	var/tmp/static/list/digest_modes = list(DM_HOLD,DM_DIGEST,DM_HEAL,DM_NOISY,DM_ABSORB,DM_UNABSORB)	// Possible digest modes
+	var/tmp/static/list/digest_modes = list(DM_HOLD,DM_DIGEST,DM_HEAL,DM_NOISY,DM_ABSORB,DM_UNABSORB, DM_FATTEN)	// Possible digest modes
 
 	var/tmp/mob/living/owner					// The mob whose belly this is.
 	var/tmp/digest_mode = DM_HOLD				// Current mode the belly is set to from digest_modes (+transform_modes if human)
@@ -227,6 +227,10 @@
 	items_preserved.Cut()
 	owner.update_icons()
 
+	if(iscarbon(owner))
+		var/mob/living/carbon/predator = owner
+		predator.hider_remove(src)
+	
 	return count
 
 // Release a specific atom from the contents of this belly into the owning mob's location.
@@ -273,6 +277,18 @@
 	if(!silent)
 		owner.visible_message("<font color='green'><b>[owner] expels [M] from their [lowertext(name)]!</b></font>")
 	owner.update_icons()
+
+	if(iscarbon(owner))
+		var/mob/living/carbon/predator = owner
+		var/found = FALSE
+		for(var/prey in contents)
+			if(istype(prey, /mob/living/carbon))
+				found = TRUE
+		if(found)
+			predator.hider_add(src)
+		else
+			predator.hider_remove(src)
+
 	return TRUE
 
 // Actually perform the mechanics of devouring the tasty prey.
@@ -301,7 +317,7 @@
 
 	// Setup the autotransfer checks if needed
 	if(transferlocation != null && autotransferchance > 0)
-		addtimer(CALLBACK(src, /obj/belly/.proc/check_autotransfer, prey), autotransferwait)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/belly/,check_autotransfer), prey), autotransferwait)
 
 /obj/belly/proc/check_autotransfer(var/mob/prey, var/obj/belly/target)
 	// Some sanity checks
@@ -310,7 +326,7 @@
 			transfer_contents(prey, transferlocation)
 		else
 			// Didn't transfer, so wait before retrying
-			addtimer(CALLBACK(src, /obj/belly/.proc/check_autotransfer, prey), autotransferwait)
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/belly/,check_autotransfer), prey), autotransferwait)
 
 //Transfers contents from one belly to another
 /obj/belly/proc/transfer_contents(var/atom/movable/content, var/obj/belly/target, silent = FALSE)
@@ -679,3 +695,11 @@
 		for(var/I in emote_lists[K])
 			dupe.emote_lists[K] += I
 	return dupe
+
+/obj/belly/proc/fat_hide(var/mob/living/carbon/user)
+	var/preys_fatness = 0
+	for(var/prey in contents)
+		if(iscarbon(prey))
+			var/mob/living/carbon/cprey = prey
+			preys_fatness += cprey.fatness
+	return preys_fatness

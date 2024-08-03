@@ -163,7 +163,7 @@ Bartender
 	department_head = list("Head of Personnel")
 	department_flag = CIVILIAN
 	faction = "Station"
-	total_positions = 1
+	total_positions = 2
 	spawn_positions = 1
 	supervisors = "the head of personnel"
 	selection_color = "#bbe291"
@@ -215,7 +215,7 @@ Cook
 	uniform = /obj/item/clothing/under/rank/chef
 	suit = /obj/item/clothing/suit/toggle/chef
 	head = /obj/item/clothing/head/chefhat
-	mask = /obj/item/clothing/mask/fakemoustache/italian
+	// mask = /obj/item/clothing/mask/fakemoustache/italian //bad!
 	backpack_contents = list(/obj/item/sharpener = 1)
 
 /datum/outfit/job/cook/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)

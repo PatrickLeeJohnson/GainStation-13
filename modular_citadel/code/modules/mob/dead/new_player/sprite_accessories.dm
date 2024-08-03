@@ -298,6 +298,14 @@ datum/sprite_accessory/ears/human/gret
 	icon = 'modular_citadel/icons/mob/mam_ears.dmi'
 	color_src = MATRIXED
 
+/datum/sprite_accessory/mam_ears/sylv_pip //ported from Virgo
+    name = "Sylveon"
+    icon_state = "pipears"
+
+/datum/sprite_accessory/mam_ears/dragon //ported from Virgo
+    name = "Dragon Horns"
+    icon_state = "dragon"
+
 /datum/sprite_accessory/ears/fish
 	name = "Fish"
 	icon_state = "fish"
@@ -1900,6 +1908,31 @@ datum/sprite_accessory/mam_tails/insect
 /datum/sprite_accessory/taur/gator //ported from Vorestation
 	name = "Gator"
 	icon_state = "gator"
+
+/datum/sprite_accessory/taur/fatdrake //ported from Vorestation
+	name = "Fat Drake"
+	icon_state = "fatdrake"
+/datum/sprite_accessory/taur/fatwolf //ported from Vorestation
+	name = "Fat Wolf"
+	icon_state = "fatwolf"
+	color_src = MUTCOLORS
+/datum/sprite_accessory/taur/fatliz //ported from Vorestation
+	name = "Fat Lizard"
+	icon_state = "fatliz"
+	color_src = MUTCOLORS
+/datum/sprite_accessory/taur/longtailfluff //ported from Vorestation
+	name = "Long Fluffy Tail"
+	icon_state = "longtailfluff"
+	color_src = MUTCOLORS
+/datum/sprite_accessory/taur/fatsynthwolf //ported from Vorestation
+	name = "Fat Synth Wolf"
+	icon_state = "fatsynthwolf"
+	color_src = MUTCOLORS
+/datum/sprite_accessory/taur/bigleggies //ported from Vorestation
+	name = "Big Leggies"
+	icon_state = "bigleggy"
+	color_src = MUTCOLORS
+
 
 /datum/sprite_accessory/taur/otie
 	name = "Otie"

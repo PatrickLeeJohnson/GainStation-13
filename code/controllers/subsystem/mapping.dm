@@ -131,7 +131,7 @@ SUBSYSTEM_DEF(mapping)
 		message_admins("Shuttles in transit detected. Attempting to fast travel. Timeout is [wipe_safety_delay/10] seconds.")
 	var/list/cleared = list()
 	for(var/i in in_transit)
-		INVOKE_ASYNC(src, .proc/safety_clear_transit_dock, i, in_transit[i], cleared)
+		INVOKE_ASYNC(src,PROC_REF(safety_clear_transit_dock), i, in_transit[i], cleared)
 	UNTIL((go_ahead < world.time) || (cleared.len == in_transit.len))
 	do_wipe_turf_reservations()
 	clearing_reserved_turfs = FALSE
@@ -258,6 +258,7 @@ SUBSYSTEM_DEF(mapping)
 		LoadGroup(FailedZs, "Lavaland_Demone", "map_files/Mining", "Lavaland_Demone.dmm", default_traits = ZTRAITS_LAVALAND_UNDERRGOUND)
 		LoadGroup(FailedZs, "Lavaland", "map_files/Mining", "Lavaland.dmm", default_traits = ZTRAITS_LAVALAND)
 		LoadGroup(FailedZs, "Diner", "map_files/hyper", "Diner.dmm", default_traits = ZTRAITS_DINER)
+		LoadGroup(FailedZs, "Fast_Food", "map_files/gs13", "Fast_Food.dmm", default_traits = ZTRAITS_FASTFOOD) //GS13
 	else if (!isnull(config.minetype))
 		INIT_ANNOUNCE("WARNING: An unknown minetype '[config.minetype]' was set! This is being ignored! Update the maploader code!")
 #endif

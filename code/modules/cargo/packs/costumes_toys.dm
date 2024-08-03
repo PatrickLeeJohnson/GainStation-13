@@ -393,3 +393,13 @@
 					/obj/item/vending_refill/kink,
 					/obj/item/vending_refill/kink)
 	crate_name = "Kinkmate kit"
+
+
+/datum/supply_pack/costumes_toys/haydee //GS13
+	name = "H4Y-D33 Suit Crate"
+	desc = "A crate with a strange, futuristic white suit."
+	cost = 7000
+	contraband = TRUE
+	contains = list(/obj/item/clothing/suit/space/hardsuit/engine/haydee,
+					/obj/item/gun/ballistic/automatic/pistol/haydee)
+	crate_name = "suit crate"

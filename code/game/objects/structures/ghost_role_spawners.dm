@@ -296,7 +296,7 @@
 	outfit = /datum/outfit/lavalandprisoner
 	roundstart = FALSE
 	death = FALSE
-	short_desc = "You're a prisoner, sentenced to hard work in one of Nanotrasen's labor camps, but it seems as \
+	short_desc = "You're a prisoner, sentenced to hard work in one of GATO's labor camps, but it seems as \
 	though fate has other plans for you."
 	flavour_text = "Good. It seems as though your ship crashed. You remember that you were convicted of "
 	assignedrole = "Escaped Prisoner"
@@ -423,7 +423,7 @@
 		id.update_label()
 	else
 		to_chat(L, "<span class='userdanger'>Your owner is already dead!  You will soon perish.</span>")
-		addtimer(CALLBACK(L, /mob.proc/dust, 150)) //Give em a few seconds as a mercy.
+		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, dust), 150)) //Give em a few seconds as a mercy.
 
 /datum/outfit/demonic_friend
 	name = "Demonic Friend"

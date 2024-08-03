@@ -107,6 +107,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/starting_weight = 0				//how thicc you wanna be at start
 	var/wg_rate = 0.5
 	var/wl_rate = 0.5
+	var/voice = "human"
 
 	//HS13 jobs
 	var/sillyroles = TRUE //for clown and mime
@@ -446,6 +447,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<h2>Body</h2>"
 			dat += "<b>Gender:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=gender'>[gender == MALE ? "Male" : (gender == FEMALE ? "Female" : (gender == PLURAL ? "Non-binary" : "Object"))]</a><BR>"
 			dat += "<b>Species:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=species;task=input'>[pref_species.id]</a><BR>"
+			dat += "<b>Voice:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=voice_select;task=input'>[voice ? voice : "None"]</a><BR>"
 			dat += "<b>Custom Species Name:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=custom_species;task=input'>[custom_species ? custom_species : "None"]</a><BR>"
 			dat += "<a style='display:block;width:100px' href='?_src_=prefs;preference=all;task=random'>Random Body</A><BR>"
 			dat += "<b>Always Random Body:</b><a href='?_src_=prefs;preference=all'>[be_random_body ? "Yes" : "No"]</A><BR>"
@@ -893,6 +895,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=balls_fluid;task=input'>Femcum</a>"
 							if(/datum/reagent/consumable/alienhoney)
 								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=balls_fluid;task=input'>Honey</a>"
+							if(/datum/reagent/consumable/nutriment)
+								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=balls_fluid;task=input'>Nutriment</a>"
+							if(/datum/reagent/blueberry_juice)
+								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=balls_fluid;task=input'>Berry Juice</a>"
 							else
 								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=balls_fluid;task=input'>Nothing?</a>"
 							//This else is a safeguard for errors, and if it happened, they wouldn't be able to change this pref,
@@ -909,8 +915,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						dat += "<b>Vagina Color:</b></a><BR>"
 						dat += "<span style='border: 1px solid #161616; background-color: #[features["vag_color"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=vag_color;task=input'>Change</a><br>"
 					dat += "<b>Has Womb:</b><a style='display:block;width:50px' href='?_src_=prefs;preference=has_womb'>[features["has_womb"] == TRUE ? "Yes" : "No"]</a>"
-				if(features["has_womb"])
-					dat += "<b>Can Get Pregnant:</b><a style='display:block;width:50px' href='?_src_=prefs;preference=can_get_preg'>[features["can_get_preg"] == TRUE ? "Yes" : "No"]</a>"
 				dat += "</td>"
 				dat += APPEARANCE_CATEGORY_COLUMN
 				dat += "<h3>Breasts</h3>"
@@ -940,6 +944,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=breasts_fluid;task=input'>Honey</a>"
 							if(/datum/reagent/consumable/pinkmilk)
 								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=breasts_fluid;task=input'>Strawberry Milk</a>"
+							if(/datum/reagent/consumable/nutriment)
+								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=breasts_fluid;task=input'>Nutriment</a>"
+							if(/datum/reagent/blueberry_juice)
+								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=breasts_fluid;task=input'>Berry Juice</a>"
 							else
 								dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=breasts_fluid;task=input'>Nothing?</a>"
 							//This else is a safeguard for errors, and if it happened, they wouldn't be able to change this pref,
@@ -1055,6 +1063,25 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Weight Gain - Weapons:</b><a href='?_src_=prefs;preference=weight_gain_weapons'>[weight_gain_weapons == TRUE ? "Enabled" : "Disabled"]</a><BR>"
 			dat += "<b>Weight Gain - Magic:</b><a href='?_src_=prefs;preference=weight_gain_magic'>[weight_gain_magic == TRUE ? "Enabled" : "Disabled"]</a><BR>"
 			dat += "<b>Weight Gain - Viruses:</b><a href='?_src_=prefs;preference=weight_gain_viruses'>[weight_gain_viruses == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Weight Gain - Nanites:</b><a href='?_src_=prefs;preference=weight_gain_nanites'>[weight_gain_nanites == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Blueberry Inflation:</b><a href='?_src_=prefs;preference=blueberry_inflation'>[blueberry_inflation == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+
+			dat += "<h2>GS13 Gameplay Preferences</h2>"
+			dat += "<b>Stuckage (weight results in getting stuck in doors):</b><a href='?_src_=prefs;preference=stuckage'>[stuckage == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Extreme Weight Gain (Sprite Size scales with weight):</b><a href='?_src_=prefs;preference=weight_gain_extreme'>[weight_gain_extreme == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+
+			dat += "<h2>GS13 Helplessness Preferences</h2>"
+			dat += "<b>Please be careful when using these mechanics as not to use them in a way that negatively impacts those around you. If you are seriously needed for something, especially something station critical, do not use these as an excuse to ignore your duty.</b><BR><BR>"
+			dat += "<b>No Movement:</b><a href='?_src_=prefs;preference=helplessness_no_movement'>[helplessness_no_movement == FALSE ? "Disabled" : helplessness_no_movement]</a><BR>"
+			dat += "<b>Clumsy:</b><a href='?_src_=prefs;preference=helplessness_clumsy'>[helplessness_clumsy == FALSE ? "Disabled" : helplessness_clumsy]</a><BR>"
+			dat += "<b>Nearsighted:</b><a href='?_src_=prefs;preference=helplessness_nearsighted'>[helplessness_nearsighted == FALSE ? "Disabled" : helplessness_nearsighted]</a><BR>"
+			dat += "<b>Hidden Face:</b><a href='?_src_=prefs;preference=helplessness_hidden_face'>[helplessness_hidden_face == FALSE ? "Disabled" : helplessness_hidden_face]</a><BR>"
+			dat += "<b>Mute:</b><a href='?_src_=prefs;preference=helplessness_mute'>[helplessness_mute == FALSE ? "Disabled" : helplessness_mute]</a><BR>"
+			dat += "<b>Immobile Arms:</b><a href='?_src_=prefs;preference=helplessness_immobile_arms'>[helplessness_immobile_arms == FALSE ? "Disabled" : helplessness_immobile_arms]</a><BR>"
+			dat += "<b>Clothing Jumpsuit:</b><a href='?_src_=prefs;preference=helplessness_clothing_jumpsuit'>[helplessness_clothing_jumpsuit == FALSE ? "Disabled" : helplessness_clothing_jumpsuit]</a><BR>"
+			dat += "<b>Clothing, Suit, Boots, and Gloves:</b><a href='?_src_=prefs;preference=helplessness_clothing_misc'>[helplessness_clothing_misc == FALSE ? "Disabled" : helplessness_clothing_misc]</a><BR>"
+			dat += "<b>Clothing Back:</b><a href='?_src_=prefs;preference=helplessness_clothing_back'>[helplessness_clothing_back == FALSE ? "Disabled" : helplessness_clothing_back]</a><BR>"
+			dat += "<b>No Buckle:</b><a href='?_src_=prefs;preference=helplessness_no_buckle'>[helplessness_no_buckle == FALSE ? "Disabled" : helplessness_no_buckle]</a><BR>"
 
 			//Add the Hyper stuff below here
 			dat += "<h2>Hyper Preferences</h2>"
@@ -1982,6 +2009,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					else
 						custom_species = null
 
+				if("voice_select")
+					var/chosenvoice = input(user, "Select your character's voice.", "Voice Selection", voice) in list("human", "roach", "lizard")
+					voice = chosenvoice
+
 				if("mutant_color")
 					var/new_mutantcolor = input(user, "Choose your character's alien/mutant color:", "Character Preference","#"+features["mcolor"]) as color|null
 					if(new_mutantcolor)
@@ -2381,6 +2412,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							features["balls_fluid"] = /datum/reagent/consumable/alienhoney
 						if("Strawberry Milk")
 							features["balls_fluid"] = /datum/reagent/consumable/pinkmilk
+						if("Nutriment")
+							features["balls_fluid"] = /datum/reagent/consumable/nutriment
+						if("Berry Juice")
+							features["balls_fluid"] = /datum/reagent/blueberry_juice
 
 				if("egg_size")
 					var/new_size
@@ -2426,6 +2461,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							features["breasts_fluid"] = /datum/reagent/consumable/alienhoney
 						if("Strawberry Milk")
 							features["breasts_fluid"] = /datum/reagent/consumable/pinkmilk
+						if("Nutriment")
+							features["breasts_fluid"] = /datum/reagent/consumable/nutriment
+						if("Berry Juice")
+							features["breasts_fluid"] = /datum/reagent/blueberry_juice
 
 				if("breasts_color")
 					var/new_breasts_color = input(user, "Breast Color:", "Character Preference", "#"+features["breasts_color"]) as color|null
@@ -2615,33 +2654,39 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					weight_gain_magic = !weight_gain_magic
 				if("weight_gain_viruses")
 					weight_gain_viruses = !weight_gain_viruses
+				if("weight_gain_nanites")
+					weight_gain_nanites = !weight_gain_nanites
+				if("weight_gain_extreme")
+					weight_gain_extreme = !weight_gain_extreme
 				if("noncon_weight_gain")
 					noncon_weight_gain = !noncon_weight_gain
+				if("stuckage")
+					stuckage = !stuckage
+				if("blueberry_inflation")
+					blueberry_inflation = !blueberry_inflation
 				if("max_fatness")
-					var/pickedweight = input(user,
-						"Choose your max fatness level, your weight will not go beyond this. None will let you gain without a limit",
-						"Character Preference", "None") as null|anything in list(
-							"None", "Fat", "Fatter", "Very Fat", "Obese", "Morbidly Obese", "Extremely Obese", "Barely Mobile", "Immobile")
-					if(pickedweight)
-						switch(pickedweight)
-							if("None")
-								max_weight = FALSE 
-							if("Fat")
-								max_weight = FATNESS_LEVEL_FATTER 
-							if("Fatter")
-								max_weight = FATNESS_LEVEL_VERYFAT
-							if("Very Fat")
-								max_weight = FATNESS_LEVEL_OBESE
-							if("Obese")
-								max_weight = FATNESS_LEVEL_MORBIDLY_OBESE
-							if("Morbidly Obese")
-								max_weight = FATNESS_LEVEL_EXTREMELY_OBESE
-							if("Extremely Obese")
-								max_weight = FATNESS_LEVEL_BARELYMOBILE
-							if("Barely Mobile")
-								max_weight = FATNESS_LEVEL_IMMOBILE
-							if("Immobile")
-								max_weight = FATNESS_LEVEL_BLOB
+					max_weight = chose_weight("Choose your max fatness level, your weight will not go beyond this. None will let you gain without a limit", user)
+
+				if("helplessness_no_movement")
+					helplessness_no_movement = chose_weight("Choose the level of fatness that you would like to be made completely able to move at. None will disable this alltogether", user)
+				if("helplessness_clumsy")
+					helplessness_clumsy = chose_weight("Choose the level of fatness that you would like to be made clumsy at. None will disable this alltogether", user)
+				if("helplessness_nearsighted")
+					helplessness_nearsighted = chose_weight("Choose the level of fatness that you would like to be made nearsighted at. None will disable this alltogether", user)
+				if("helplessness_hidden_face")
+					helplessness_hidden_face = chose_weight("Choose the level of fatness that you would like to have you face hidden at. None will disable this alltogether", user)
+				if("helplessness_mute")
+					helplessness_mute = chose_weight("Choose the level of fatness that you would like to be made unable to speak at. None will disable this alltogether", user)
+				if("helplessness_immobile_arms")
+					helplessness_immobile_arms = chose_weight("Choose the level of fatness that you would like to be made unable to use your arms at. None will disable this alltogether", user)
+				if("helplessness_clothing_jumpsuit")
+					helplessness_clothing_jumpsuit = chose_weight("Choose the level of fatness that you would like to be made unable to wear jumpsuits at. None will disable this alltogether", user)
+				if("helplessness_clothing_misc")
+					helplessness_clothing_misc = chose_weight("Choose the level of fatness that you would like to be made unable to wear other non-jumpsuit clothing at. None will disable this alltogether", user)
+				if("helplessness_clothing_back")
+					helplessness_clothing_back = chose_weight("Choose the level of fatness that you would like to be made unable to wear anything on your back at. None will disable this alltogether", user)
+				if("helplessness_no_buckle")
+					helplessness_no_buckle = chose_weight("Choose the level of fatness that you would like to be made unable to be buckled to anything at. None will disable this alltogether", user)
 
 				if("inflatable_belly")
 					features["inflatable_belly"] = !features["inflatable_belly"]
@@ -2927,6 +2972,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	character.name = character.real_name
 	character.nameless = nameless
 	character.custom_species = custom_species
+	character.voice = voice
 
 	//h13 character custom body size, make sure to set to 100% if the player hasn't choosen one yet.
 	character.custom_body_size = body_size

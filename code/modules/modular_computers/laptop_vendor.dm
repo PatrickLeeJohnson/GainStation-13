@@ -2,7 +2,7 @@
 
 /obj/machinery/lapvend
 	name = "computer vendor"
-	desc = "A vending machine with microfabricator capable of dispensing various NT-branded computers."
+	desc = "A vending machine with microfabricator capable of dispensing various GATO-branded computers."
 	icon = 'icons/obj/vending.dmi'
 	icon_state = "robotics"
 	layer = 2.9
@@ -306,6 +306,6 @@
 			credits -= total_price
 			say("Enjoy your new product!")
 			state = 3
-			addtimer(CALLBACK(src, .proc/reset_order), 100)
+			addtimer(CALLBACK(src,PROC_REF(reset_order)), 100)
 			return TRUE
 		return FALSE

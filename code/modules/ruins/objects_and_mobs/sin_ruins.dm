@@ -24,7 +24,7 @@
 		know it'll be worth it.</span>")
 	icon_state = "slots2"
 	playsound(src, 'sound/lavaland/cursed_slot_machine.ogg', 50, 0)
-	addtimer(CALLBACK(src, .proc/determine_victor, user), 50)
+	addtimer(CALLBACK(src,PROC_REF(determine_victor), user), 50)
 
 /obj/structure/cursed_slot_machine/proc/determine_victor(mob/living/user)
 	icon_state = "slots1"
@@ -50,7 +50,7 @@
 
 /obj/structure/cursed_money/Initialize()
 	. = ..()
-	addtimer(CALLBACK(src, .proc/collapse), 600)
+	addtimer(CALLBACK(src,PROC_REF(collapse)), 600)
 
 /obj/structure/cursed_money/proc/collapse()
 	visible_message("<span class='warning'>[src] falls in on itself, \
@@ -258,7 +258,7 @@
 				to_chat(user, "<span class='notice'>You swallow a gulp of [src].</span>")
 			var/fraction = min(5/reagents.total_volume, 1)
 			reagents.reaction(M, INGEST, fraction)
-			addtimer(CALLBACK(reagents, /datum/reagents.proc/trans_to, M, 5), 5)
+			addtimer(CALLBACK(reagents, TYPE_PROC_REF(/datum/reagents, trans_to), M, 5), 5)
 			playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
 
 /obj/structure/lewdfountain

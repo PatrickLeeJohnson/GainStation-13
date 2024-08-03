@@ -6,13 +6,13 @@
 	id = "base"
 	starting_node = TRUE
 	display_name = "Basic Research Technology"
-	description = "NT default research technologies."
+	description = "GATO default research technologies."
 	// Default research tech, prevents bricking
 	design_ids = list("basic_matter_bin", "basic_cell", "basic_scanning", "basic_capacitor", "basic_micro_laser", "micro_mani",
 	"destructive_analyzer", "circuit_imprinter", "experimentor", "rdconsole", "design_disk", "tech_disk", "rdserver", "rdservercontrol", "mechfab",
 	"space_heater", "xlarge_beaker", "sec_rshot", "sec_bshot", "sec_slug", "sec_Islug", "sec_dart", "sec_38", "sec_38lethal",
 	"rglass","plasteel","plastitanium","plasmaglass","plasmareinforcedglass","titaniumglass","plastitaniumglass","chem_pack","medkit_cabinet",
-	"disposable_hypospray","plastic_knife","plastic_fork","plastic_spoon","large_beaker")
+	"disposable_hypospray","plastic_knife","plastic_fork","plastic_spoon","large_beaker", "adipoelectric_generator")
 
 /datum/techweb_node/mmi
 	id = "mmi"
@@ -285,7 +285,7 @@
 	display_name = "Applied Bluespace Research"
 	description = "Using bluespace to make things faster and better."
 	prereq_ids = list("bluespace_basic", "engineering")
-	design_ids = list("bs_rped","biobag_holding","minerbag_holding", "bluespacebeaker", "bluespacesyringe", "phasic_scanning", "bluespacesmartdart", "xenobio_slimebasic")
+	design_ids = list("bs_rped","biobag_holding","minerbag_holding", "tray_holding", "bluespacebeaker", "bluespacesyringe", "phasic_scanning", "bluespacesmartdart", "xenobio_slimebasic")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
 
@@ -377,7 +377,7 @@
 	display_name = "Advanced Robotics Research"
 	description = "It can even do the dishes!"
 	prereq_ids = list("robotics")
-	design_ids = list("borg_upgrade_diamonddrill", "borg_upgrade_advancedmop")
+	design_ids = list("borg_upgrade_diamonddrill", "borg_upgrade_advancedmop", "borg_arcd")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3000)
 	export_price = 5000
 
@@ -403,7 +403,7 @@
 	display_name = "Cyborg Upgrades: Utility"
 	description = "Utility upgrades for cyborgs."
 	prereq_ids = list("engineering", "robotics")
-	design_ids = list("borg_upgrade_holding", "borg_upgrade_lavaproof", "borg_upgrade_thrusters", "borg_upgrade_selfrepair", "borg_upgrade_expand", "borg_upgrade_rped")
+	design_ids = list("borg_upgrade_holding", "borg_upgrade_lavaproof", "borg_upgrade_thrusters", "borg_upgrade_selfrepair", "borg_upgrade_expand", "borg_upgrade_rped", "borg_tray_hold")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 	export_price = 5000
 
@@ -465,15 +465,15 @@
 	export_price = 5000
 
 /////////////////////////Clown tech/////////////////////////
-/datum/techweb_node/clown
-	id = "clown"
-	display_name = "Clown Technology"
-	description = "Honk?!"
-	prereq_ids = list("base")
-	design_ids = list("air_horn", "honker_main", "honker_peri", "honker_targ", "honk_chassis", "honk_head", "honk_torso", "honk_left_arm", "honk_right_arm",
-	"honk_left_leg", "honk_right_leg", "mech_banana_mortar", "mech_mousetrap_mortar", "mech_honker", "mech_punching_face", "implant_trombone", "borg_transform_clown")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
-	export_price = 5000
+// /datum/techweb_node/clown
+// 	id = "clown"
+// 	display_name = "Clown Technology"
+// 	description = "Honk?!"
+// 	prereq_ids = list("base")
+// 	design_ids = list("air_horn", "honker_main", "honker_peri", "honker_targ", "honk_chassis", "honk_head", "honk_torso", "honk_left_arm", "honk_right_arm",
+// 	"honk_left_leg", "honk_right_leg", "mech_banana_mortar", "mech_mousetrap_mortar", "mech_honker", "mech_punching_face", "implant_trombone", "borg_transform_clown")
+// 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+// 	export_price = 5000
 	
 ////////////////////////Computer tech////////////////////////
 /datum/techweb_node/comptech
@@ -999,7 +999,7 @@
 	description = "Nanite programs that require complex biological interaction."
 	prereq_ids = list("nanite_base","biotech")
 	design_ids = list("regenerative_nanites", "bloodheal_nanites", "coagulating_nanites","poison_nanites","flesheating_nanites",\
-					"sensor_crit_nanites","sensor_death_nanites", "sensor_health_nanites", "sensor_damage_nanites")
+					"sensor_crit_nanites","sensor_death_nanites", "sensor_health_nanites", "sensor_damage_nanites", "fat_sensor_nanites", "fat_converter_nanites", "fat_adjuster_nanites")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 

@@ -181,8 +181,6 @@
 #define	TRAIT_CROCRIN_IMMUNE    "crocin_immune"
 #define TRAIT_NYMPHO			"nymphomania"
 #define TRAIT_DISTANT			"headpat_hater"
-//#define TRAIT_FLUID_LEAK	"leaky_fluids" removed because milk snail trails are not okay
-#define TRAIT_MASO              "masochism"
 #define TRAIT_CHOKE_SLUT		"choke_slut"
 #define	TRAIT_HIGH_BLOOD        "high_blood"
 #define TRAIT_PHARMA            "hepatic_pharmacokinesis"
@@ -205,9 +203,11 @@
 #define TRAIT_LIPOLICIDE_TOLERANCE "lipolicide_tolerance"
 #define TRAIT_WEAKLEGS			"weak_legs"
 #define TRAIT_STRONGLEGS		"strong_legs"
+#define TRAIT_WEB_WEAVER		"web_weaving"
+#define TRAIT_METAL_CRUNCHER 	"metal_cruncher"
+#define TRAIT_WATER_SPONGE 		"water_sponge"
 
 //Hyper
-#define TRAIT_VIRILE		"virile" //you have 20% more chance of impreg
 #define TRAIT_MACROPHILE		"macrophile" //likes the big
 #define TRAIT_MICROPHILE		"microphile" //likes the small
 #define TRAIT_APATHETIC			"apathetic" //doesn't care
@@ -222,7 +222,11 @@
 //GS13
 #define TRAIT_WEIGHT_LOSS_IMMUNE "weight_loss_immune"
 #define TRAIT_UNIVERSAL_GAINER "universal_gainer"
-
+#define TRAIT_NO_MOVE "no_move"
+#define TRAIT_NO_JUMPSUIT "no_jumpsuit"
+#define TRAIT_NO_MISC "no_misc"
+#define TRAIT_NO_BACKPACK "no_backpack"
+#define TRAIT_NO_BUCKLE "no_buckle"
 
 // common trait sources
 #define TRAIT_GENERIC "generic"
@@ -284,3 +288,5 @@
 #define NUKEOP_TRAIT "nuke-op"
 #define MEGAFAUNA_TRAIT "megafauna"
 #define DEATHSQUAD_TRAIT "deathsquad"
+#define HELPLESSNESS_TRAIT "helplessness"
+

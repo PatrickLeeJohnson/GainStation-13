@@ -35,7 +35,7 @@
 	id = "asteroid4"
 	suffix = "asteroid4.dmm"
 	name = "Asteroid 4"
-	description = "Nanotrasen Escape Pods have a 100%* success rate, and a 99%* customer satisfaction rate. \
+	description = "GATO Escape Pods have a 100%* success rate, and a 99%* customer satisfaction rate. \
 	*Please note that these statistics, are taken from pods that have successfully docked with a recovery vessel."
 
 /datum/map_template/ruin/space/asteroid5
@@ -96,7 +96,7 @@
 	id = "derelict6"
 	suffix = "derelict6.dmm"
 	name = "Derelict 6"
-	description = "The hush-hush of Nanotrasen when it comes to stations seemingly vanishing off the radar is an interesting topic, theories of nuclear destruction float about while Nanotrasen \
+	description = "The hush-hush of GATO when it comes to stations seemingly vanishing off the radar is an interesting topic, theories of nuclear destruction float about while GATO \
 	flat-out denies said stations ever existing."
 
 /datum/map_template/ruin/space/empty_shell
@@ -326,11 +326,18 @@
 	description = "What used to be a small Syndicate prison and interrogration facility has been taken over by a degenerate madman and turned into a den fit for one purpose - to fatten up its captives."
 	placement_weight = 5
 
-/datum/map_template/ruin/space/fastfood //GS13
-	id = "fastfood"
-	suffix = "fastfood.dmm"
-	name = "Fast Food Restaurant"
-	description = "In GATO controlled space, it isn't uncommon to find various space restaurants, famous for the abundance of corn oil in their foods."
+/datum/map_template/ruin/space/ //GS13
+	id = "whiteship_cfc01"
+	suffix = "whiteship_CFC01.dmm"
+	name = "CFC-01 Whiteship"
+	description = "A whiteship belonging to representants of CFC Corporation."
+
+//commented out because this has been moved to its own seperate level
+// /datum/map_template/ruin/space/fastfood //GS13
+// 	id = "fastfood"
+// 	suffix = "fastfood.dmm"
+// 	name = "Fast Food Restaurant"
+// 	description = "In GATO controlled space, it isn't uncommon to find various space restaurants, famous for the abundance of corn oil in their foods."
 
 /datum/map_template/ruin/space/quantum_hub //GS13
 	id = "quantum_hub"

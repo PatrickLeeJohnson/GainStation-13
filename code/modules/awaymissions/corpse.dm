@@ -89,7 +89,7 @@
 	return
 
 /obj/effect/mob_spawn/proc/delayusability(deciseconds, showOnMenu) //How many deciseconds until it is enabled, + should it show up on the menu?
-	addtimer(CALLBACK(src, .proc/enableghostrole, showOnMenu), deciseconds)
+	addtimer(CALLBACK(src,PROC_REF(enableghostrole), showOnMenu), deciseconds)
 	
 /obj/effect/mob_spawn/proc/enableghostrole(show)
 	ghost_usable = TRUE
@@ -488,7 +488,7 @@
 	outfit = /datum/outfit/nanotrasencommandercorpse
 
 /datum/outfit/nanotrasencommandercorpse
-	name = "Nanotrasen Private Security Commander"
+	name = "GATO Private Security Commander"
 	uniform = /obj/item/clothing/under/rank/centcom_commander
 	suit = /obj/item/clothing/suit/armor/bulletproof
 	ears = /obj/item/radio/headset/heads/captain
@@ -502,13 +502,13 @@
 
 
 /obj/effect/mob_spawn/human/nanotrasensoldier
-	name = "Nanotrasen Private Security Officer"
+	name = "GATO Private Security Officer"
 	id_job = "Private Security Force"
 	id_access_list = list(ACCESS_CENT_CAPTAIN, ACCESS_CENT_GENERAL, ACCESS_CENT_SPECOPS, ACCESS_CENT_MEDICAL, ACCESS_CENT_STORAGE, ACCESS_SECURITY)
 	outfit = /datum/outfit/nanotrasensoldiercorpse
 
 /datum/outfit/nanotrasensoldiercorpse
-	name = "NT Private Security Officer Corpse"
+	name = "GATO Private Security Officer Corpse"
 	uniform = /obj/item/clothing/under/rank/security
 	suit = /obj/item/clothing/suit/armor/vest
 	shoes = /obj/item/clothing/shoes/combat
@@ -522,23 +522,23 @@
 /obj/effect/mob_spawn/human/commander/alive
 	death = FALSE
 	roundstart = FALSE
-	job_description = "Nanotrasen Commander"
-	mob_name = "Nanotrasen Commander"
+	job_description = "GATO Commander"
+	mob_name = "GATO Commander"
 	name = "sleeper"
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper"
-	short_desc = "You are a Nanotrasen Commander!"
+	short_desc = "You are a GATO Commander!"
 
 /obj/effect/mob_spawn/human/nanotrasensoldier/alive
 	death = FALSE
 	roundstart = FALSE
 	mob_name = "Private Security Officer"
-	job_description = "Nanotrasen Security"
+	job_description = "GATO Security"
 	name = "sleeper"
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper"
 	faction = "nanotrasenprivate"
-	short_desc = "You are a Nanotrasen Private Security Officer!"
+	short_desc = "You are a GATO Private Security Officer!"
 
 
 /////////////////Spooky Undead//////////////////////
@@ -634,23 +634,32 @@
 	mob_species = /datum/species/human
 	short_desc = "It's the grand opening day!"
 	flavour_text = "After you've sold your soul to corporate overlords, your contract obliged you to enter cryostasis. \
-	Finally, after God knows how long, the cryopod system have awakened you with only a single sentence of information - welcome and lure in new guests into the freshly opened restaurant!"
+	Finally, after God knows how long, the cryopod system have awakened you with only a single sentence of information - welcome and lure in new guests into the freshly opened GATO restaurant!"
 	assignedrole = "Restaurant worker"
+	mirrorcanloadappearance = TRUE
+
+/obj/effect/mob_spawn/human/fastfoodmanager
+	name = "Corporate cryostasis pod"
+	desc = "Through the grease-stained cryopod glass, you can see someone sleeping inside..."
+	mob_name = "fastfood worker"
+	job_description = "Restaurant Manager"
+	icon = 'icons/obj/machines/sleeper.dmi'
+	icon_state = "sleeper"
+	death = FALSE
+	roundstart = FALSE
+	mob_species = /datum/species/human
+	short_desc = "It's the grand opening day!"
+	flavour_text = "After you've sold your soul to corporate overlords, your contract obliged you to enter cryostasis. \
+	Finally, after God knows how long, the cryopod system have awakened you with only a single sentence of information - make sure to keep the best care of GATO's restaurant, currently under your management! You have a higher say over your workers, but do not abuse this power."
+	assignedrole = "Restaurant manager"
 	mirrorcanloadappearance = TRUE
 
 /obj/effect/mob_spawn/human/fastfood/Initialize(mapload)
 	. = ..()
-	var/arrpee = rand(1,3)
+	var/arrpee = rand(1,2)
 	switch(arrpee)
 		if(1)
-			flavour_text += "You are this restaurant's manager, taking care of all the necessary paperwork, overseeing all the workers...\
-			But most importantly, you always have to make sure that the restaurant prospers and remains in good shape! "
-			outfit.glasses = /obj/item/clothing/glasses/sunglasses/reagent
-			outfit.uniform = /obj/item/clothing/under/suit_jacket/burgundy 
-			outfit.shoes = /obj/item/clothing/shoes/sneakers/black
-			outfit.back = /obj/item/storage/backpack/satchel/leather
-		if(2)
-			flavour_text += "You are this restaurant's cook, using up the plethora of ingredients to cook up deliciously greasy and caloric foods.\
+			flavour_text += "You are this restaurant's cook, using up the plethora of ingredients to cook up deliciously greasy and caloric foods. \
 			The kitchen and the bar is your turf! Make sure the guests stay fed."
 			outfit.glasses = /obj/item/clothing/glasses/sunglasses/reagent
 			outfit.head = /obj/item/clothing/head/soft/black
@@ -658,13 +667,43 @@
 			outfit.suit = /obj/item/clothing/suit/apron/chef
 			outfit.shoes = /obj/item/clothing/shoes/sneakers/black
 			outfit.back = /obj/item/storage/backpack
-		if(3)
-			flavour_text += "You are this restaurant's waiter, responsible not only for tending to the guests, but also fixing and taking care of station's shape, power and looks.\
+			outfit.ears = /obj/item/radio/headset
+			outfit.id = /obj/item/card/id/silver/restaurant
+		if(2)
+			flavour_text += "You are this restaurant's waiter, responsible not only for tending to the guests, but also fixing and taking care of station's shape, power and looks. \
 			Make sure everything looks squeaky clean and that the restaurant remains powered!"
 			outfit.head = /obj/item/clothing/head/soft/black
 			outfit.uniform = /obj/item/clothing/under/waiter
 			outfit.shoes = /obj/item/clothing/shoes/sneakers/black
 			outfit.back = /obj/item/storage/backpack
+			outfit.ears = /obj/item/radio/headset
+			outfit.id = /obj/item/card/id/silver/restaurant
+
+/obj/effect/mob_spawn/human/fastfoodmanager/Initialize(mapload)
+	. = ..()
+	var/arrpee = rand(1,2)
+	switch(arrpee)
+		if(1)
+			flavour_text += "You are this restaurant's manager, taking care of all the necessary paperwork, overseeing all the workers... \
+			But most importantly, you always have to make sure that the restaurant prospers and remains in good shape! "
+			outfit.glasses = /obj/item/clothing/glasses/sunglasses/reagent
+			outfit.uniform = /obj/item/clothing/under/suit_jacket/burgundy 
+			outfit.shoes = /obj/item/clothing/shoes/sneakers/black
+			outfit.back = /obj/item/storage/backpack/satchel/leather
+			outfit.ears = /obj/item/radio/headset
+			outfit.id = /obj/item/card/id/silver/restaurant
+			outfit.l_pocket = /obj/item/modular_computer/tablet
+
+		if(2)
+			flavour_text += "You are this restaurant's manager, taking care of all the necessary paperwork, overseeing all the workers... \
+			But most importantly, you always have to make sure that the restaurant prospers and remains in good shape! "
+			outfit.glasses = /obj/item/clothing/glasses/sunglasses/reagent
+			outfit.uniform = /obj/item/clothing/under/suit_jacket/navy
+			outfit.shoes = /obj/item/clothing/shoes/sneakers/black
+			outfit.back = /obj/item/storage/backpack/satchel/leather
+			outfit.ears = /obj/item/radio/headset
+			outfit.id = /obj/item/card/id/silver/restaurant
+			outfit.l_pocket = /obj/item/modular_computer/tablet
 
 /obj/effect/mob_spawn/human/fastfood/special(mob/living/carbon/human/new_spawn)
 	ADD_TRAIT(new_spawn,TRAIT_EXEMPT_HEALTH_EVENTS,GHOSTROLE_TRAIT)
@@ -674,16 +713,19 @@
 	return ..()
 
 
+/obj/effect/mob_spawn/human/fastfoodmanager/Destroy()
+	return ..()
+
 // Feeder's Den - fanatic (GS13)
 
 /obj/effect/mob_spawn/human/feeders_den/fanatic
 	name = "Sleeper pod"
 	desc = "Through the red glass, you can see someone sleeping inside..."
-	mob_name = "fanatical feeder"
-	job_description = "Fanatical degenerate"
+	mob_name = "Feeder Fanatic"
+	job_description = "Feeder Fanatic"
 	short_desc = "You are a member of a niche branch of Syndicate with... strange goals."
 	flavour_text = "After months of construction and gathering equipment, your den is finished - a monument to gluttony, equipped with every tool to turn any sharp body into a quivering mound of lard..."
-	important_info = "Keep your den in one piece and away from curious eyes! YOU AREN'T ALLOWED TO CAPTURE / FATTEN UP PEOPLE WHO DON'T DO NON-CON OR DIDN'T AGREE TO IT! Despite being able to leave the outpost, you do NOT have a permission to antag or grief."
+	important_info = "Keep your den in one piece and away from curious eyes! YOU AREN'T ALLOWED TO CAPTURE / FATTEN UP PEOPLE WHO DON'T DO NON-CON OR DIDN'T AGREE TO IT! Despite being able to leave the outpost, you do NOT have a permission to antag or grief. You're supposed to stay covert, not show yourself to the whole station!"
 	outfit = /datum/outfit/feeders_den/fanatic
 	faction = ROLE_SYNDICATE
 	mirrorcanloadappearance = TRUE
@@ -702,8 +744,10 @@
 	gloves = /obj/item/clothing/gloves/combat
 	ears = /obj/item/radio/headset/syndicate/alt
 	back = /obj/item/storage/backpack
-	r_hand = /obj/item/flashlight
-	r_pocket = /obj/item/gun/ballistic/automatic/pistol
+	r_hand = /obj/item/storage/box/syndie_kit/soporific_bundle
+	l_hand = /obj/item/gun/ballistic/automatic/pistol
+	l_pocket = /obj/item/crowbar
+	r_pocket = /obj/item/gun/energy/fatoray
 	id = /obj/item/card/id/syndicate/anyone
 	implants = list(/obj/item/implant/weapons_auth)
 
@@ -740,7 +784,8 @@
 
 /datum/outfit/feeders_den/victim
 	name = "Den Victim"
-	uniform = /obj/item/clothing/under/polychromic/shortpants 
+	uniform = /obj/item/clothing/under/gear_harness
+	neck = /obj/item/electropack/shockcollar
 
 /datum/outfit/feeders_den/victim/Destroy()
 	new/obj/structure/fluff/empty_sleeper/syndicate(get_turf(src))

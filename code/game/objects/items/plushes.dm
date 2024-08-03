@@ -1050,6 +1050,24 @@
 	item_state = "kinichi"
 	attack_verb = list("hissed","squished", "hugged")
 
+/obj/item/toy/plush/lgo
+	desc = "An attempt to market one of cleaning machines from the local market, in the form of a purchasable plushie."
+	icon_state = "lgo"
+	item_state = "lgo"
+	attack_verb = list("gronkled","beeped", "brushed")
+
+/obj/item/toy/plush/oliver
+	desc = "A plush of a silly shark with a stylish bandanna."
+	icon_state = "oliver"
+	item_state = "oliver"
+	attack_verb = list("chomped", "bit")
+
+/obj/item/toy/plush/chloe
+	desc = "A plush of a chunky red-haired botanist."
+	icon_state = "chloe"
+	item_state = "chloe"
+	attack_verb = list("squished", "hugged", "smushed")
+
 /obj/item/toy/plush/mammal/fox
 	icon_state = "fox"
 	item_state = "fox"

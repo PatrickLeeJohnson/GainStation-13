@@ -529,7 +529,7 @@
 
 /datum/supply_pack/organic/mre
 	name = "MRE supply kit (emergency rations)"
-	desc = "The lights are out. Oxygen's running low. You've run out of food except space weevils. Don't let this be you! Order our NT branded MRE kits today! This pack contains 5 MRE packs with a randomized menu and an oxygen tank."
+	desc = "The lights are out. Oxygen's running low. You've run out of food except space weevils. Don't let this be you! Order our GATO branded MRE kits today! This pack contains 5 MRE packs with a randomized menu and an oxygen tank."
 	cost = 2000
 	contains = list(/obj/item/storage/box/mre/menu1/safe,
 					/obj/item/storage/box/mre/menu1/safe,
@@ -562,7 +562,7 @@
 				anomalous_box_provided = TRUE
 				log_game("An anomalous pizza box was provided in a pizza crate at during cargo delivery")
 				if(prob(50))
-					addtimer(CALLBACK(src, .proc/anomalous_pizza_report), rand(300, 1800))
+					addtimer(CALLBACK(src,PROC_REF(anomalous_pizza_report)), rand(300, 1800))
 				else
 					message_admins("An anomalous pizza box was silently created with no command report in a pizza crate delivery.")
 				break

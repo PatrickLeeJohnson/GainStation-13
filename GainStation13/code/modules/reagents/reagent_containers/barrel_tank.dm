@@ -11,6 +11,7 @@
 	actions_types = list(/datum/action/item_action/toggle_tube)
 
 	var/mob/living/carbon/U = null
+	var/transfer_amount = 1
 
 	amount_per_transfer_from_this = 0
 	possible_transfer_amounts = list(0)
@@ -60,7 +61,7 @@
 	if(reagents.total_volume)
 		var/fraction = min(1/reagents.total_volume, 1)
 		reagents.reaction(U, INGEST, fraction, FALSE)
-		reagents.trans_to(U, 1, 2)
+		reagents.trans_to(U, transfer_amount, 2)
 	else
 		to_chat(U, "<span class='warning'>The barrel is empty!</span>")
 		U = null
@@ -73,8 +74,6 @@
 /datum/crafting_recipe/barrel_tank
 	name = "Barrel tank"
 	result = /obj/item/reagent_containers/barrel_tank
-	time = 25
 	tools = list(TOOL_CROWBAR)
 	reqs = list(/obj/item/stack/sheet/mineral/wood = 20)
-	always_availible = TRUE
 	category = CAT_CLOTHING

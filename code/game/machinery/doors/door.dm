@@ -37,6 +37,10 @@
 	var/poddoor = FALSE
 	var/unres_sides = 0 //Unrestricted sides. A bitflag for which direction (if any) can open the door with no access
 
+	// GS13: Halt autoclose when blocked with static object, like a wooden barricade...
+	var/failCount = 0
+	var/failThreshold = 5
+
 /obj/machinery/door/examine(mob/user)
 	. = ..()
 	if(red_alert_access)
@@ -171,6 +175,14 @@
 		return TRUE
 	if(unrestricted_side(M))
 		return TRUE
+	//GS13 EDIT
+	var/mob/living/carbon/human/bump_mob = M
+	if(check_fatness && istype(bump_mob))
+		if(check_fatness_below && (bump_mob.fatness >= fatness_to_check))
+			return FALSE
+		if(!check_fatness_below && (bump_mob.fatness < fatness_to_check))
+			return FALSE
+
 	return ..()
 
 /obj/machinery/door/proc/unrestricted_side(mob/M) //Allows for specific side of airlocks to be unrestrected (IE, can exit maint freely, but need access to enter)
@@ -222,12 +234,12 @@
 	if (. & EMP_PROTECT_SELF)
 		return
 	if(prob(20/severity) && (istype(src, /obj/machinery/door/airlock) || istype(src, /obj/machinery/door/window)) )
-		INVOKE_ASYNC(src, .proc/open)
+		INVOKE_ASYNC(src,PROC_REF(open))
 	if(prob(severity*10 - 20))
 		if(secondsElectrified == 0)
 			secondsElectrified = -1
 			LAZYADD(shockedby, "\[[TIME_STAMP("hh:mm:ss", FALSE)]\]EM Pulse")
-			addtimer(CALLBACK(src, .proc/unelectrify), 300)
+			addtimer(CALLBACK(src,PROC_REF(unelectrify)), 300)
 
 /obj/machinery/door/proc/unelectrify()
 	secondsElectrified = 0
@@ -284,10 +296,16 @@
 		return
 	if(safe)
 		for(var/atom/movable/M in get_turf(src))
+			if (failCount > failThreshold) //something is continuously blocking the door
+				do_sparks(5, TRUE, src)
+				visible_message("<span class='warning'>[src]'s timing mechanism fails.</span>")
+				failCount = 0
+				return
 			if(M.density && M != src) //something is blocking the door
 				if(autoclose)
 					autoclose_in(60)
 				return
+		failCount = 0
 
 	operating = TRUE
 
@@ -344,7 +362,7 @@
 		close()
 
 /obj/machinery/door/proc/autoclose_in(wait)
-	addtimer(CALLBACK(src, .proc/autoclose), wait, TIMER_UNIQUE | TIMER_NO_HASH_WAIT | TIMER_OVERRIDE)
+	addtimer(CALLBACK(src,PROC_REF(autoclose)), wait, TIMER_UNIQUE | TIMER_NO_HASH_WAIT | TIMER_OVERRIDE)
 
 /obj/machinery/door/proc/requiresID()
 	return 1

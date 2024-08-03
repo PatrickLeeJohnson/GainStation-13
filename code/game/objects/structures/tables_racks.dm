@@ -226,7 +226,7 @@
 		return
 	// Don't break if they're just flying past
 	if(AM.throwing)
-		addtimer(CALLBACK(src, .proc/throw_check, AM), 5)
+		addtimer(CALLBACK(src,PROC_REF(throw_check), AM), 5)
 	else
 		check_break(AM)
 
@@ -276,7 +276,7 @@
  */
 /obj/structure/table/plasmaglass
 	name = "plasmaglass table"
-	desc = "A glasstable, but it's pink and more sturdy. What will Nanotrasen design next with plasma?"
+	desc = "A glasstable, but it's pink and more sturdy. What will GATO design next with plasma?"
 	icon = 'icons/obj/smooth_structures/plasmaglass_table.dmi'
 	icon_state = "plasmaglass_table"
 	climbable = TRUE

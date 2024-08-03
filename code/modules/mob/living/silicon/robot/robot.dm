@@ -889,7 +889,7 @@
 	cell = new /obj/item/stock_parts/cell/hyper(src, 25000)
 	radio = new /obj/item/radio/borg/syndicate(src)
 	laws = new /datum/ai_laws/syndicate_override()
-	addtimer(CALLBACK(src, .proc/show_playstyle), 5)
+	addtimer(CALLBACK(src,PROC_REF(show_playstyle)), 5)
 
 /mob/living/silicon/robot/modules/syndicate/proc/show_playstyle()
 	if(playstyle_string)
@@ -1270,3 +1270,9 @@
 		old_ai.connected_robots -= src
 	if(connected_ai)
 		connected_ai.connected_robots |= src
+
+/mob/living/silicon/robot/ai
+
+/mob/living/silicon/robot/ai/Initialize(mapload)
+	. = ..()
+	make_shell(/obj/item/borg/upgrade/ai)

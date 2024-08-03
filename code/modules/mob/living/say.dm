@@ -219,6 +219,25 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(pressure < ONE_ATMOSPHERE*0.4) //Thin air, let's italicise the message
 		spans |= SPAN_ITALICS
 
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		var/vmod = ""
+		switch(say_mod(message, message_mode))
+			if("asks")
+				vmod = "_ask"
+			if("exclaims")
+				vmod = "_exclaim"
+			if("yells")
+				vmod = "_exclaim"
+		switch(say_mod(message, message_mode))
+			if("whispers")
+				playsound(src.loc, "GainStation13/sound/voice/voices/[H.voice][vmod].ogg", 45, 5, -3)
+			if("yells")
+				playsound(src.loc, "GainStation13/sound/voice/voices/[H.voice][vmod].ogg", 130, 10, message_range+2)
+			else
+				playsound(src.loc, "GainStation13/sound/voice/voices/[H.voice][vmod].ogg", 90, 10, message_range)
+
+	//playsound(user.loc, pick('GainStation13/sound/voice/voices/speak_1.ogg', 'GainStation13/sound/voice/voices/speak_1_ask.ogg', 'GainStation13/sound/voice/voices/speak_1_exclaim.ogg'), 90, 10)
 	send_speech(message, message_range, src, bubble_type, spans, language, message_mode)
 
 	if(succumbed)
@@ -310,7 +329,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			speech_bubble_recipients.Add(M.client)
 	var/image/I = image('icons/mob/talk.dmi', src, "[bubble_type][say_test(message)]", FLY_LAYER)
 	I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
-	INVOKE_ASYNC(GLOBAL_PROC, /.proc/flick_overlay, I, speech_bubble_recipients, 30)
+	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay), I, speech_bubble_recipients, 30)
 
 /mob/proc/binarycheck()
 	return FALSE

@@ -9,25 +9,11 @@
 /datum/nanite_program/regenerative/check_conditions()
 	if(!host_mob.getBruteLoss() && !host_mob.getFireLoss())
 		return FALSE
-	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(TRUE,TRUE, status = BODYPART_ORGANIC)
-		if(!parts.len)
-			return FALSE
 	return ..()
 
 /datum/nanite_program/regenerative/active_effect()
-	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(TRUE,TRUE, status = BODYPART_ORGANIC)
-		if(!parts.len)
-			return
-		for(var/obj/item/bodypart/L in parts)
-			if(L.heal_damage(0.5/parts.len, 0.5/parts.len, null, BODYPART_ORGANIC))
-				host_mob.update_damage_overlays()
-	else
-		host_mob.adjustBruteLoss(-0.5, TRUE)
-		host_mob.adjustFireLoss(-0.5, TRUE)
+	host_mob.adjustBruteLoss(-0.5, TRUE)
+	host_mob.adjustFireLoss(-0.5, TRUE)
 
 /datum/nanite_program/temperature
 	name = "Temperature Adjustment"
@@ -173,20 +159,8 @@
 	rogue_types = list(/datum/nanite_program/suffocating, /datum/nanite_program/necrotic)
 
 /datum/nanite_program/regenerative_advanced/active_effect()
-	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(TRUE,TRUE, status = BODYPART_ORGANIC)
-		if(!parts.len)
-			return
-		var/update = FALSE
-		for(var/obj/item/bodypart/L in parts)
-			if(L.heal_damage(3/parts.len, 3/parts.len, null, BODYPART_ORGANIC))
-				update = TRUE
-		if(update)
-			host_mob.update_damage_overlays()
-	else
-		host_mob.adjustBruteLoss(-3, TRUE)
-		host_mob.adjustFireLoss(-3, TRUE)
+	host_mob.adjustBruteLoss(-3, TRUE)
+	host_mob.adjustFireLoss(-3, TRUE)
 
 /datum/nanite_program/brain_heal_advanced
 	name = "Neural Reimaging"
@@ -220,7 +194,7 @@
 
 /datum/nanite_program/defib/on_trigger(comm_message)
 	host_mob.notify_ghost_cloning("Your heart is being defibrillated by nanites. Re-enter your corpse if you want to be revived!")
-	addtimer(CALLBACK(src, .proc/zap), 50)
+	addtimer(CALLBACK(src,PROC_REF(zap)), 50)
 
 /datum/nanite_program/defib/proc/check_revivable()
 	if(!iscarbon(host_mob)) //nonstandard biology

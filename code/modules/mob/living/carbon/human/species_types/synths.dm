@@ -16,6 +16,8 @@
 	var/list/initial_inherent_traits = list(TRAIT_VIRUSIMMUNE,TRAIT_NODISMEMBER,TRAIT_NOHUNGER,TRAIT_NOTHIRST,TRAIT_NOLIMBDISABLE,TRAIT_NOBREATH)
 	var/disguise_fail_health = 75 //When their health gets to this level their synthflesh partially falls off
 	var/datum/species/fake_species = null //a species to do most of our work for us, unless we're damaged
+	
+	screamsound = list('goon/sound/robot_scream.ogg', 'modular_citadel/sound/voice/scream_silicon.ogg')
 
 /datum/species/synth/military
 	name = "Military Synth"
@@ -29,7 +31,7 @@
 /datum/species/synth/on_species_gain(mob/living/carbon/human/H, datum/species/old_species)
 	..()
 	assume_disguise(old_species, H)
-	RegisterSignal(H, COMSIG_MOB_SAY, .proc/handle_speech)
+	RegisterSignal(H, COMSIG_MOB_SAY,PROC_REF(handle_speech))
 	H.grant_language(/datum/language/machine)
 
 /datum/species/synth/on_species_loss(mob/living/carbon/human/H)

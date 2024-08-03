@@ -53,7 +53,10 @@
 	checkLiked(fraction, M)
 	reagents.reaction(M, INGEST, fraction)
 	reagents.trans_to(M, gulp_size)
-	M.fullness += min(gulp_size, reagents.total_volume) // GS13 drinks will fill your stomach
+	if(HAS_TRAIT(M, TRAIT_VORACIOUS))
+		M.fullness += min(gulp_size * 0.67, reagents.total_volume * 0.67)
+	else
+		M.fullness += min(gulp_size, reagents.total_volume) // GS13 drinks will fill your stomach
 	playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
 	return 1
 
@@ -78,7 +81,7 @@
 		if(iscyborg(user)) //Cyborg modules that include drinks automatically refill themselves, but drain the borg's cell
 			var/mob/living/silicon/robot/bro = user
 			bro.cell.use(30)
-			addtimer(CALLBACK(reagents, /datum/reagents.proc/add_reagent, refill, trans), 600)
+			addtimer(CALLBACK(reagents, TYPE_PROC_REF(/datum/reagents, add_reagent), refill, trans), 600)
 
 	else if(target.is_drainable()) //A dispenser. Transfer FROM it TO us.
 		if (!is_refillable())

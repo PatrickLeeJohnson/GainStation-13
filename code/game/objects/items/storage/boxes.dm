@@ -903,7 +903,7 @@
 
 /obj/item/storage/box/papersack/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/pen))
-		var/choice = show_radial_menu(user, src , papersack_designs, custom_check = CALLBACK(src, .proc/check_menu, user, W), radius = 36, require_near = TRUE)
+		var/choice = show_radial_menu(user, src , papersack_designs, custom_check = CALLBACK(src,PROC_REF(check_menu), user, W), radius = 36, require_near = TRUE)
 		if(!choice)
 			return FALSE
 		if(icon_state == "paperbag_[choice]")
@@ -1270,7 +1270,7 @@
 
 /obj/item/storage/box/mre/menu3
 	name = "\improper GATO Ration Kit Menu 3"
-	desc = "The holy grail of MREs. This item contains the fabled MRE pizza, spicy nachos and a sample of coffee instant type 2. Any NT employee lucky enough to get their hands on one of these is truly blessed."
+	desc = "The holy grail of MREs. This item contains the fabled MRE pizza, spicy nachos and a sample of coffee instant type 2. Any GATO employee lucky enough to get their hands on one of these is truly blessed."
 	icon_state = "menu3"
 	can_expire = FALSE //always fresh, never expired.
 	spawner_chance = 1

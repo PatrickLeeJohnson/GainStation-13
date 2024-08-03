@@ -3,91 +3,150 @@
 GLOBAL_LIST_EMPTY(roundstart_races)
 
 /datum/species
-	var/id	// if the game needs to manually check your race to do something not included in a proc here, it will use this
-	var/limbs_id		//this is used if you want to use a different species limb sprites. Mainly used for angels as they look like humans.
-	var/name	// this is the fluff name. these will be left generic (such as 'Lizardperson' for the lizard race) so servers can change them to whatever
-	var/default_color = "#FFF"	// if alien colors are disabled, this is the color that will be used by that race
+	/// if the game needs to manually check your race to do something not included in a proc here, it will use this
+	var/id
+	///this is used if you want to use a different species limb sprites. Mainly used for angels as they look like humans.
+	var/limbs_id
+	/// this is the fluff name. these will be left generic (such as 'Lizardperson' for the lizard race) so servers can change them to whatever
+	var/name
+	/// if alien colors are disabled, this is the color that will be used by that race
+	var/default_color = "#FFF"
+	/// whether or not the race has sexual characteristics. at the moment this is only 0 for skeletons and shadows
+	var/sexes = 1
 
-	var/sexes = 1		// whether or not the race has sexual characteristics. at the moment this is only 0 for skeletons and shadows
-
+	///A list that contains pixel offsets for various clothing features, if your species is a different shape
 	var/list/offset_features = list(OFFSET_UNIFORM = list(0,0), OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,0), OFFSET_GLASSES = list(0,0), OFFSET_EARS = list(0,0), OFFSET_SHOES = list(0,0), OFFSET_S_STORE = list(0,0), OFFSET_FACEMASK = list(0,0), OFFSET_HEAD = list(0,0), OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,0), OFFSET_SUIT = list(0,0), OFFSET_NECK = list(0,0))
-
-	var/hair_color	// this allows races to have specific hair colors... if null, it uses the H's hair/facial hair colors. if "mutcolor", it uses the H's mutant_color
-	var/hair_alpha = 255	// the alpha used by the hair. 255 is completely solid, 0 is transparent.
+	/// this allows races to have specific hair colors... if null, it uses the H's hair/facial hair colors. if "mutcolor", it uses the H's mutant_color
+	var/hair_color
+	/// the alpha used by the hair. 255 is completely solid, 0 is transparent.
+	var/hair_alpha = 255
 	var/wing_color
 
 	// GS13: Hair gradients from Skyrat
-	var/grad_style // The gradient style used for the mob's hair.
-	var/grad_color // The gradient color used to color the gradient.
+	/// The gradient style used for the mob's hair.
+	var/grad_style
+	/// The gradient color used to color the gradient.
+	var/grad_color
 
-	var/use_skintones = 0	// does it use skintones or not? (spoiler alert this is only used by humans)
-	var/exotic_blood = ""	// If your race wants to bleed something other than bog standard blood, change this to reagent id.
-	var/exotic_bloodtype = "" //If your race uses a non standard bloodtype (A+, O-, AB-, etc)
-	var/meat = /obj/item/reagent_containers/food/snacks/meat/slab/human //What the species drops on gibbing
+	/// does it use skintones or not? (spoiler alert this is only used by humans)
+	var/use_skintones = FALSE
+	/// If your race wants to bleed something other than bog standard blood, change this to reagent id.
+	var/exotic_blood = ""
+	///If your race uses a non standard bloodtype (A+, O-, AB-, etc)
+	var/exotic_bloodtype = "" 
+	///What the species drops on gibbing
+	var/meat = /obj/item/reagent_containers/food/snacks/meat/slab/human
 	var/list/gib_types = list(/obj/effect/gibspawner/human, /obj/effect/gibspawner/human/bodypartless)
+	///What, if any, leather will be droppe
 	var/skinned_type
+	///What kind of foods the species loves
 	var/liked_food = NONE
+	///What kind of foods the species dislikes!
 	var/disliked_food = GROSS
+	///What kind of foods cause harm to the species
 	var/toxic_food = TOXIC
-	var/list/no_equip = list()	// slots the race can't equip stuff to
-	var/nojumpsuit = 0	// this is sorta... weird. it basically lets you equip stuff that usually needs jumpsuits without one, like belts and pockets and ids
-	var/blacklisted = 0 //Flag to exclude from green slime core species.
-	var/dangerous_existence //A flag for transformation spells that tells them "hey if you turn a person into one of these without preperation, they'll probably die!"
-	var/say_mod = "says"	// affects the speech message
-	var/list/default_features = list() // Default mutant bodyparts for this species. Don't forget to set one for every mutant bodypart you allow this species to have.
-	var/list/mutant_bodyparts = list() 	// Visible CURRENT bodyparts that are unique to a species. DO NOT USE THIS AS A LIST OF ALL POSSIBLE BODYPARTS AS IT WILL FUCK SHIT UP! Changes to this list for non-species specific bodyparts (ie cat ears and tails) should be assigned at organ level if possible. Layer hiding is handled by handle_mutant_bodyparts() below.
-	var/list/mutant_organs = list()		//Internal organs that are unique to this race.
-	var/speedmod = 0	// this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
-	var/armor = 0		// overall defense for the race... or less defense, if it's negative.
-	var/brutemod = 1	// multiplier for brute damage
-	var/burnmod = 1		// multiplier for burn damage
-	var/coldmod = 1		// multiplier for cold damage
-	var/heatmod = 1		// multiplier for heat damage
-	var/stunmod = 1		// multiplier for stun duration
-	var/punchdamagelow = 0       //lowest possible punch damage
-	var/punchdamagehigh = 9      //highest possible punch damage
-	var/punchstunthreshold = 9//damage at which punches from this race will stun //yes it should be to the attacked race but it's not useful that way even if it's logical
-	var/siemens_coeff = 1 //base electrocution coefficient
-	var/damage_overlay_type = "human" //what kind of damage overlays (if any) appear on our species when wounded?
-	var/fixed_mut_color = "" //to use MUTCOLOR with a fixed color that's independent of dna.feature["mcolor"]
-	var/inert_mutation = DWARFISM //special mutation that can be found in the genepool. Dont leave empty or changing species will be a headache
-	var/list/special_step_sounds //Sounds to override barefeet walkng
-	var/grab_sound //Special sound for grabbing
+	/// slots the race can't equip stuff to
+	var/list/no_equip = list()
+	// this is sorta... weird. it basically lets you equip stuff that usually needs jumpsuits without one, like belts and pockets and ids
+	var/nojumpsuit = 0
+	///Flag to exclude from green slime core species.
+	var/blacklisted = 0 
+	///A flag for transformation spells that tells them "hey if you turn a person into one of these without preperation, they'll probably die!"
+	var/dangerous_existence
+	/// affects the speech message
+	var/say_mod = "says"
+	/// Default mutant bodyparts for this species. Don't forget to set one for every mutant bodypart you allow this species to have.
+	var/list/default_features = list()
+	/// Visible CURRENT bodyparts that are unique to a species. DO NOT USE THIS AS A LIST OF ALL POSSIBLE BODYPARTS AS IT WILL FUCK SHIT UP! Changes to this list for non-species specific bodyparts (ie cat ears and tails) should be assigned at organ level if possible. Layer hiding is handled by handle_mutant_bodyparts() below.
+	var/list/mutant_bodyparts = list()
+	///Internal organs that are unique to this race.
+	var/list/mutant_organs = list()
+	/// this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
+	var/speedmod = 0
+	/// overall defense for the race... or less defense, if it's negative.
+	var/armor = 0
+	/// multiplier for brute damage
+	var/brutemod = 1
+	/// multiplier for burn damage
+	var/burnmod = 1
+	/// multiplier for cold damage
+	var/coldmod = 1
+	/// multiplier for heat damage
+	var/heatmod = 1
+	/// multiplier for stun duration
+	var/stunmod = 1
+	///lowest possible punch damage
+	var/punchdamagelow = 0
+	///highest possible punch damage
+	var/punchdamagehigh = 9
+	///damage at which punches from this race will stun //yes it should be to the attacked race but it's not useful that way even if it's logical
+	var/punchstunthreshold = 9
+	///base electrocution coefficient
+	var/siemens_coeff = 1
+	///what kind of damage overlays (if any) appear on our species when wounded?
+	var/damage_overlay_type = "human"
+	///to use MUTCOLOR with a fixed color that's independent of dna.feature["mcolor"]
+	var/fixed_mut_color = ""
+	///special mutation that can be found in the genepool. Dont leave empty or changing species will be a headache
+	var/inert_mutation = DWARFISM
+	///Sounds to override barefeet walkng
+	var/list/special_step_sounds
+	///Special sound for grabbing
+	var/grab_sound
+	/// audio of a species' scream //Stolen from yogs lol
+	var/screamsound
 
-	// species-only traits. Can be found in DNA.dm
+	/// species-only traits. Can be found in DNA.dm
 	var/list/species_traits = list()
-	// generic traits tied to having the species
+	/// generic traits tied to having the species
 	var/list/inherent_traits = list()
+	///biotypes, used for viruses and the like
 	var/list/inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
-
-	var/attack_verb = "punch"	// punch-specific attack verb
+	/// punch-specific attack verb
+	var/attack_verb = "punch"
+	///the melee attack sound
 	var/sound/attack_sound = 'sound/weapons/punch1.ogg'
+	///the swing and miss sound
 	var/sound/miss_sound = 'sound/weapons/punchmiss.ogg'
 
-	var/mob/living/list/ignored_by = list()	// list of mobs that will ignore this species
+	/// list of mobs that will ignore this species
+	var/mob/living/list/ignored_by = list()	
 	//Breathing!
-	var/obj/item/organ/lungs/mutantlungs = null
+	///what type of gas is breathed
 	var/breathid = "o2"
 
+	///Replaces default brain with a different organ
 	var/obj/item/organ/brain/mutant_brain = /obj/item/organ/brain
+	///Replaces default heart with a different organ
 	var/obj/item/organ/heart/mutant_heart = /obj/item/organ/heart
+	///Replaces default lungs with a different organ
+	var/obj/item/organ/lungs/mutantlungs = null
+	///Replaces default eyes with a different organ
 	var/obj/item/organ/eyes/mutanteyes = /obj/item/organ/eyes
+	///Replaces default ears with a different organ
 	var/obj/item/organ/ears/mutantears = /obj/item/organ/ears
-	var/obj/item/mutanthands
+	///Replaces default tongue with a different organ
 	var/obj/item/organ/tongue/mutanttongue = /obj/item/organ/tongue
-	var/obj/item/organ/tail/mutanttail = null
-
+	///Replaces default liver with a different organ
 	var/obj/item/organ/liver/mutantliver
+	///Replaces default stomach with a different organ
 	var/obj/item/organ/stomach/mutantstomach
+	///Forces a species tail
+	var/obj/item/organ/tail/mutanttail = null
+	///Forces an item into this species' hands. Only an honorary mutantthing because this is not an organ and not loaded in the same way, you've been warned to do your research.
+	var/obj/item/mutanthands
 	var/override_float = FALSE
 
 	//Citadel snowflake
 	var/fixed_mut_color2 = ""
 	var/fixed_mut_color3 = ""
-	var/whitelisted = 0 		//Is this species restricted to certain players?
-	var/whitelist = list() 		//List the ckeys that can use this species, if it's whitelisted.: list("John Doe", "poopface666") Spaces & capitalization can be included or ignored entirely for each key as it checks for both.
+	///Is this species restricted to certain players?
+	var/whitelisted = 0
+	///List the ckeys that can use this species, if it's whitelisted.: list("John Doe", "poopface666") Spaces & capitalization can be included or ignored entirely for each key as it checks for both.
+	var/whitelist = list() 		
 
-	var/icon_limbs //Overrides the icon used for the limbs of this species. Mainly for downstream, and also because hardcoded icons disgust me. Implemented and maintained as a favor in return for a downstream's implementation of synths.
+	///Overrides the icon used for the limbs of this species. Mainly for downstream, and also because hardcoded icons disgust me. Implemented and maintained as a favor in return for a downstream's implementation of synths.
+	var/icon_limbs 
 
 	/// Our default override for typing indicator state
 	var/typing_indicator_state
@@ -1295,7 +1354,188 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			ADD_TRAIT(H, trait_gain, OBESITY)
 		update_body_size(H, 1)
 
+/datum/species/proc/handle_helplessness(mob/living/carbon/human/fatty)
+	var/datum/preferences/preferences = fatty?.client?.prefs
+	if(!istype(preferences))
+		return FALSE
+	
+	if(preferences.helplessness_no_movement)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_NO_MOVE, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_no_movement)
+				to_chat(fatty, "<span class='warning'>You have become too fat to move anymore.</span>")
+				ADD_TRAIT(fatty, TRAIT_NO_MOVE, HELPLESSNESS_TRAIT)
+
+		else if(fatty.fatness < preferences.helplessness_no_movement)
+			to_chat(fatty, "<span class='notice'>You have become thin enough to regain some of your mobility.</span>")
+			REMOVE_TRAIT(fatty, TRAIT_NO_MOVE, HELPLESSNESS_TRAIT)
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_NO_MOVE, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_NO_MOVE, HELPLESSNESS_TRAIT)
+
+
+	if(preferences.helplessness_clumsy)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_CLUMSY, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_clumsy)
+				to_chat(fatty, "<span class='warning'>Your newfound weight has made it hard to manipulate objects.</span>")
+				ADD_TRAIT(fatty, TRAIT_CLUMSY, HELPLESSNESS_TRAIT)
+
+		else if(fatty.fatness < preferences.helplessness_clumsy)
+			to_chat(fatty, "<span class='notice'>You feel like you have lost enough weight to recover your dexterity.</span>")
+			REMOVE_TRAIT(fatty, TRAIT_CLUMSY, HELPLESSNESS_TRAIT)
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_CLUMSY, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_CLUMSY, HELPLESSNESS_TRAIT)
+
+
+	if(preferences.helplessness_nearsighted)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_NEARSIGHT, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_nearsighted)
+				to_chat(fatty, "<span class='warning'>Your fat makes it difficult to see the world around you. </span>")
+				fatty.become_nearsighted(HELPLESSNESS_TRAIT)
+
+		else if(fatty.fatness < preferences.helplessness_nearsighted)
+			to_chat(fatty, "<span class='notice'>You are thin enough to see your enviornment again. </span>")
+			fatty.cure_nearsighted(HELPLESSNESS_TRAIT)
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_NEARSIGHT, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_NEARSIGHT, HELPLESSNESS_TRAIT)
+
+
+	if(preferences.helplessness_hidden_face)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_DISFIGURED, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_hidden_face)
+				to_chat(fatty, "<span class='warning'>You have gotten fat enough that your face is now unrecognizable. </span>")
+				ADD_TRAIT(fatty, TRAIT_DISFIGURED, HELPLESSNESS_TRAIT)
+
+		else if(fatty.fatness < preferences.helplessness_hidden_face)
+			to_chat(fatty, "<span class='notice'>You have lost enough weight to allow people to now recognize your face.</span>")
+			REMOVE_TRAIT(fatty, TRAIT_DISFIGURED, HELPLESSNESS_TRAIT)
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_DISFIGURED, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_DISFIGURED, HELPLESSNESS_TRAIT)
+
+
+	if(preferences.helplessness_mute)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_MUTE, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_mute)
+				to_chat(fatty, "<span class='warning'>Your fat makes it impossible for you to speak.</span>")
+				ADD_TRAIT(fatty, TRAIT_MUTE, HELPLESSNESS_TRAIT)
+
+		else if(fatty.fatness < preferences.helplessness_mute)
+			to_chat(fatty, "<span class='notice'>You are thin enough now to be able to speak again. </span>")
+			REMOVE_TRAIT(fatty, TRAIT_MUTE, HELPLESSNESS_TRAIT)
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_MUTE, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_MUTE, HELPLESSNESS_TRAIT)
+
+
+	if(preferences.helplessness_immobile_arms)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_PARALYSIS_L_ARM, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_immobile_arms)
+				to_chat(fatty, "<span class='warning'>Your arms are now engulfed in fat, making it impossible to move your arms. </span>")
+				ADD_TRAIT(fatty, TRAIT_PARALYSIS_L_ARM, HELPLESSNESS_TRAIT)
+				ADD_TRAIT(fatty, TRAIT_PARALYSIS_R_ARM, HELPLESSNESS_TRAIT)
+				fatty.update_disabled_bodyparts()
+
+		else if(fatty.fatness < preferences.helplessness_immobile_arms)
+			to_chat(fatty, "<span class='notice'>You are able to move your arms again. </span>")
+			REMOVE_TRAIT(fatty, TRAIT_PARALYSIS_L_ARM, HELPLESSNESS_TRAIT)
+			REMOVE_TRAIT(fatty, TRAIT_PARALYSIS_R_ARM, HELPLESSNESS_TRAIT)
+			fatty.update_disabled_bodyparts()
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_PARALYSIS_L_ARM, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_PARALYSIS_L_ARM, HELPLESSNESS_TRAIT)
+
+
+	if(preferences.helplessness_clothing_jumpsuit)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_NO_JUMPSUIT, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_clothing_jumpsuit)
+				ADD_TRAIT(fatty, TRAIT_NO_JUMPSUIT, HELPLESSNESS_TRAIT)
+
+				var/obj/item/clothing/under/jumpsuit = fatty.w_uniform
+				if(istype(jumpsuit) && !istype(jumpsuit, /obj/item/clothing/under/color/grey/modular))
+					to_chat(fatty, "<span class='warning'>[jumpsuit] can no longer contain your weight!</span>")
+					fatty.dropItemToGround(jumpsuit)
+
+		else if(fatty.fatness < preferences.helplessness_clothing_jumpsuit)
+			to_chat(fatty, "<span class='notice'>You feel thin enough to put on jumpsuits now. </span>")
+			REMOVE_TRAIT(fatty, TRAIT_NO_JUMPSUIT, HELPLESSNESS_TRAIT)
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_NO_JUMPSUIT, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_NO_JUMPSUIT, HELPLESSNESS_TRAIT)
+
+
+	if(preferences.helplessness_clothing_misc)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_NO_MISC, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_clothing_misc)
+				ADD_TRAIT(fatty, TRAIT_NO_MISC, HELPLESSNESS_TRAIT)
+
+				var/obj/item/clothing/suit/worn_suit = fatty.wear_suit
+				if(istype(worn_suit))
+					to_chat(fatty, "<span class='warning'>[worn_suit] can no longer contain your weight!</span>")
+					fatty.dropItemToGround(worn_suit)
+
+				var/obj/item/clothing/gloves/worn_gloves = fatty.gloves
+				if(istype(worn_gloves))
+					to_chat(fatty, "<span class='warning'>[worn_gloves] can no longer contain your weight!</span>")
+					fatty.dropItemToGround(worn_gloves)
+
+				var/obj/item/clothing/shoes/worn_shoes = fatty.shoes
+				if(istype(worn_shoes))
+					to_chat(fatty, "<span class='warning'>[worn_shoes] can no longer contain your weight!</span>")
+					fatty.dropItemToGround(worn_shoes)
+
+		else if(fatty.fatness < preferences.helplessness_clothing_misc)
+			to_chat(fatty, "<span class='notice'>You feel thin enough to put on suits, shoes, and gloves now. </span>")
+			REMOVE_TRAIT(fatty, TRAIT_NO_MISC, HELPLESSNESS_TRAIT)
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_NO_MISC, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_NO_MISC, HELPLESSNESS_TRAIT)
+
+
+	if(preferences.helplessness_clothing_back)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_NO_BACKPACK, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_clothing_back)
+				ADD_TRAIT(fatty, TRAIT_NO_BACKPACK, HELPLESSNESS_TRAIT)
+				var/obj/item/back_item = fatty.back
+				if(istype(back_item))
+					to_chat(fatty, "<span class='warning'>Your weight makes it impossible for you to carry [back_item].</span>")
+					fatty.dropItemToGround(back_item)
+
+		else if(fatty.fatness < preferences.helplessness_clothing_back)
+			to_chat(fatty, "<span class='notice'>You feel thin enough to hold items on your back now. </span>")
+			REMOVE_TRAIT(fatty, TRAIT_NO_BACKPACK, HELPLESSNESS_TRAIT)
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_NO_BACKPACK, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_NO_BACKPACK, HELPLESSNESS_TRAIT)
+
+
+	if(preferences.helplessness_no_buckle)
+		if(!HAS_TRAIT_FROM(fatty, TRAIT_NO_BUCKLE, HELPLESSNESS_TRAIT))
+			if(fatty.fatness >= preferences.helplessness_no_buckle)
+				to_chat(fatty, "<span class='warning'>You feel like you've gotten too big to fit on anything.</span>")
+				ADD_TRAIT(fatty, TRAIT_NO_BUCKLE, HELPLESSNESS_TRAIT)
+
+		else if(fatty.fatness < preferences.helplessness_no_buckle)
+			to_chat(fatty, "<span class='notice'>You feel thin enough to sit on things again. </span>")
+			REMOVE_TRAIT(fatty, TRAIT_NO_BUCKLE, HELPLESSNESS_TRAIT)
+
+	else
+		if(HAS_TRAIT_FROM(fatty, TRAIT_NO_BUCKLE, HELPLESSNESS_TRAIT))
+			REMOVE_TRAIT(fatty, TRAIT_NO_BUCKLE, HELPLESSNESS_TRAIT)
+
+
 /datum/species/proc/handle_fatness(mob/living/carbon/human/H)
+	handle_helplessness(H)
 	if(HAS_TRAIT(H, TRAIT_BLOB))
 		handle_fatness_trait(
 			H,
@@ -1443,6 +1683,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		H.adjust_fatness(nutritionThatBecomesFat, FATTENING_TYPE_FOOD)
 	if(H.fullness > FULLNESS_LEVEL_EMPTY)//GS13 stomach-emptying routine
 		var/ticksToEmptyStomach = 20 // GS13 how many ticks it takes to decrease the fullness by 1
+		if(HAS_TRAIT(H, TRAIT_VORACIOUS))
+			ticksToEmptyStomach = ticksToEmptyStomach * 0.5
 		H.fullness -= 1/ticksToEmptyStomach
 	if (H.fullness > FULLNESS_LEVEL_BLOATED) //GS13 overeating depends on fullness now
 		if(H.overeatduration < 5000) //capped so people don't take forever to unfat
@@ -1569,7 +1811,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(radiation > RAD_MOB_HAIRLOSS)
 		if(prob(15) && !(H.hair_style == "Bald") && (HAIR in species_traits))
 			to_chat(H, "<span class='danger'>Your hair starts to fall out in clumps...</span>")
-			addtimer(CALLBACK(src, .proc/go_bald, H), 50)
+			addtimer(CALLBACK(src,PROC_REF(go_bald), H), 50)
 
 /datum/species/proc/go_bald(mob/living/carbon/human/H)
 	if(QDELETED(H))	//may be called from a timer
@@ -1591,6 +1833,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		flight = 1
 
 	gravity = H.has_gravity()
+
+//GS13 - used in door stuckage code
+	if(H.doorstuck)
+		. += 1000
 
 	if(gravity && !flight)	//Check for chemicals and innate speedups and slowdowns if we're on the ground
 		if(HAS_TRAIT(H, TRAIT_GOTTAGOFAST))
@@ -1835,8 +2081,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		)
 		if (target.canbearoused)
 			target.adjustArousalLoss(5)
-		if (target.getArousalLoss() >= 100 && ishuman(target) && HAS_TRAIT(target, TRAIT_MASO) && target.has_dna())
-			target.mob_climax(forced_climax=TRUE)
 		if (!HAS_TRAIT(target, TRAIT_NYMPHO))
 			stop_wagging_tail(target)
 
@@ -2191,11 +2435,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(BP)
 				if(damage > 0 ? BP.receive_damage(damage * hit_percent * brutemod * H.physiology.brute_mod, 0) : BP.heal_damage(abs(damage * hit_percent * brutemod * H.physiology.brute_mod), 0))
 					H.update_damage_overlays()
-					if(HAS_TRAIT(H, TRAIT_MASO))
-						H.adjustArousalLoss(damage * brutemod * H.physiology.brute_mod)
-						if (H.getArousalLoss() >= 100 && ishuman(H) && H.has_dna())
-							H.mob_climax(forced_climax=TRUE)
-
 			else//no bodypart, we deal damage with a more general method.
 				H.adjustBruteLoss(damage * hit_percent * brutemod * H.physiology.brute_mod)
 		if(BURN)
@@ -2454,3 +2693,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 /datum/species/proc/start_wagging_tail(mob/living/carbon/human/H)
 
 /datum/species/proc/stop_wagging_tail(mob/living/carbon/human/H)
+
+//Gainstation add: Screamcode I stole from yogs
+/datum/species/proc/get_scream_sound(mob/living/carbon/human/H)
+	if(islist(screamsound))
+		return pick(screamsound)
+	return screamsound
+//Gainstation add End

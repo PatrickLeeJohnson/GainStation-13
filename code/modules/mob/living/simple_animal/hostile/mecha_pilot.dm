@@ -20,7 +20,7 @@
 
 /mob/living/simple_animal/hostile/syndicate/mecha_pilot
 	name = "Syndicate Mecha Pilot"
-	desc = "Death to Nanotrasen. This variant comes in MECHA DEATH flavour."
+	desc = "Death to GATO. This variant comes in MECHA DEATH flavour."
 	wanted_objects = list()
 	search_objects = 0
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
@@ -45,7 +45,7 @@
 	wanted_objects = typecacheof(/obj/mecha/combat, TRUE)
 
 /mob/living/simple_animal/hostile/syndicate/mecha_pilot/nanotrasen //nanotrasen are syndies! no it's just a weird path.
-	name = "Nanotrasen Mecha Pilot"
+	name = "GATO Mecha Pilot"
 	desc = "Death to the Syndicate. This variant comes in MECHA DEATH flavour."
 	icon_living = "nanotrasen"
 	icon_state = "nanotrasen"
@@ -53,7 +53,7 @@
 	spawn_mecha_type = /obj/mecha/combat/marauder/loaded
 
 /mob/living/simple_animal/hostile/syndicate/mecha_pilot/no_mech/nanotrasen
-	name = "Nanotrasen Mecha Pilot"
+	name = "GATO Mecha Pilot"
 	desc = "Death to the Syndicate. This variant comes in MECHA DEATH flavour."
 	icon_living = "nanotrasen"
 	icon_state = "nanotrasen"
@@ -232,13 +232,13 @@
 					if(mecha.defense_action && mecha.defense_action.owner && !mecha.defence_mode)
 						mecha.leg_overload_mode = 0
 						mecha.defense_action.Activate(TRUE)
-						addtimer(CALLBACK(mecha.defense_action, /datum/action/innate/mecha/mech_defence_mode.proc/Activate, FALSE), 100) //10 seconds of defence, then toggle off
+						addtimer(CALLBACK(mecha.defense_action, TYPE_PROC_REF(/datum/action/innate/mecha/mech_defence_mode, Activate), FALSE), 100) //10 seconds of defence, then toggle off
 
 				else if(prob(retreat_chance))
 					//Speed boost if possible
 					if(mecha.overload_action && mecha.overload_action.owner && !mecha.leg_overload_mode)
 						mecha.overload_action.Activate(TRUE)
-						addtimer(CALLBACK(mecha.overload_action, /datum/action/innate/mecha/mech_defence_mode.proc/Activate, FALSE), 100) //10 seconds of speeeeed, then toggle off
+						addtimer(CALLBACK(mecha.overload_action, TYPE_PROC_REF(/datum/action/innate/mecha/mech_defence_mode, Activate), FALSE), 100) //10 seconds of speeeeed, then toggle off
 
 					retreat_distance = 50
 					spawn(100)

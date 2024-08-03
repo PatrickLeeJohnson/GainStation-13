@@ -18,7 +18,6 @@
 					/obj/item/reagent_containers/glass/bottle/morphine = 4,
 					/obj/item/reagent_containers/glass/bottle/toxin = 3,
 					/obj/item/reagent_containers/syringe/antiviral = 6,
-					/obj/item/pregnancytest = 5,
 					/obj/item/storage/hypospraykit/fire = 2,
 					/obj/item/storage/hypospraykit/toxin = 2,
 					/obj/item/storage/hypospraykit/o2 = 2,
@@ -42,6 +41,8 @@
 	product_slogans = "Kinky!;Sexy!;Check me out, big boy!"
 	vend_reply = "Have fun, you shameless pervert!"
 	products = list(
+				/obj/item/clothing/mask/pig/gag = 3,
+				/obj/item/clothing/mask/cowmask/gag = 3,
 				/obj/item/condom = 10,
 				/obj/item/sounding = 5,
 				/obj/item/clothing/head/maidband = 5,
@@ -49,9 +50,9 @@
 				/obj/item/clothing/under/stripper_pink = 5,
 				/obj/item/clothing/under/stripper_green = 5,
 				/obj/item/dildo/custom = 5,
-				/obj/item/reagent_containers/pill/penis_enlargement = 3,
-				/obj/item/reagent_containers/pill/breast_enlargement = 3,
-				/obj/item/reagent_containers/pill/butt_enlargement = 3,
+				/obj/item/reagent_containers/pill/penis_enlargement = 5,
+				/obj/item/reagent_containers/pill/breast_enlargement = 5,
+				/obj/item/reagent_containers/pill/butt_enlargement = 5,
 				/obj/item/clothing/gloves/latexsleeves = 3,
 				/obj/item/clothing/shoes/highheels = 3,
 				/obj/item/clothing/neck/stole = 2,

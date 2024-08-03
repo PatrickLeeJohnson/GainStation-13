@@ -5,7 +5,7 @@
 	icon_state = "jukebox"
 	verb_say = "states"
 	density = TRUE
-	req_one_access = list(ACCESS_BAR, ACCESS_KITCHEN, ACCESS_HYDROPONICS, ACCESS_ENGINE, ACCESS_CARGO, ACCESS_THEATRE)
+	req_one_access = list()
 	var/active = FALSE
 	var/list/rangers = list()
 	var/stop = 0
@@ -280,7 +280,7 @@
 				glow.update_light()
 				continue
 		if(prob(2))  // Unique effects for the dance floor that show up randomly to mix things up
-			INVOKE_ASYNC(src, .proc/hierofunk)
+			INVOKE_ASYNC(src,PROC_REF(hierofunk))
 		sleep(selection.song_beat)
 
 #undef DISCO_INFENO_RANGE

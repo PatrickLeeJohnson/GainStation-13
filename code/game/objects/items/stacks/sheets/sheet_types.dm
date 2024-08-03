@@ -360,6 +360,8 @@ GLOBAL_LIST_INIT(cloth_recipes, list ( \
 	new/datum/stack_recipe("19x19 canvas", /obj/item/canvas/nineteenXnineteen, 3), \
 	new/datum/stack_recipe("23x19 canvas", /obj/item/canvas/twentythreeXnineteen, 4), \
 	new/datum/stack_recipe("23x23 canvas", /obj/item/canvas/twentythreeXtwentythree, 5), \
+	null, \
+	new/datum/stack_recipe("rolling paper", /obj/item/rollingpaper, 1), \
 	))
 
 /obj/item/stack/sheet/cloth
@@ -481,6 +483,8 @@ GLOBAL_LIST_INIT(cardboard_recipes, list ( \
 	new/datum/stack_recipe("colored yellow", /obj/item/storage/box/yellow), \
 	new/datum/stack_recipe("colored pink", /obj/item/storage/box/pink), \
 	new/datum/stack_recipe("colored purple", /obj/item/storage/box/purple), \
+	null, \
+	new/datum/stack_recipe("open/closed sign", /obj/item/service_sign), \
 	))
 
 /obj/item/stack/sheet/cardboard	//BubbleWrap //it's cardboard you fuck

@@ -14,7 +14,7 @@
 	icon_state = "spark"
 	color = "#FFFF00"
 	nodamage = 1
-	knockdown = 100
+	knockdown = 50
 	stutter = 5
 	jitter = 20
 	hitsound = 'sound/weapons/taserhit.ogg'
@@ -32,7 +32,7 @@
 		if(C.dna && C.dna.check_mutation(HULK))
 			C.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ))
 		else if((C.status_flags & CANKNOCKDOWN) && !HAS_TRAIT(C, TRAIT_STUNIMMUNE))
-			addtimer(CALLBACK(C, /mob/living/carbon.proc/do_jitter_animation, jitter), 5)
+			addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon, do_jitter_animation), jitter), 5)
 
 /obj/item/projectile/energy/electrode/on_range() //to ensure the bolt sparks when it reaches the end of its range if it didn't hit a target yet
 	do_sparks(1, TRUE, src)
@@ -77,7 +77,7 @@
 			if(com.power_station && com.power_station.teleporter_hub && com.power_station.engaged)
 				teletarget = com.target
 
-	addtimer(CALLBACK(src, .proc/pop, teletarget), 30)
+	addtimer(CALLBACK(src,PROC_REF(pop), teletarget), 30)
 
 /obj/effect/nettingportal/proc/pop(teletarget)
 	if(teletarget)
@@ -160,7 +160,7 @@
 	damage = 8
 	damage_type = TOX
 	nodamage = 0
-	knockdown = 100
+	knockdown = 50
 	stutter = 5
 
 /obj/item/projectile/energy/bolt/halloween

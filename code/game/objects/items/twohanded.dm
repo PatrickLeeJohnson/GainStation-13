@@ -359,7 +359,7 @@
 		impale(user)
 		return
 	if(spinnable && (wielded) && prob(50))
-		INVOKE_ASYNC(src, .proc/jedi_spin, user)
+		INVOKE_ASYNC(src,PROC_REF(jedi_spin), user)
 
 /obj/item/twohanded/dualsaber/proc/jedi_spin(mob/living/user)
 	for(var/i in list(NORTH,SOUTH,EAST,WEST,EAST,SOUTH,NORTH,SOUTH,EAST,WEST,EAST,SOUTH))
@@ -437,7 +437,7 @@
 	add_fingerprint(user)
 	// Light your candles while spinning around the room
 	if(spinnable)
-		INVOKE_ASYNC(src, .proc/jedi_spin, user)
+		INVOKE_ASYNC(src,PROC_REF(jedi_spin), user)
 
 /obj/item/twohanded/dualsaber/green
 	possible_colors = list("green")
@@ -661,7 +661,7 @@
 /obj/item/twohanded/spear/grey_tide
 	icon_state = "spearglass0"
 	name = "\improper Grey Tide"
-	desc = "Recovered from the aftermath of a revolt aboard Defense Outpost Theta Aegis, in which a seemingly endless tide of Assistants caused heavy casualities among Nanotrasen military forces."
+	desc = "Recovered from the aftermath of a revolt aboard Defense Outpost Theta Aegis, in which a seemingly endless tide of Assistants caused heavy casualities among GATO military forces."
 	force_unwielded = 15
 	force_wielded = 25
 	throwforce = 20
@@ -861,7 +861,7 @@
 	. = ..()
 	if(!wielded)
 		return
-	RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/unwield)
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED,PROC_REF(unwield))
 	listeningTo = user
 	user.visible_message("[user] holds [src] up to [user.p_their()] eyes.","You hold [src] up to your eyes.")
 	item_state = "binoculars_wielded"

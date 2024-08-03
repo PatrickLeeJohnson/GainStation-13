@@ -250,7 +250,7 @@
 	if(!istype(G, /obj/item/grown/bananapeel) && (!G.reagents || !G.reagents.has_reagent(/datum/reagent/lube)))
 		stun_len /= 3
 
-	G.AddComponent(/datum/component/slippery, min(stun_len,140), NONE, CALLBACK(src, .proc/handle_slip, G))
+	G.AddComponent(/datum/component/slippery, min(stun_len,140), NONE, CALLBACK(src,PROC_REF(handle_slip), G))
 
 /datum/plant_gene/trait/slip/proc/handle_slip(obj/item/reagent_containers/food/snacks/grown/G, mob/M)
 	for(var/datum/plant_gene/trait/T in G.seed.genes)
@@ -355,6 +355,11 @@ datum/plant_gene/trait/glow/white
 	//gay tide station pride
 	name = "Pink Bioluminescence"
 	glow_color = "#FFB3DA"
+
+/datum/plant_gene/trait/glow/orange
+	//GS13
+	name = "Orange Bioluminescence"
+	glow_color = "#f59c18"
 
 //Change grow, harvest, and crafted food's color
 //Made for mostly being fancy with stuff. Should be rare or hard to obtain, with the exception of strange seeds

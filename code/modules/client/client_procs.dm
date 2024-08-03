@@ -1,7 +1,7 @@
 	////////////
 	//SECURITY//
 	////////////
-#define UPLOAD_LIMIT		1048576	//Restricts client uploads to the server to 1MB //Could probably do with being lower.
+#define UPLOAD_LIMIT		4194304	//Restricts client uploads to the server to 1MB //Could probably do with being lower. //GS13 edit: increased to 4Mb
 
 GLOBAL_LIST_INIT(blacklisted_builds, list(
 	"1407" = "bug preventing client display overrides from working leads to clients being able to see things/mobs they shouldn't be able to see",
@@ -844,7 +844,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 
 		//Precache the client with all other assets slowly, so as to not block other browse() calls
 		getFilesSlow(src, SSassets.preload, register_asset = FALSE)
-		addtimer(CALLBACK(GLOBAL_PROC, /proc/getFilesSlow, src, SSassets.preload, FALSE), 5 SECONDS)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(getFilesSlow), src, SSassets.preload, FALSE), 5 SECONDS)
 
 		#if (PRELOAD_RSC == 0)
 		for (var/name in GLOB.vox_sounds)

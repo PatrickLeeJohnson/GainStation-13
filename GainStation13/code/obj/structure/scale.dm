@@ -50,16 +50,17 @@
 	//The appearance of the numbers changes with the fat level of the character
 	if (HAS_TRAIT(fatty, TRAIT_BLOB))
 		to_chat(fatty, "<span class='userdanger'><span class='big'>[round(src.lastreading/2000, 0.01)]TONS!!!</span></span>")
-	
+
 	else if (HAS_TRAIT(fatty, TRAIT_IMMOBILE))
 		to_chat(fatty, "<span class='boldannounce'>[src.lastreading]Lbs!</span>")
 
 	else if(HAS_TRAIT(fatty, TRAIT_OBESE) || HAS_TRAIT(fatty, TRAIT_MORBIDLYOBESE))
 		to_chat(fatty, "<span class='alert'>[src.lastreading]Lbs!</span>")
 
-	else 
+	else
 		to_chat(fatty, "<span class='notice'>[src.lastreading]Lbs.</span>")
 
+	visible_message("<span class='notice'>The numbers on the screen read out: [fatty] has a BFI of [fatty.fatness].</span>")
 
 /obj/structure/scale/Crossed(AM as mob|obj)
 	if(isturf(loc))
@@ -70,7 +71,11 @@
 				weighperson(HM)
 
 /obj/structure/scale/proc/weighperson(mob/living/carbon/human/fatty)
-	src.lastreading = round((140 + (fatty.fatness*src.fatnessToWeight))*(fatty.size_multiplier**2))
+	src.lastreading = fatty.calculate_weight_in_pounds() 
 	weighEffect(fatty)
 	visible_message("<span class='notice'>[fatty] weighs themselves.</span>")
 	visible_message("<span class='notice'>The numbers on the screen settle on: [src.lastreading]Lbs.</span>")
+	visible_message("<span class='notice'>The numbers on the screen read out: [fatty] has a BFI of [fatty.fatness].</span>")
+
+/mob/living/carbon/proc/calculate_weight_in_pounds()
+	return round((140 + (fatness*FATNESS_TO_WEIGHT_RATIO))*(size_multiplier**2)*((dna.features["taur"] != "None") ? 2.5: 1))
